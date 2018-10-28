@@ -1,4 +1,6 @@
 # nosepicker
 color picking html input object
-see the [demo page](https://queviva.github.io/nosepicker/)
-![](migs/box005.svg)
+
+I'm off to see the [demo page](https://queviva.github.io/nosepicker/)!
+
+![](migs/runningBox005.svg)
