@@ -1,15 +1,73 @@
 <!doctype html>
 <head>
-<title>nose picker</title>
+<title>demo picker</title>
 <style>
 
+.samp {
+    position: relative;
+    height: 100px;
+    width: 300px;
+    color: #fff;
+    background-color: #ea0;
+}
 
+#samp1 {
+    background-color: #c308;
+    --xbackground-color:rgba(200,0,0,.08);
+}
+#samp2 {
+    background-color: #0c3;
+}
 </style>
 </head>
 <body>
 
-  <center>I am the nose picker</center>
+<center>I am the nose picker</center>
+
+<div id="samp0" class="nosepicker samp">samp0</div>
+<div id="samp1" class="nosepicker samp">samp1</div>
+<div id="samp2" class="nosepicker samp"
+ data-nose-input-event-name="ralph"
+>samp2</div>
 
 
 </body>
+<script src="nosepicker.js"></script>
+<script>
+
+
+const NP = new NosePicker();
+
+samp0.addEventListener('noseinput', e => {
+    document.body.style.backgroundColor = NP.samp0.value;
+});
+
+samp1.addEventListener('noseinput', e => {
+    samp1.style.backgroundColor = e.detail; //NP.samp1.value;
+});
+
+samp1.addEventListener('nosechange', e => {
+    document.body.style.color = NP.samp1.value;
+    NP.samp0.setValue(NP.samp1.value);
+    samp0.style.backgroundColor = NP.samp0.value;
+    document.body.style.backgroundColor = NP.samp0.value;
+});
+
+samp2.addEventListener('ralph', e => {
+    samp2.style.backgroundColor = NP.samp2.value;
+    document.body.style.color = NP.samp2.value;
+});
+
+samp2.addEventListener('dblclick', e => {
+    console.log(
+        'samp1 togged ' + NP.samp1.togAbility(),
+        'samp1\'s able is: ' + NP.samp1.togAbility(true),
+        'samp0\'s able is: ' + NP.samp0.togAbility(true),
+        '\n\n'
+    
+    );
+    
+});
+
+</script>
 </html>
