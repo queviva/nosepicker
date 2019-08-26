@@ -18,60 +18,72 @@
 #samp2 {
     background-color: #0c3;
 }
+
+svg {
+    height: 200px;
+    width: 200px;
+}
+#heart {
+    background-color:#f0f;
+    fill: #900;
+    stroke: #400;
+    stroke-width: 10px;
+    color: #ddd;
+    transform-origin: 50% 50%;
+    transform: rotate(-30deg) translate(35px, -10px);
+    d:path('M 0 150 Q 5 100 0 50 A 30 30 0 0 1 100 50 A 30 30 0 0 1 100 150 Q 50 145 0 150 Z');
+}
 </style>
 </head>
 <body>
 
-<center>I am the nose picker</center>
-
 <div id="samp0" class="nosepicker samp">samp0</div>
 <div id="samp1" class="nosepicker samp">samp1</div>
-<div id="samp2" class="nosepicker samp"
- data-nose-input-event-name="ralph"
->samp2</div>
+<div id="samp2" class="nosepicker samp">samp2</div>
 
-<svg height="200px" width="200px">
-    <path
-        id="heart"
-        class="nosepicker"
-        fill="#900" stroke="#000" stroke-width="10"
-        style="transform-origin:50% 50%;"
-        transform="rotate(-35 0 0) translate(30 2)"
-        d="M 0 150A 500 500 0 0 0 0 50A 30 30 0 0 1 100 50A 30 30 0 0 1 100 150 A 500 500 0 0 0 0 150 Z"
-    />
-</svg>
+<svg><path id="heart" class="nosepicker"
+ data-nose-input-event-name="ralph"
+ data-nose-color-src="fill"
+/></svg>
 
 </body>
-<script src="nosepicker.min.js"></script>
-<script>
-
+<script id="nosepickerScript" src="nosepicker.js"></script>
+<script id="demoScript">
 
 const NP = new NosePicker();
 
+document.querySelectorAll('.samp').forEach(s => {
+    s.addEventListener('noseinput', e =>
+        s.style.backgroundColor = NP[s.id].value
+    );
+});
+
 samp0.addEventListener('noseinput', e => {
-    samp0.style.backgroundColor = heart.style.stroke = NP.samp0.value;
+    heart.style.stroke = NP.samp0.value;
 });
 
-samp1.addEventListener('noseinput', e => {
-    samp1.style.backgroundColor = e.detail; //NP.samp1.value;
-});
-
-samp1.addEventListener('nosechange', e => {
-    document.body.style.color = NP.samp1.value;
+samp1.addEventListener('click', e => {
     NP.samp0.setValue(NP.samp1.value);
     samp0.style.backgroundColor = NP.samp0.value;
-    document.body.style.backgroundColor = NP.samp0.value;
 });
 
-samp2.addEventListener('ralph', e => {
-    samp2.style.backgroundColor = NP.samp2.value;
-    document.body.style.color = NP.samp2.value;
+samp2.addEventListener('noseinput', e => {
+    let H = e.detail.hsla;
+    samp2.style.color = 'hsl(' + (120 + H.h) +','+H.s+'%,'+ (100 - H.l) +'%)';
 });
 
-NP.heart.setValue(heart.getAttribute('fill'));
+samp2.addEventListener('dblclick', e => {
+    NP.samp1.togAbility();
+});
 
-heart.addEventListener('noseinput', e => {
+heart.addEventListener('ralph', e => {
+    
+    let H = e.detail.hsla;
+    let p = (0.5 + (Math.pow((H.l/100) - 0.5, 2) * 2 ));
+    
+    heart.style.stroke = 'hsl('+ H.h +','+ H.s +'%,'+ H.l * p +'%)';
     heart.style.fill = NP.heart.value;
+        
 });
 
 </script>
