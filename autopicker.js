@@ -127,6 +127,9 @@ const AutoPicker = function (selectors='.autopicker') {
         
             let
             
+            // DEBUGG!!!
+            count = 0;
+            
             /** @type {number} zero|one; is the picker enabled? */
             able = 0,
             
@@ -195,7 +198,10 @@ const AutoPicker = function (selectors='.autopicker') {
             
             anim = () => {
                 if(looping) {
-                    obj.innerHTML = ('x% ' + xinc ** 3 + '\ny% ' + yinc ** 3);
+                    obj.innerHTML = (
+                        'x% ' + xinc ** 3 + '\ny% ' + yinc ** 3 +
+                        '<br> ' + count++
+                    );
                     looping = setTimeout(anim, 500);
                 }
             }
@@ -232,15 +238,15 @@ const AutoPicker = function (selectors='.autopicker') {
              */
             this.togAbility = v =>  v ? able : (obj[((able = (able + 1) % 2) ? 'add' : 'remove') + 'EventListener']('wheel', lizzer, { passive: false }), able);
                 
-            obj.addEventListener('pointerdown', e => {
+            obj.addEventListener('mousedown', e => {
                 console.log('starting');
-                obj.addEventListener('pointermove', pointMover, {passive: false});
+                obj.addEventListener('mousemove', pointMover, {passive: false});
                 looping = setTimeout(anim, 500);
             });
             
-            obj.addEventListener('pointerup', e => {
+            obj.addEventListener('mouseup', e => {
                 console.log('stopping');
-                obj.removeEventListener('pointermove', pointMover);
+                obj.removeEventListener('mousemove', pointMover);
                 looping = (clearTimeout(looping));
                 console.log(looping, looping ? 'yes' : 'no')
             });
