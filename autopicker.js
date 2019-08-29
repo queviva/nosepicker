@@ -237,14 +237,17 @@ const AutoPicker = function (selectors='.autopicker') {
              *
              */
             this.togAbility = v =>  v ? able : (obj[((able = (able + 1) % 2) ? 'add' : 'remove') + 'EventListener']('wheel', lizzer, { passive: false }), able);
+            
+            // debuGG
+            obj.innerHTML = 'lerded';
                 
-            obj.addEventListener('touchdown', e => {
+            obj.addEventListener('touchstart', e => {
                 console.log('starting');
                 obj.addEventListener('touchmove', pointMover, {passive: false});
                 looping = setTimeout(anim, 500);
             });
             
-            obj.addEventListener('touchup', e => {
+            obj.addEventListener('touchend', e => {
                 console.log('stopping');
                 obj.removeEventListener('touchmove', pointMover);
                 looping = (clearTimeout(looping));
