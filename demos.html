@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+<head>
+<title>nose picker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style id="demoStyles">
+
+* {
+    box-sizing: border-box;
+    word-wrap: break-word;
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
+    font-size: 22px;
+    text-align: justify;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -epub-hyphens: auto;
+    hyphens: auto;
+}
+
+#holder {
+	position: relative;
+	background-color: #eee;
+    margin: auto;
+    width: 100%;
+    max-width: 700px;
+    height: 100vh;
+}
+
+.qa {
+    padding: 10px;
+    border: 0px solid #000;
+}
+
+.qr {
+    padding: 10px;
+}
+
+.qa:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.qa > div {
+    float: left;
+    padding: 10px;
+}
+
+.qa > div:nth-child(1) {
+  width: 65%;
+}
+
+.qa > div:nth-child(2) {
+  width: 35%;
+  text-align: center;
+}
+
+
+pre {
+    background-color: #999;
+    margin: 0px;
+    padding: 0px;
+    color: #fff;
+    overflow: auto;
+}
+
+.samp {
+    position: relative;
+    height: 100px;
+    line-height: 75px;
+    text-align: center;
+    width: 100%;
+    color: #fff;
+    background-color: #ee0;
+    scroll: auto;
+}
+
+.autosamp {
+    height: 200px;
+    background-color: #ea0;
+}
+
+/*possibly a portrait mobi-fone*/
+@media screen and (max-width: 500px){
+    .qa > div:nth-child(1),
+    .qa > div:nth-child(2) {
+        width: 100%;
+    }
+}
+
+/*possibly a mobile landscaper*/
+@media screen
+    and (orientation: landscape)
+    and (max-width: 760px) {
+    
+}
+    
+</style>
+</head>
+<body>
+<div id="holder">
+    <div id="page0">
+    <div class="qa">
+        <div id="samp0" class="samp"><i>scroll!</i></div>
+        <div id="comment0" style="font-size:12px;color:#ea0;">
+            scroll up|down or left|right on the
+            colored rectangle
+            <br>
+            hold the control key for transparency
+            and the shift key for more sensitivity
+        </div>
+    </div>
+    <div class="qr">
+        <div id="autosamp0" class="autosamp"
+       ></div>
+    </div>
+    </div>
+    </div>
+</div>
+</body>
+<script id="nosepickerScript" src="nosepicker.js"></script>
+<script id="autopickerScript" src="autopicker.js"></script>
+<script id="demoScript">
+    
+window.addEventListener('load', e => {
+    
+    document.querySelectorAll('div .samp').forEach(s => {
+        
+        s.addEventListener('noseinput', e => {
+            s.style.backgroundColor = NP[s.id].value;
+        
+            let v = e.detail.hsla;
+            s.style.backgroundImage = v.a < 1 ?
+                `repeating-linear-gradient(
+                        -45deg,
+                        rgba(0,0,0,${ 0.5 - v.a/2 }),
+                        rgba(0,0,0,${ 0.5 - v.a/2 }) 10px,
+                        transparent 10px,
+                        transparent 20px
+                    )` : '';
+        
+            s.style.color = v.l > 55 || v.a < 0.85 ? '#000' : '#fff';
+        });
+        
+    });
+    
+    samp0.addEventListener('noseinput', e => {
+        comment0.style.color = e.detail.value;
+    });
+    
+    document.querySelectorAll('.autosamp').forEach(s => {
+        
+        s.addEventListener('noseinput', e => {
+            s.style.backgroundColor = AP[s.id].value;
+        });
+        
+    });
+    
+    const NP = new NosePicker('.samp');
+    const AP = new AutoPicker('.autosamp');
+    
+});
+
+</script>
+</html>

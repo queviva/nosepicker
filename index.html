@@ -1,7 +1,48 @@
 <!doctype html>
 <head>
 <title>demo picker</title>
-<style>
+<style id="ss0">
+
+.pick0 {
+    position: absolute;
+    top: 20px;
+    left: 120px;
+    height: 92px;
+    width: 30px;
+    padding: 20px;
+    white-space: nowrap;
+    line-height: 90px;
+    font-size: 30px;
+    text-align: center;
+    background-color: #f00;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: width linear 0.3s;
+    outline: none;
+    --XXcolor: white;
+    --XXbackground-size: 15px 15px;
+    --XXmix-blend-mode: multiply;
+    --XXbackground-blend-mode: darken;
+}
+
+.nosepicker:hover {
+    width: 300px;
+}
+
+.nosepicker:focus {
+    width: 300px;
+}
+
+input[type="button"] {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    height: 40px;
+    width: 80px;
+    border-width: 3px;
+    outline: none;
+    font-style: italic;
+}
 
 .samp {
     position: relative;
@@ -36,7 +77,15 @@ svg {
 </style>
 </head>
 <body>
+<div style="height:155px;border: 1px solid #000">
+<input id="pick0disable" class="pick0butt" type="button" value="disabled">
+<input id="pick0caption" class="pick0butt" type="button" value="caption" style="top:66px">
+<input id="pick0editable" class="pick0butt" type="button" value="editable" style="top:112px">
 
+<div id="picker0" class="nosepicker pick0" style="background-color:#ea0;" contentEditable="true" data-disabled="false" data-caption="true"
+        ></div>
+</div>
+        
 <div id="samp0" class="nosepicker samp">samp0</div>
 <div id="samp1" class="nosepicker samp">samp1</div>
 <div id="samp2" class="nosepicker samp">samp2</div>
@@ -50,9 +99,17 @@ svg {
 <script id="nosepickerScript" src="nosepicker.js"></script>
 <script id="demoScript">
 
-const NP = new NosePicker();
-
-document.querySelectorAll('.samp').forEach(s => {
+    var pizzaface,
+    cssHash = {},
+    cMark = '\u2713',
+    xMark = '\u2717';
+    
+    for (let i in //ss0
+    (ss0 = document.getElementById('ss0').sheet.rules)
+    ){cssHash[ss0[i].selectorText] = ss0[i];}
+    
+    
+document.querySelectorAll('.samp, .pick0').forEach(s => {
     s.addEventListener('noseinput', e =>
         s.style.backgroundColor = NP[s.id].value
     );
@@ -85,6 +142,12 @@ heart.addEventListener('ralph', e => {
     heart.style.fill = NP.heart.value;
         
 });
+
+heart.addEventListener('noseloaded', e => {
+    console.log('noseload!!!')
+})
+
+var NP = new NosePicker();
 
 </script>
 </html>

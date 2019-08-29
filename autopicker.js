@@ -69,7 +69,7 @@
  *     css selector string listing everything that
  *     will be converted into a nosepicker
  */
-const NosePicker = function (selectors='.nosepicker') {
+const AutoPicker = function (selectors='.autopicker') {
     
     const
     
@@ -130,6 +130,10 @@ const NosePicker = function (selectors='.nosepicker') {
             /** @type {number} zero|one; is the picker enabled? */
             able = 0,
             
+            xinc = 0, yinc = 0,
+            
+            looping = false;
+            
             /**
              * @type {object}
              * @property {string} [loaded=noseloaded] the load event name
@@ -143,6 +147,18 @@ const NosePicker = function (selectors='.nosepicker') {
                 loaded: obj.dataset.noseLoadedEventName || 'noseloaded',
                 input: obj.dataset.noseInputEventName || 'noseinput',
                 colorsrc: obj.dataset.noseColorSrc || 'background-color'
+            },
+            
+            pointMover = e => {
+                
+                let bbox = obj.getBoundingClientRect();
+
+                xinc = ((e.clientX - bbox.left) / (bbox.width  / 2 )) - 1;
+                yinc = ((e.clientY - bbox.top ) / (bbox.height / 2 )) - 1;
+                
+                e.stopPropagation();
+                e.preventDefault();
+                
             },
             
             /**
@@ -159,8 +175,6 @@ const NosePicker = function (selectors='.nosepicker') {
                 v = this.hsla,
                 [sk, dx, dy] = [e.shiftKey ? 500 : 50, e.wheelDeltaX, e.wheelDeltaY]
             ) => {
-                e.stopPropagation();
-                e.preventDefault();
                 obj.dispatchEvent(new CustomEvent(msgs.input, {
             
                     /**
@@ -177,7 +191,14 @@ const NosePicker = function (selectors='.nosepicker') {
                     }
             
                 }));
-            };
+            },
+            
+            anim = () => {
+                if(looping) {
+                    obj.innerHTML = ('x% ' + xinc ** 3 + '\ny% ' + yinc ** 3);
+                    looping = setTimeout(anim, 500);
+                }
+            }
                 
             /** @type {object} exposed holder for individual h.s.l.a values */
             this.hsla = {};
@@ -211,6 +232,19 @@ const NosePicker = function (selectors='.nosepicker') {
              */
             this.togAbility = v =>  v ? able : (obj[((able = (able + 1) % 2) ? 'add' : 'remove') + 'EventListener']('wheel', lizzer, { passive: false }), able);
                 
+            obj.addEventListener('pointerdown', e => {
+                console.log('starting');
+                obj.addEventListener('pointermove', pointMover, {passive: false});
+                looping = setTimeout(anim, 500);
+            });
+            
+            obj.addEventListener('pointerup', e => {
+                console.log('stopping');
+                obj.removeEventListener('pointermove', pointMover);
+                looping = (clearTimeout(looping));
+                console.log(looping, looping ? 'yes' : 'no')
+            });
+            
             obj.dispatchEvent(new CustomEvent(msgs.loaded, {
                 /**
                  * @type {object} the event's .detail from the
@@ -222,7 +256,7 @@ const NosePicker = function (selectors='.nosepicker') {
                  */
                 detail: {
                     value: setVals(this, this.value),
-                    ability: this.togAbility()
+                    ability: 1//this.togAbility()
                 }
             }));
             
