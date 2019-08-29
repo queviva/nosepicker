@@ -238,15 +238,15 @@ const AutoPicker = function (selectors='.autopicker') {
              */
             this.togAbility = v =>  v ? able : (obj[((able = (able + 1) % 2) ? 'add' : 'remove') + 'EventListener']('wheel', lizzer, { passive: false }), able);
                 
-            obj.addEventListener('mousedown', e => {
+            obj.addEventListener('touchdown', e => {
                 console.log('starting');
-                obj.addEventListener('mousemove', pointMover, {passive: false});
+                obj.addEventListener('touchmove', pointMover, {passive: false});
                 looping = setTimeout(anim, 500);
             });
             
-            obj.addEventListener('mouseup', e => {
+            obj.addEventListener('touchup', e => {
                 console.log('stopping');
-                obj.removeEventListener('mousemove', pointMover);
+                obj.removeEventListener('touchmove', pointMover);
                 looping = (clearTimeout(looping));
                 console.log(looping, looping ? 'yes' : 'no')
             });
