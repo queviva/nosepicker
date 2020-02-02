@@ -115,7 +115,7 @@ pre {
         </div>
     </div>
     <div class="qr">
-        <div id="autosamp0" class="autosamp"
+        <div id="autosamp0" class="autosamp" data-sensitivity="0.25"
        ></div>
     </div>
     </div>
@@ -154,8 +154,20 @@ window.addEventListener('load', e => {
     
     document.querySelectorAll('.autosamp').forEach(s => {
         
-        s.addEventListener('noseinput', e => {
+            s.addEventListener('noseinput', e => {
             s.style.backgroundColor = AP[s.id].value;
+        
+            let v = e.detail.hsla;
+            s.style.backgroundImage = v.a < 1 ?
+                `repeating-linear-gradient(
+                        -45deg,
+                        rgba(0,0,0,${ 0.5 - v.a/2 }),
+                        rgba(0,0,0,${ 0.5 - v.a/2 }) 10px,
+                        transparent 10px,
+                        transparent 20px
+                    )` : '';
+        
+            s.style.color = v.l > 55 || v.a < 0.85 ? '#000' : '#fff';
         });
         
     });
