@@ -51,10 +51,10 @@ const AutoPicker = function (selectors='.nosepicker') {
 
             lizzer = (
                 e,
-                x = e.preventDefault(),
+                //x = e.preventDefault(),
                 v = this.hsla,
                 [dx, dy] = [
-                    (5/(e.shiftKey ? 500 : 50)) * (prev.X - e.touches[0].pageX),
+                    (2.5/(e.shiftKey ? 500 : 50)) * (prev.X - e.touches[0].pageX),
                     (5/(e.shiftKey ? 500 : 50)) * (prev.Y - e.touches[0].pageY),
                 ]
             ) => {
