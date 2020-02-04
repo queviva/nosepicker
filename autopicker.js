@@ -1,9 +1,10 @@
-////////////////////////////////////////////////////////////
-// pizzaface
-//
-////////////////////////////////////////////////////////////
-
-const AutoPicker = function (selectors='.autopicker') {
+/**
+ * @author pizzaface
+ * @version 1.0
+ */
+ 
+ 
+const AutoPicker = function (selectors='.nosepicker') {
     
     const
     
@@ -40,68 +41,50 @@ const AutoPicker = function (selectors='.autopicker') {
         
             let
             
-            // DEBUGG!!!
-            count = 0;
-            
-            able = 0,
-            
-            xinc = 0, yinc = 0, sens = n.dataset.sensitivity || 0.34,
-            
-            looping = false;
+            able = 0, prev = { X: 0, Y: 0 },
             
             msgs = {
                 loaded: obj.dataset.noseLoadedEventName || 'noseloaded',
                 input: obj.dataset.noseInputEventName || 'noseinput',
                 colorsrc: obj.dataset.noseColorSrc || 'background-color'
             },
-            
-            pointMover = e => {
-                
-                let bbox = obj.getBoundingClientRect();
 
-                xinc = ((e.touches[0].pageX - bbox.left) / (bbox.width  / 2 )) - 1;
-                yinc = ((e.touches[0].pageY - bbox.top ) / (bbox.height / 2 )) - 1;
-                
-                e.stopPropagation();
-                e.preventDefault();
-                
-            },
-            
             lizzer = (
                 e,
                 x = e.preventDefault(),
                 v = this.hsla,
-                //[sk, dx, dy] = [e.shiftKey ? 500 : 50, e.wheelDeltaX, e.wheelDeltaY]
-                [sk, dx, dy] = [
-                    e.shiftKey ? 500 : 50,
-                    (Math.abs(xinc) < sens ? 0 : -400) *
-                    ((Math.abs(xinc) - sens) / (1 - sens)) * Math.sign(xinc),
-                    (Math.abs(yinc) < sens ? 0 : -400) *
-                    ((Math.abs(yinc) - sens) / (1 - sens)) * Math.sign(yinc),
+                [dx, dy] = [
+                    (5/(e.shiftKey ? 500 : 50)) * (prev.X - e.touches[0].pageX),
+                    (5/(e.shiftKey ? 500 : 50)) * (prev.Y - e.touches[0].pageY),
                 ]
             ) => {
+                prev = { X: e.touches[0].pageX, Y: e.touches[0].pageY };
+                e.stopPropagation();
+                e.preventDefault();
                 obj.dispatchEvent(new CustomEvent(msgs.input, {
             
                     detail: {
-                        vals: [v.h, v.s, v.l, v.a] = e.touches[1]? [v.h, clam(v.s + dy / sk, 100, 0), v.l, clam(v.a - dx / sk * 0.01, 1, 0)] : [v.h - dy / sk, v.s, clam(v.l + dx / sk, 100, 0), v.a],
+                        vals: [v.h, v.s, v.l, v.a] =
+                            e.touches[1] ?
+                                [v.h, clam(v.s + dy, 100, 0), v.l, clam(v.a - dx * 0.01, 1, 0)]
+                            :
+                                [v.h - dy, v.s, clam(v.l + dx, 100, 0), v.a],
                         hsla: v,
                         value: (this.value = 'hsla(' + v.h + ',' + v.s + '%,' + v.l + '%,' + v.a + ')')
             
                     }
             
                 }));
-            },
+            };
             
-            anim = (e) => {
-                if(looping) {
-                    obj.innerHTML = (
-                        'x% ' + xinc + '\ny% ' + yinc +
-                        '<br> ' + count++
-                    );
-                    lizzer(e);
-                    looping = setTimeout(() => anim(e), 100);
+            obj.addEventListener('touchstart', e => {
+                
+                prev = {
+                    X : e.touches[0].pageX,
+                    Y : e.touches[0].pageY
                 }
-            }
+                
+            }, {passive: false});
                 
             this.hsla = {};
             
@@ -109,27 +92,15 @@ const AutoPicker = function (selectors='.autopicker') {
             
             this.setValue = val => setVals(this, val);
             
-            this.togAbility = v =>  v ? able : (obj[((able = (able + 1) % 2) ? 'add' : 'remove') + 'EventListener']('wheel', lizzer, { passive: false }), able);
-            
-            obj.addEventListener('touchstart', e => {
-                
-                console.log('touch starting');
-                obj.addEventListener('touchmove', pointMover, {passive: false});
-                looping = setTimeout(() => anim(e), 500);
-                
-            }, { passive: false });
-            
-            obj.addEventListener('touchend', e => {
-                console.log('stopping');
-                obj.removeEventListener('touchmove', pointMover);
-                looping = (clearTimeout(looping));
-                console.log('looping', looping ? 'yes' : 'no')
-            });
+            this.togAbility = v => v ? able : (obj[((able = (able + 1) % 2) ? 'add' : 'remove') + 'EventListener']('touchmove', lizzer, { passive: false }), able);
                 
             obj.dispatchEvent(new CustomEvent(msgs.loaded, {
                 detail: {
                     value: setVals(this, this.value),
-                    ability: 1//this.togAbility()
+                    ability: this.togAbility()
+                    ,DEBUGG: //(console.log(
+                        obj.id + ' loaded ' +  obj.getBoundingClientRect()
+                    //)
                 }
             }));
             

@@ -209,7 +209,7 @@ const NosePicker = function (selectors='.nosepicker') {
              * NP.picker0.togAbility(); // toggles picker0's ability
              *
              */
-            this.togAbility = v =>  v ? able : (obj[((able = (able + 1) % 2) ? 'add' : 'remove') + 'EventListener']('wheel', lizzer, { passive: false }), able);
+            this.togAbility = v => v ? able : (obj[((able = (able + 1) % 2) ? 'add' : 'remove') + 'EventListener']('wheel', lizzer, { passive: false }), able);
                 
             obj.dispatchEvent(new CustomEvent(msgs.loaded, {
                 /**
