@@ -77,6 +77,7 @@ pre {
     color: #fff;
     background-color: #ee0;
     scroll: auto;
+    user-select: none;
 }
 
 /*possibly a portrait mobi-fone*/
@@ -194,7 +195,7 @@ window.addEventListener('load', e => {
     samp1.addEventListener('noseinput', e => comment1.style.color = e.detail.value);
     samp2.addEventListener('noseinput', e => comment2.style.color = e.detail.value);
     
-    window.onclick = () => console.log(NP.samp0.togAbility());
+    //window.onclick = () => console.log(NP.samp0.togAbility());
     
 });
 
