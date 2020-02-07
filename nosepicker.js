@@ -4,7 +4,7 @@
  */
  
  
-const AutoPicker = function (selectors = '.nosepicker') {
+const NosePicker = function (selectors = '.nosepicker') {
     
     const
     

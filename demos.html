@@ -70,8 +70,8 @@ pre {
 
 .samp {
     position: relative;
-    height: 100px;
-    line-height: 75px;
+    height: 80px;
+    line-height: 55px;
     text-align: center;
     width: 100%;
     color: #fff;
@@ -79,18 +79,15 @@ pre {
     scroll: auto;
 }
 
-.autosamp {
-    height: 100px;
-    line-height: 75px;
-    text-align: center;
-    background-color: #ea0;
-}
-
 /*possibly a portrait mobi-fone*/
 @media screen and (max-width: 500px){
     .qa > div:nth-child(1),
     .qa > div:nth-child(2) {
         width: 100%;
+    }
+    .samp {
+        height: 100px;
+        line-height: 75px;
     }
 }
 
@@ -108,46 +105,37 @@ pre {
     <div id="page0">
     <div class="qa">
         <div id="comment0" style="font-size:12px;color:#ea0;">
-            scroll up|down or left|right on the
-            colored rectangle
-            <br>
-            hold the control key for transparency
-            and the shift key for more sensitivity
+            click in the rectangle, then fly around through
+            the werld of colors
         </div>
-        <div id="samp0" style="background-color:#ea0" class="autosamp"
-         data-nose='{
-            "kind" : "coast"
-         }'
-        
-        ><i>scroll!</i></div>
+        <div id="samp0" style="background-color:#ea0" class="samp"
+         data-nose='{"kind" : "coast"}'
+        ><i>coast!</i></div>
     </div>
     <div class="qa">
         <div id="comment1" style="font-size:12px;color:#ea0;">
-            touch in the center of the rectangle,
-            then move around to fly through colors
+            swipe up|down for color, left|right for brightness
             <br>
             touch with two fingers and move left|right
             to adjust transparency
         </div>
-        <div id="samp1" class="autosamp"
+        <div id="samp1" class="samp"
          data-nose='{
             "kind" : "touch"
          }'
-        ></div>
+        ><i>swipe!!!</i></div>
     </div>
     <div class="qa">
         <div id="comment2" style="font-size:12px;color:#c30;">
-            kinda swipe your touch
-            <br>
-            swipe left|right with two fingers
-            to adjust transparency
+            scroll while over this area - use ctrl key for
+            transparency and saturation
         </div>
-        <div id="samp2" class="autosamp" style="background-color:#c30" data-sensitivity="0.25"
+        <div id="samp2" class="samp" style="background-color:#c30" data-sensitivity="0.25"
          data-nose='{
             "kind":"wheel",
             "loadedMsg":"suck my load"
          }'
-        ></div>
+        ><i>scroll!</i></div>
     </div>
     </div>
     </div>
@@ -159,7 +147,7 @@ pre {
 window.addEventListener('load', e => {
     
     const
-    NP = new AutoPicker('.autosamp');
+    NP = new NosePicker('.samp');
     
     document.querySelectorAll('div .samp').forEach(s => {
         
@@ -183,7 +171,7 @@ window.addEventListener('load', e => {
     
     samp0.addEventListener('noseinput', e => comment0.style.color = e.detail.value);
     
-    document.querySelectorAll('div .autosamp').forEach(s => {
+    document.querySelectorAll('div .samp').forEach(s => {
         
         s.addEventListener('noseinput', e => {
             s.style.backgroundColor = NP[s.id].value;
