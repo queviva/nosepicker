@@ -53,9 +53,11 @@ const NosePicker = function (selectors = '.nosepicker') {
     
             able = 1,
     
-            prev = { X: 0, Y: 0 },
-    
             looping = false,
+            
+            coastInc = [0, 0],
+            
+            prev = { X: 0, Y: 0 },
     
             lizzer = (e, dx, dy, CTRL, v = this.hsla) => {
     
@@ -104,8 +106,6 @@ const NosePicker = function (selectors = '.nosepicker') {
     
             },
     
-            coastInc = [0, 0],
-            
             coastLizzer = e => {
                 
                 e.preventDefault();
@@ -181,27 +181,28 @@ const NosePicker = function (selectors = '.nosepicker') {
             this.isLooping = () => looping;
                 
             if (prefs.colorSelf) {
-                obj.addEventListener('noseinput', e =>
+                obj.addEventListener('noseinput', e => {
+                    let v = e.detail.hsla;
                     obj.style.backgroundColor = e.detail.value
-                );
+                    obj.style.color = v.l > 55 || v.a < 0.85 ? '#000' : '#fff';
+                });
             }
                     
             if (prefs.transPattern) {
                 
                 obj.addEventListener('noseinput', e => {
             
-                    let v = e.detail.hsla, A = 0.5 - v.a / 2;
+                    let A = 0.5 - e.detail.hsla.a / 2;
                     
-                    obj.style.backgroundImage = v.a < 1 ?
+                    obj.style.backgroundImage = e.detail.hsla.a < 1 ?
                         `repeating-linear-gradient(
-                                -45deg,
-                                rgba(0,0,0,${ A }),
-                                rgba(0,0,0,${ A }) 10px,
-                                transparent 10px,
-                                transparent 20px
-                            )` : '';
+                            -45deg,
+                            rgba(0,0,0,${ A }),
+                            rgba(0,0,0,${ A }) 10px,
+                            transparent 10px,
+                            transparent 20px
+                        )` : '';
             
-                    obj.style.color = v.l > 55 || v.a < 0.85 ? '#000' : '#fff';
                 });
                 
             }
