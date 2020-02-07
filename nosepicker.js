@@ -113,6 +113,9 @@ const NosePicker = function (selectors = '.nosepicker') {
                     0.01 * (prev.X - e.touches[0].pageX),
                     0.05 * (prev.Y - e.touches[0].pageY)
                 ];
+                
+                e.preventDefault();
+                e.stopPropagation();
             },
             
             coastLooper = e => {
@@ -162,30 +165,18 @@ const NosePicker = function (selectors = '.nosepicker') {
             
             this.setValue = val => setVals(this, val);
             
-            this.togAbility = v => {
-                
-                if(v) {
-                    
-                    return able;
-                    
-                } else {
-                    
-                    let dodo = ['add', 'remove'][(able = (able + 1) % 2)];
-                    let msg = '';
-                    
-                    for (let evt in kindList[prefs.kind]) {
-                        obj[dodo + 'EventListener'](
-                            evt,
-                            kindList[prefs.kind][evt],
-                            { passive: false }
-                        );
-                        msg += [dodo, evt, 'on', obj.id, '\n'].join(' ');
-                    }
-                    
-                    return msg;
+            this.togAbility = (
+                v = ['add','remove'][(able = (able + 1) % 2)]
+            ) => {
             
+                for (let evt in kindList[prefs.kind]) {
+                    obj[v + 'EventListener'](
+                        evt,
+                        kindList[prefs.kind][evt],
+                        { passive: false }
+                    );
                 }
-                    
+            
             };
             
             obj.dispatchEvent(new CustomEvent(prefs.loadedEventName, {
