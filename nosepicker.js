@@ -44,7 +44,9 @@ const NosePicker = function (selectors = '.nosepicker') {
                 kind: 'touch', // touch|wheel|coast
                 colorsrc: 'background-color',
                 loadedEventName: 'noseloaded',
-                inputEventName: 'noseinput'
+                inputEventName: 'noseinput',
+                colorSelf: true,
+                transPattern: true
             },
     
             dataPrefs = obj.dataset.nose ? JSON.parse(obj.dataset.nose) : {},
@@ -177,6 +179,32 @@ const NosePicker = function (selectors = '.nosepicker') {
             };
             
             this.isLooping = () => looping;
+                
+            if (prefs.colorSelf) {
+                obj.addEventListener('noseinput', e =>
+                    obj.style.backgroundColor = e.detail.value
+                );
+            }
+                    
+            if (prefs.transPattern) {
+                
+                obj.addEventListener('noseinput', e => {
+            
+                    let v = e.detail.hsla, A = 0.5 - v.a / 2;
+                    
+                    obj.style.backgroundImage = v.a < 1 ?
+                        `repeating-linear-gradient(
+                                -45deg,
+                                rgba(0,0,0,${ A }),
+                                rgba(0,0,0,${ A }) 10px,
+                                transparent 10px,
+                                transparent 20px
+                            )` : '';
+            
+                    obj.style.color = v.l > 55 || v.a < 0.85 ? '#000' : '#fff';
+                });
+                
+            }
             
             obj.dispatchEvent(new CustomEvent(prefs.loadedEventName, {
                 detail: {

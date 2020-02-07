@@ -128,7 +128,7 @@ pre {
             transparency and saturation
         </div>
         <div id="samp2" class="samp" style="background-color:#c30"
-         data-nose='{"kind":"wheel"}'
+         data-nose='{"kind":"wheel","transPattern":true,"colorSelf":true}'
         ><i>scroll!</i></div>
     </div>
     </div>
@@ -143,26 +143,6 @@ window.addEventListener('load', e => {
     const
     
     NP = new NosePicker('.samp');
-    
-    document.querySelectorAll('div .samp').forEach(s => {
-        
-        s.addEventListener('noseinput', e => {
-            s.style.backgroundColor = NP[s.id].value;
-        
-            let v = e.detail.hsla, A = 0.5 - v.a / 2;
-            s.style.backgroundImage = v.a < 1 ?
-                `repeating-linear-gradient(
-                    -45deg,
-                    rgba(0,0,0,${ A }),
-                    rgba(0,0,0,${ A }) 10px,
-                    transparent 10px,
-                    transparent 20px
-                )` : '';
-        
-            s.style.color = v.l > 55 || v.a < 0.85 ? '#000' : '#fff';
-        });
-        
-    });
     
     samp0.addEventListener('noseinput', e => comment0.style.color = e.detail.value);
     samp1.addEventListener('noseinput', e => comment1.style.color = e.detail.value);
