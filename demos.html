@@ -81,6 +81,8 @@ pre {
 
 .autosamp {
     height: 100px;
+    line-height: 75px;
+    text-align: center;
     background-color: #ea0;
 }
 
@@ -112,7 +114,12 @@ pre {
             hold the control key for transparency
             and the shift key for more sensitivity
         </div>
-        <div id="samp0" style="background-color:#ea0" class="samp"><i>scroll!</i></div>
+        <div id="samp0" style="background-color:#ea0" class="autosamp"
+         data-nose='{
+            "kind" : "coast"
+         }'
+        
+        ><i>scroll!</i></div>
     </div>
     <div class="qa">
         <div id="comment1" style="font-size:12px;color:#ea0;">
@@ -122,8 +129,11 @@ pre {
             touch with two fingers and move left|right
             to adjust transparency
         </div>
-        <div id="samp1" class="autosamp" data-sensitivity="0.25"
-       ></div>
+        <div id="samp1" class="autosamp"
+         data-nose='{
+            "kind" : "touch"
+         }'
+        ></div>
     </div>
     <div class="qa">
         <div id="comment2" style="font-size:12px;color:#c30;">
@@ -133,33 +143,35 @@ pre {
             to adjust transparency
         </div>
         <div id="samp2" class="autosamp" style="background-color:#c30" data-sensitivity="0.25"
-       ></div>
+         data-nose='{
+            "kind":"wheel",
+            "loadedMsg":"suck my load"
+         }'
+        ></div>
     </div>
     </div>
     </div>
 </div>
 </body>
 <script id="nosepickerScript" src="nosepicker.js"></script>
-<script id="autopickerScript" src="autopicker.js"></script>
 <script id="demoScript">
     
 window.addEventListener('load', e => {
     
     const
-    NP = new NosePicker('.samp'),
-    AP = new AutoPicker('.autosamp');
+    NP = new AutoPicker('.autosamp');
     
     document.querySelectorAll('div .samp').forEach(s => {
         
         s.addEventListener('noseinput', e => {
             s.style.backgroundColor = NP[s.id].value;
         
-            let v = e.detail.hsla;
+            let v = e.detail.hsla, A = 0.5 - v.a/2;
             s.style.backgroundImage = v.a < 1 ?
                 `repeating-linear-gradient(
                         -45deg,
-                        rgba(0,0,0,${ 0.5 - v.a/2 }),
-                        rgba(0,0,0,${ 0.5 - v.a/2 }) 10px,
+                        rgba(0,0,0,${ A }),
+                        rgba(0,0,0,${ A }) 10px,
                         transparent 10px,
                         transparent 20px
                     )` : '';
@@ -174,17 +186,17 @@ window.addEventListener('load', e => {
     document.querySelectorAll('div .autosamp').forEach(s => {
         
         s.addEventListener('noseinput', e => {
-            s.style.backgroundColor = AP[s.id].value;
+            s.style.backgroundColor = NP[s.id].value;
         
             let v = e.detail.hsla;
             s.style.backgroundImage = v.a < 1 ?
                 `repeating-linear-gradient(
-                        -45deg,
-                        rgba(0,0,0,${ 0.5 - v.a/2 }),
-                        rgba(0,0,0,${ 0.5 - v.a/2 }) 10px,
-                        transparent 10px,
-                        transparent 20px
-                    )` : '';
+                    -45deg,
+                    rgba(0,0,0,${ 0.5 - v.a / 2 }),
+                    rgba(0,0,0,${ 0.5 - v.a / 2 }) 10px,
+                    transparent 10px,
+                    transparent 20px
+                )` : '';
         
             s.style.color = v.l > 55 || v.a < 0.85 ? '#000' : '#fff';
         });
@@ -192,6 +204,9 @@ window.addEventListener('load', e => {
     });
     
     samp1.addEventListener('noseinput', e => comment1.style.color = e.detail.value);
+    samp2.addEventListener('noseinput', e => comment2.style.color = e.detail.value);
+    
+    window.onclick = () => console.log(NP.samp0.togAbility());
     
 });
 
