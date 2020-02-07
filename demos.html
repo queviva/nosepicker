@@ -128,7 +128,7 @@ pre {
             transparency and saturation
         </div>
         <div id="samp2" class="samp" style="background-color:#c30"
-         data-nose='{"kind":"wheel","transPattern":true,"colorSelf":true}'
+         data-nose='{"kind":"wheel","transPattern":1,"colorSelf":true}'
         ><i>scroll!</i></div>
     </div>
     </div>
@@ -148,10 +148,7 @@ window.addEventListener('load', e => {
     samp1.addEventListener('noseinput', e => comment1.style.color = e.detail.value);
     samp2.addEventListener('noseinput', e => comment2.style.color = e.detail.value);
     
-    samp0.addEventListener('dblclick', e => {
-        console.log('db');
-        NP.samp0.togAbility();
-    });
+    samp0.addEventListener('dblclick', e => NP.samp0.togAbility());
     
 });
 

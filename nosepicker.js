@@ -46,7 +46,7 @@ const NosePicker = function (selectors = '.nosepicker') {
                 loadedEventName: 'noseloaded',
                 inputEventName: 'noseinput',
                 colorSelf: true,
-                transPattern: true
+                transPattern: false
             },
     
             dataPrefs = obj.dataset.nose ? JSON.parse(obj.dataset.nose) : {},
@@ -153,7 +153,7 @@ const NosePicker = function (selectors = '.nosepicker') {
             };
             
             for (let i in dataPrefs) {
-                if (prefs[i]) {
+                if (prefs[i] !== undefined) {
                     prefs[i] = dataPrefs[i];
                 }
             }
