@@ -1,6 +1,6 @@
 /**
  * @author pizzaface
- * @version 1.0
+ * @version 2.0
  */
  
  
@@ -44,10 +44,10 @@ const NosePicker = function (selectors = '.nosepicker') {
                 kind: 'touch', // touch|wheel|coast
                 colorsrc: 'background-color',
                 loadedEventName: 'noseloaded',
-                inputEventName: 'noseinput',
+                inputEventName: 'noseinput'
             },
     
-            nosePrefs = obj.dataset.nose ? JSON.parse(obj.dataset.nose) : {},
+            dataPrefs = obj.dataset.nose ? JSON.parse(obj.dataset.nose) : {},
     
             able = 1,
     
@@ -118,10 +118,8 @@ const NosePicker = function (selectors = '.nosepicker') {
             
             coastLooper = e => {
                 if (looping) {
-    
                     lizzer(e, ...coastInc, e.touches[1]);
                     setTimeout(() => coastLooper(e), 50);
-    
                 }
             },
             
@@ -152,9 +150,9 @@ const NosePicker = function (selectors = '.nosepicker') {
                 }
             };
             
-            for (let i in nosePrefs) {
+            for (let i in dataPrefs) {
                 if (prefs[i]) {
-                    prefs[i] = nosePrefs[i];
+                    prefs[i] = dataPrefs[i];
                 }
             }
             
