@@ -148,12 +148,10 @@ window.addEventListener('load', e => {
     samp1.addEventListener('noseinput', e => comment1.style.color = e.detail.value);
     samp2.addEventListener('noseinput', e => comment2.style.color = e.detail.value);
     
-    //window.onclick = () => console.log(NP.samp0.togAbility());
-    /*
-    window.addEventListener('keydown', e => {
-        console.log(NP.samp0.isLooping());
+    samp0.addEventListener('dblclick', e => {
+        console.log('db');
+        NP.samp0.togAbility();
     });
-    */
     
 });
 
