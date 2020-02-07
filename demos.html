@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-<title>coast picker</title>
+<title>nosepicker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style id="demoStyles">
 
@@ -70,8 +70,8 @@ pre {
 
 .samp {
     position: relative;
-    height: 80px;
-    line-height: 55px;
+    height: 60px;
+    line-height: 35px;
     text-align: center;
     width: 100%;
     color: #fff;
@@ -114,28 +114,21 @@ pre {
         ><i>coast!</i></div>
     </div>
     <div class="qa">
-        <div id="comment1" style="font-size:12px;color:#ea0;">
-            swipe up|down for color, left|right for brightness
-            <br>
-            touch with two fingers and move left|right
-            to adjust transparency
+        <div id="comment1" style="font-size:12px;color:#a0e;">
+            swipe up|down &amp; left|right for color -
+            swipe with two fingers to adjust transparency
         </div>
-        <div id="samp1" class="samp"
-         data-nose='{
-            "kind" : "touch"
-         }'
+        <div id="samp1" class="samp" style="background-color:#a0e"
+         data-nose='{"kind" : "touch"}'
         ><i>swipe!!!</i></div>
     </div>
     <div class="qa">
         <div id="comment2" style="font-size:12px;color:#c30;">
-            scroll while over this area - use ctrl key for
+            scroll wheel over this area - use ctrl key for
             transparency and saturation
         </div>
-        <div id="samp2" class="samp" style="background-color:#c30" data-sensitivity="0.25"
-         data-nose='{
-            "kind":"wheel",
-            "loadedMsg":"suck my load"
-         }'
+        <div id="samp2" class="samp" style="background-color:#c30"
+         data-nose='{"kind":"wheel"}'
         ><i>scroll!</i></div>
     </div>
     </div>
@@ -148,6 +141,7 @@ pre {
 window.addEventListener('load', e => {
     
     const
+    
     NP = new NosePicker('.samp');
     
     document.querySelectorAll('div .samp').forEach(s => {
@@ -155,34 +149,12 @@ window.addEventListener('load', e => {
         s.addEventListener('noseinput', e => {
             s.style.backgroundColor = NP[s.id].value;
         
-            let v = e.detail.hsla, A = 0.5 - v.a/2;
-            s.style.backgroundImage = v.a < 1 ?
-                `repeating-linear-gradient(
-                        -45deg,
-                        rgba(0,0,0,${ A }),
-                        rgba(0,0,0,${ A }) 10px,
-                        transparent 10px,
-                        transparent 20px
-                    )` : '';
-        
-            s.style.color = v.l > 55 || v.a < 0.85 ? '#000' : '#fff';
-        });
-        
-    });
-    
-    samp0.addEventListener('noseinput', e => comment0.style.color = e.detail.value);
-    
-    document.querySelectorAll('div .samp').forEach(s => {
-        
-        s.addEventListener('noseinput', e => {
-            s.style.backgroundColor = NP[s.id].value;
-        
-            let v = e.detail.hsla;
+            let v = e.detail.hsla, A = 0.5 - v.a / 2;
             s.style.backgroundImage = v.a < 1 ?
                 `repeating-linear-gradient(
                     -45deg,
-                    rgba(0,0,0,${ 0.5 - v.a / 2 }),
-                    rgba(0,0,0,${ 0.5 - v.a / 2 }) 10px,
+                    rgba(0,0,0,${ A }),
+                    rgba(0,0,0,${ A }) 10px,
                     transparent 10px,
                     transparent 20px
                 )` : '';
@@ -192,10 +164,16 @@ window.addEventListener('load', e => {
         
     });
     
+    samp0.addEventListener('noseinput', e => comment0.style.color = e.detail.value);
     samp1.addEventListener('noseinput', e => comment1.style.color = e.detail.value);
     samp2.addEventListener('noseinput', e => comment2.style.color = e.detail.value);
     
     //window.onclick = () => console.log(NP.samp0.togAbility());
+    /*
+    window.addEventListener('keydown', e => {
+        console.log(NP.samp0.isLooping());
+    });
+    */
     
 });
 

@@ -55,7 +55,7 @@ const NosePicker = function (selectors = '.nosepicker') {
     
             looping = false,
     
-            lizzer = (e, [dx, dy], CTRL, v = this.hsla) => {
+            lizzer = (e, dx, dy, CTRL, v = this.hsla) => {
     
                 e.stopPropagation();
                 e.preventDefault();
@@ -79,10 +79,8 @@ const NosePicker = function (selectors = '.nosepicker') {
     
                 lizzer(
                     e,
-                    [
-                        ((e.shiftKey ? 0.001 : 0.01)) * (e.wheelDeltaX),
-                        ((e.shiftKey ? 0.001 : 0.01)) * (e.wheelDeltaY),
-                    ],
+                    ((e.shiftKey ? 0.001 : 0.01)) * (e.wheelDeltaX),
+                    ((e.shiftKey ? 0.001 : 0.01)) * (e.wheelDeltaY),
                     e.ctrlKey
                 );
     
@@ -92,10 +90,8 @@ const NosePicker = function (selectors = '.nosepicker') {
                 
                 lizzer(
                     e,
-                    [
-                        0.1 * (prev.X - e.touches[0].pageX),
-                        0.1 * (prev.Y - e.touches[0].pageY)
-                    ],
+                    0.1 * (prev.X - e.touches[0].pageX),
+                    0.1 * (prev.Y - e.touches[0].pageY),
                     e.touches[1]
                 );
     
@@ -109,23 +105,24 @@ const NosePicker = function (selectors = '.nosepicker') {
             coastInc = [0, 0],
             
             coastLizzer = e => {
-                coastInc = [
-                    0.01 * (prev.X - e.touches[0].pageX),
-                    0.05 * (prev.Y - e.touches[0].pageY)
-                ];
                 
                 e.preventDefault();
                 e.stopPropagation();
+                
+                coastInc = [
+                    0.01 * (prev.X - e.touches[0].pageX),
+                    0.10 * (prev.Y - e.touches[0].pageY)
+                ];
+                
             },
             
             coastLooper = e => {
                 if (looping) {
     
-                    lizzer(e, coastInc, e.touches[1]);
+                    lizzer(e, ...coastInc, e.touches[1]);
                     setTimeout(() => coastLooper(e), 50);
     
                 }
-    
             },
             
             kindList = {
@@ -141,11 +138,13 @@ const NosePicker = function (selectors = '.nosepicker') {
                     touchmove : coastLizzer,
                     touchend : e => looping = clearTimeout(looping),
                     touchstart : e => {
-                    
+                        
                         prev = {
                             X: e.touches[0].pageX,
                             Y: e.touches[0].pageY
                         };
+                        
+                        coastInc = [0, 0];
                     
                         looping = setTimeout(() => coastLooper(e), 200);
                     
@@ -166,7 +165,7 @@ const NosePicker = function (selectors = '.nosepicker') {
             this.setValue = val => setVals(this, val);
             
             this.togAbility = (
-                v = ['add','remove'][(able = (able + 1) % 2)]
+                v = ['add', 'remove'][(able = (able + 1) % 2)]
             ) => {
             
                 for (let evt in kindList[prefs.kind]) {
@@ -178,6 +177,8 @@ const NosePicker = function (selectors = '.nosepicker') {
                 }
             
             };
+            
+            this.isLooping = () => looping;
             
             obj.dispatchEvent(new CustomEvent(prefs.loadedEventName, {
                 detail: {
