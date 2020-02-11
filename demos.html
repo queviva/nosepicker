@@ -19,6 +19,7 @@ body {
     -moz-hyphens: auto;
     -epub-hyphens: auto;
     hyphens: auto;
+    --thumbH: 20px;
 }
 
 #holder {
@@ -60,12 +61,30 @@ body {
 }
 
 
-pre {
-    background-color: #999;
-    margin: 0px;
-    padding: 0px;
-    color: #fff;
-    overflow: auto;
+input[type=range] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    display: inline-block;
+    margin: 0;
+    height: var(--thumbH);
+    width: 100%;
+    border-radius: calc(var(--thumbH) / 2);
+    background-color: #c30;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    opacity: 1.7;
+    height: calc(var(--thumbH)/2);
+    margin-bottom: 0px;
+    width: var(--thumbH);
+    border: 1px;
+    border-radius: calc(var(--thumbH) / 2);
+    background-color: #000;
+}
+
+input[type=range]:focus {
+    outline: none;
 }
 
 .samp {
@@ -82,6 +101,9 @@ pre {
 
 /*possibly a portrait mobi-fone*/
 @media screen and (max-width: 500px){
+    .qa {
+        padding: 0px 10px 0px 10px;
+    }
     .qa > div:nth-child(1),
     .qa > div:nth-child(2) {
         width: 100%;
@@ -107,10 +129,13 @@ pre {
     <div class="qa">
         <div id="comment0" style="font-size:12px;color:#ea0;">
             click in the rectangle, then fly around through
-            the werld of colors
+            the werld of colors <br>
+            <input id="slide0" type="range" style="height:10px"
+             min="1" max="9" steps="1" value="1"
+            ></input>
         </div>
         <div id="samp0" style="background-color:#ea0" class="samp"
-         data-nose='{"kind" : "coast"}'
+         data-nose='{"kind" : "coast,point"}'
         ><i>coast!</i></div>
     </div>
     <div class="qa">
@@ -119,7 +144,7 @@ pre {
             swipe with two fingers to adjust transparency
         </div>
         <div id="samp1" class="samp" style="background-color:#a0e"
-         data-nose='{"kind" : "touch"}'
+         data-nose='{"kind" : "swipe,touch","able":true}'
         ><i>swipe!</i></div>
     </div>
     <div class="qa">
@@ -131,6 +156,8 @@ pre {
          data-nose='{"kind":"wheel","transPattern":1,"colorSelf":true}'
         ><i>scroll!</i></div>
     </div>
+    <input id=butt0 type=button value=tog-able>
+    <input id=butt1 type=button value=dis-able>
     </div>
     </div>
 </div>
@@ -139,16 +166,38 @@ pre {
 <script id="demoScript">
     
 window.addEventListener('load', e => {
-    
+
     const
-    
+
     NP = new NosePicker('.samp');
+
+    //samps = document.querySelectorAll('.samp');
+    document.querySelectorAll('.samp').forEach(s => {
+        s.addEventListener('noseinput', e => s.parentNode.children[0].style.color = e.detail.value);
+        //s.addEventListener('dblclick', e => NP[s.id].togAbility());
+        s.addEventListener('dblclick', e => NP[s.id].valentine());
+    });
+
+    slide0.addEventListener('input', e => {
+        for (let n in NP) {
+            v = parseInt(slide0.value);
+            NP[n].setSens({ X: v, Y: v });
+        }
+    });
     
-    samp0.addEventListener('noseinput', e => comment0.style.color = e.detail.value);
-    samp1.addEventListener('noseinput', e => comment1.style.color = e.detail.value);
-    samp2.addEventListener('noseinput', e => comment2.style.color = e.detail.value);
+    butt0.addEventListener('mousedown', e => {
+        console.log('togging samp0')
+        NP.samp0.togAbility();
+    });
     
-    samp0.addEventListener('dblclick', e => NP.samp0.togAbility());
+    butt1.addEventListener('mouseup', e => {
+        (NP.samp0.setValue('#c30'));
+        //console.log('dissing samp0')
+        //NP.samp0.setAbility(false);
+        
+    })
+    
+    
     
 });
 
