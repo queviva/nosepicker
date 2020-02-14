@@ -135,7 +135,10 @@ input[type=range]:focus {
             ></input>
         </div>
         <div id="samp0" style="background-color:#ea0" class="samp"
-         data-nose='{"kind" : "coast,point"}'
+         data-nose='{
+            "kind" : "coast,point",
+            "inputEventName" : "samp0InputEvent"
+         }'
         ><i>coast!</i></div>
     </div>
     <div class="qa">
@@ -144,7 +147,11 @@ input[type=range]:focus {
             swipe with two fingers to adjust transparency
         </div>
         <div id="samp1" class="samp" style="background-color:#a0e"
-         data-nose='{"kind" : "swipe,touch","able":true}'
+         data-nose='{
+            "kind" : "swipe,touch",
+            "able" : true,
+            "sens" : {"X" : 1,"Y" : 1}
+         }'
         ><i>swipe!</i></div>
     </div>
     <div class="qa">
@@ -153,7 +160,12 @@ input[type=range]:focus {
             transparency and saturation
         </div>
         <div id="samp2" class="samp" style="background-color:#c30"
-         data-nose='{"kind":"wheel","transPattern":1,"colorSelf":true}'
+         data-nose='{
+            "kind" : "wheel",
+            "transPattern" : true,
+            "colorSelf" : true,
+            "inputEventName" : "ratEvent"
+         }'
         ><i>scroll!</i></div>
     </div>
     <input id=butt0 type=button value=tog-able>
@@ -164,7 +176,7 @@ input[type=range]:focus {
 </body>
 <script id="nosepickerScript" src="nosepicker.js"></script>
 <script id="demoScript">
-    
+
 window.addEventListener('load', e => {
 
     const
@@ -172,10 +184,10 @@ window.addEventListener('load', e => {
     NP = new NosePicker('.samp');
 
     //samps = document.querySelectorAll('.samp');
+    //samps.forEach(s => {
     document.querySelectorAll('.samp').forEach(s => {
-        s.addEventListener('noseinput', e => s.parentNode.children[0].style.color = e.detail.value);
-        //s.addEventListener('dblclick', e => NP[s.id].togAbility());
-        s.addEventListener('dblclick', e => NP[s.id].valentine());
+        s.addEventListener(NP[s.id].prefs.inputEventName, e => s.parentNode.children[0].style.color = e.detail.value);
+        s.addEventListener('dblclick', e => NP[s.id].togAble());
     });
 
     slide0.addEventListener('input', e => {
@@ -186,16 +198,22 @@ window.addEventListener('load', e => {
     });
     
     butt0.addEventListener('mousedown', e => {
-        console.log('togging samp0')
-        NP.samp0.togAbility();
+        console.log('togging samp0');
+        NP.samp0.togAble();
     });
     
     butt1.addEventListener('mouseup', e => {
-        (NP.samp0.setValue('#c30'));
+        //NP.samp0.setAble(false);
+        
+        let rand = 'wheel point,coast swipe,touch'.split(' ')[~~(Math.random() * 3)];
+        console.log(rand);
+        NP.samp0.setKind(rand);
+        //NP.samp0.setAble(true);
+        //(NP.samp0.setValue('#c30'));
         //console.log('dissing samp0')
         //NP.samp0.setAbility(false);
         
-    })
+    });
     
     
     
