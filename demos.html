@@ -3,6 +3,14 @@
 <head>
 <title>nosepicker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script id="nosepickerScript" src="nosepicker.js"
+ data-nose='{
+    "idi" : "otic",
+    "selector" : ".samp",
+    "makeRef" : "noseRef",
+    "loadedEventName" : "sampLoaded"
+ }'
+></script>
 <style id="demoStyles">
 
 * {
@@ -150,7 +158,7 @@ input[type=range]:focus {
          data-nose='{
             "kind" : "swipe,touch",
             "able" : true,
-            "sens" : {"X" : 1,"Y" : 1}
+            "sens" : {"X" : 1,"Y" : 4}
          }'
         ><i>swipe!</i></div>
     </div>
@@ -169,49 +177,39 @@ input[type=range]:focus {
         ><i>scroll!</i></div>
     </div>
     <input id=butt0 type=button value=tog-able>
-    <input id=butt1 type=button value=dis-able>
+    <input id=butt1 type=button value=rand-type>
     </div>
     </div>
 </div>
 </body>
-<script id="nosepickerScript" src="nosepicker.js"></script>
 <script id="demoScript">
 
 window.addEventListener('load', e => {
 
-    const
-
-    NP = new NosePicker('.samp');
-
-    //samps = document.querySelectorAll('.samp');
-    //samps.forEach(s => {
-    document.querySelectorAll('.samp').forEach(s => {
-        s.addEventListener(NP[s.id].prefs.inputEventName, e => s.parentNode.children[0].style.color = e.detail.value);
-        s.addEventListener('dblclick', e => NP[s.id].togAble());
+    samps = document.querySelectorAll('.samp');
+    samps.forEach(s => {
+        s.addEventListener('noseinput', e => s.parentNode.children[0].style.color = e.detail.value);
+        s.addEventListener('dblclick', e => s.noseRef.togAble());
+        s.addEventListener('sampLoaded', e => console.log(s.id,'loaded'));
     });
-
+    
     slide0.addEventListener('input', e => {
-        for (let n in NP) {
+        samps.forEach(s => {
             v = parseInt(slide0.value);
-            NP[n].setSens({ X: v, Y: v });
-        }
+            s.noseRef.setSens({ X: v, Y: v });
+        });
     });
     
-    butt0.addEventListener('mousedown', e => {
+    butt0.addEventListener('click', e => {
         console.log('togging samp0');
-        NP.samp0.togAble();
+        samp0.noseRef.togAble();
     });
     
-    butt1.addEventListener('mouseup', e => {
-        //NP.samp0.setAble(false);
+    butt1.addEventListener('click', e => {
         
         let rand = 'wheel point,coast swipe,touch'.split(' ')[~~(Math.random() * 3)];
         console.log(rand);
-        NP.samp0.setKind(rand);
-        //NP.samp0.setAble(true);
-        //(NP.samp0.setValue('#c30'));
-        //console.log('dissing samp0')
-        //NP.samp0.setAbility(false);
+        samp0.noseRef.setKind(rand);
         
     });
     

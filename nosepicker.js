@@ -3,12 +3,14 @@
  * @version 2.0
  */
 
+// window load closure
+window.addEventListener('load', () => {
 
-const NosePicker = function (selectors = '.nosepicker', opts = {}) {
+    const opts = JSON.parse(((document.querySelector('script[src="nosepicker.js"]') || {}).dataset || {}).nose|| '{}');
 
-    const
-
-    defPrefs = {
+    const defPrefs = {
+        selector : 'nosepicker',
+        makeRef : false,
         kind: 'touch,wheel', // wheel|touch|swipe|coast|point
         colorsrc: 'background-color',
         loadedEventName: 'noseloaded',
@@ -18,8 +20,14 @@ const NosePicker = function (selectors = '.nosepicker', opts = {}) {
         transPattern: false,
         sens: { X: 1, Y: 1 },
         lizzList: {}
-    },
+    };
 
+    for (let p in opts) { // set any default prefs passed in
+        if(defPrefs[p] !== undefined) defPrefs[p] = opts[p];
+    }
+
+    const //{
+    
     clam = (...x) => x.sort((a, b) => a - b)[1],
 
     lizzer = (e, nose, dx, dy, CTRL, v = nose.hsla) => {
@@ -222,26 +230,27 @@ const NosePicker = function (selectors = '.nosepicker', opts = {}) {
         
     };
 
-    for (let p in opts) { // set any default prefs passed in
-        if(defPrefs[p] !== undefined) defPrefs[p] = opts[p];
-    }
-
-    const NPO = function (obj) {
+    //}
     
-        let
+    const NPO = function (obj) {
         
-        dataPrefs = obj.dataset.nose ? JSON.parse(obj.dataset.nose) : {};
+        this.prefs = {};
         
-        this.prefs = Object.assign({}, defPrefs); //{...defPrefs} errors!
+        let dataPrefs = obj.dataset.nose ? JSON.parse(obj.dataset.nose) : {};
+        
+        // if any valid prefs were given, set them
+        for (let p in defPrefs) {
+            this.prefs[p] = dataPrefs[p] ? dataPrefs[p] : defPrefs[p];
+        }
  
         for (let p in dataPrefs) { // set any prefs from html data param
             if (this.prefs[p] !== undefined) this.prefs[p] = dataPrefs[p];
         }
 
-        this.hsla = {};
-    
         this.obj = obj;
-        
+
+        this.hsla = {};
+
         this.looping = false,
 
         this.coastInc = [0, 0],
@@ -277,6 +286,10 @@ const NosePicker = function (selectors = '.nosepicker', opts = {}) {
     
         }
     
+        if (this.prefs.makeRef) {
+            obj[this.prefs.makeRef] = this;
+        }
+        
         obj.dispatchEvent(new CustomEvent(this.prefs.loadedEventName, {
             detail: {
                 value: this.setValue(this.value),
@@ -290,7 +303,12 @@ const NosePicker = function (selectors = '.nosepicker', opts = {}) {
     
         let
         
-        [r,g,b,a] = (this.value = (document.createElement('div')).style.color = v).match(/\d+\.*\d*/g).map(v => v /= 255),
+        // this hack allows hsla conversion of ANY valid css color
+        DIV = document.createElement('div');
+        DIV.style.color = v;
+        this.value = DIV.style.color;
+        
+        [r,g,b,a] = (this.value).match(/\d+\.*\d*/g).map(v => v /= 255),
         max = Math.max(r, g, b),
         min = Math.min(r, g, b),
         d = max - min,
@@ -326,7 +344,6 @@ const NosePicker = function (selectors = '.nosepicker', opts = {}) {
     };
     NPO.prototype.setAble = function (v) {
     
-        
         for (let evt in this.prefs.lizzList) {
             this.obj[((this.prefs.able = v) ? 'add' : 'remove') + 'EventListener'](
                 evt,
@@ -338,8 +355,14 @@ const NosePicker = function (selectors = '.nosepicker', opts = {}) {
     NPO.prototype.togAble = function ( ) {
         this.setAble(this.prefs.able ? false : true);
     };
-    NPO.prototype.setSens = function (v) { this.prefs.sens = v; };
+    NPO.prototype.setSens = function (v) {
+        this.prefs.sens = v;
+    };
 
-    document.querySelectorAll(selectors).forEach(n => this[n.id] = new NPO(n));
+    document.querySelectorAll(defPrefs.selector).forEach(obj => {
     
-};
+        new NPO(obj);
+        
+    });
+    
+});
