@@ -6,8 +6,10 @@
 // window load closure
 window.addEventListener('load', () => {
 
-    const opts = JSON.parse(((document.querySelector('script[src="nosepicker.js"]') || {}).dataset || {}).nose|| '{}');
-
+    const opts = JSON.parse(((document.querySelector(
+         'script[src*="nosepicker"][src$=".js"]'
+    ) || {}).dataset || {}).nose|| '{}');
+    
     const defPrefs = {
         selector : 'nosepicker',
         makeRef : false,
