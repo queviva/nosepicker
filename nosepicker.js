@@ -27,11 +27,11 @@ window.addEventListener('load', () => {
     for (let p in opts) { // set any default prefs passed in
         if(defPrefs[p] !== undefined) defPrefs[p] = opts[p];
     }
-
+    
     const //{
     
     clam = (...x) => x.sort((a, b) => a - b)[1],
-
+    
     lizzer = (e, nose, dx, dy, CTRL, v = nose.hsla) => {
     
         e.stopPropagation();
@@ -99,8 +99,8 @@ window.addEventListener('load', () => {
     
         lizzer(
             e, nose,
-            nose.prefs.sens.X * 0.1 * (nose.prev.X - e['clientX']),
-            nose.prefs.sens.Y * 0.1 * (nose.prev.Y - e['clientY']),
+            nose.prefs.sens.X * 0.1 * (nose.prev.X - e.clientX),
+            nose.prefs.sens.Y * 0.1 * (nose.prev.Y - e.clientY),
             e.ctrlKey
         );
     
@@ -301,6 +301,7 @@ window.addEventListener('load', () => {
         
     };
 
+    //protos{
     NPO.prototype.setValue= function (v) {
     
         let
@@ -360,7 +361,8 @@ window.addEventListener('load', () => {
     NPO.prototype.setSens = function (v) {
         this.prefs.sens = v;
     };
-
+    //}
+    
     document.querySelectorAll(defPrefs.selector).forEach(obj => {
     
         new NPO(obj);
