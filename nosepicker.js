@@ -245,10 +245,6 @@ window.addEventListener('load', () => {
             this.prefs[p] = dataPrefs[p] ? dataPrefs[p] : defPrefs[p];
         }
  
-        for (let p in dataPrefs) { // set any prefs from html data param
-            if (this.prefs[p] !== undefined) this.prefs[p] = dataPrefs[p];
-        }
-
         this.obj = obj;
 
         this.hsla = {};
