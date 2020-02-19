@@ -4,8 +4,8 @@
  */
 
 // window load closure
-window.addEventListener('load', () => {
-
+window.addEventListener('load', () => { new (function () {
+    
     const opts = JSON.parse(((document.querySelector(
          'script[src*="nosepicker"][src$=".js"]'
     ) || {}).dataset || {}).nose|| '{}');
@@ -365,4 +365,4 @@ window.addEventListener('load', () => {
         
     });
     
-});
+})()});
