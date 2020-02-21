@@ -3,13 +3,6 @@
 <head>
 <title>nosepicker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="nosepicker.js"
- data-nose='{
-    "selector" : ".samp",
-    "makeRef" : "noseRef",
-    "loadedEventName" : "sampLoaded"
- }'
-></script>
 <style id="demoStyles">
 
 * {
@@ -169,7 +162,8 @@ input[type=range]:focus {
          data-nose='{
             "kind" : "wheel",
             "transPattern" : true,
-            "colorSelf" : true
+            "colorSelf" : true,
+            "colorsrc" : "backgroundColor"
          }'
         ><i>scroll!</i></div>
     </div>
@@ -185,34 +179,52 @@ window.addEventListener('load', e => {
 
     samps = document.querySelectorAll('.samp');
     samps.forEach(s => {
-        s.addEventListener('noseinput', e => s.parentNode.children[0].style.color = e.detail.value);
-        s.addEventListener('dblclick', e => s.noseRef.togAble());
-        s.addEventListener('sampLoaded', e => console.log(s.id,'loaded'));
+        
+        s.addEventListener('noseinput', e => s.parentNode.children[0].style.color = s.nosePick.value);
+        s.addEventListener('dblclick', e => s.nosePick.togAble());
+        s.addEventListener('sampLoaded', e => {
+            console.log(s.id, 'loaded ref', e.detail.ref);
+            //console.log(s.id,'value is',s.nosePick.value);
+        });
+        
+    });
+    
+    samp0.addEventListener('catchNosePickerRef', e => {
+        butt1.nose = e.detail;
+    });
+    samp0.addEventListener('sampLoaded', e => {
+        samp0.dispatchEvent(new Event('getNosePickerRef'));
     });
     
     slide0.addEventListener('input', e => {
         samps.forEach(s => {
             v = parseInt(slide0.value);
-            s.noseRef.setSens({ X: v, Y: v });
+            s.nosePick.sens = { X: v, Y: v };
         });
     });
     
     butt0.addEventListener('click', e => {
         console.log('togging samp0');
-        samp0.noseRef.togAble();
+        samp0.nosePick.togAble();
     });
     
-    butt1.addEventListener('click', e => {
+    butt1.addEventListener('click', function (e) {
         
         let rand = 'wheel point,coast swipe,touch'.split(' ')[~~(Math.random() * 3)];
-        console.log(rand);
-        samp0.noseRef.setKind(rand);
+        console.log('kind was', samp0.nosePick.kind, 'is now',rand);
+        this.nose.kind = rand;
         
     });
-    
     
     
 });
 
 </script>
+<script src="nosepicker.js"
+ data-nose='{
+    "selector" : "nose",
+    "makeRef" : "nosePick",
+    "loadedEventName" : "sampLoaded"
+ }'
+></script>
 </html>
