@@ -183,7 +183,7 @@ window.addEventListener('load', e => {
         s.addEventListener('noseinput', e => s.parentNode.children[0].style.color = s.nosePick.value);
         s.addEventListener('dblclick', e => s.nosePick.togAble());
         s.addEventListener('sampLoaded', e => {
-            console.log(s.id, 'loaded ref', e.detail.ref);
+            //console.log(s.id, 'loaded ref', e.detail.ref);
             //console.log(s.id,'value is',s.nosePick.value);
         });
         
@@ -204,7 +204,7 @@ window.addEventListener('load', e => {
     });
     
     butt0.addEventListener('click', e => {
-        console.log('togging samp0');
+        //console.log('togging samp0');
         samp0.nosePick.togAble();
     });
     

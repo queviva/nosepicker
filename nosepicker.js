@@ -317,13 +317,14 @@ new (function () {
     
             get value() { return NPO.value },
             set value(v) { NPO.setValue(v) },
+            get hsla() { return NPO.hsla },
+            set hsla(v) { NPO.setValue(v) },
             get kind() { return NPO.prefs.kind.join(',') },
             set kind(v) { NPO.setKind(v) },
             get sens() { return NPO.prefs.sens },
             set sens(v) { NPO.setSens(v) },
             get able() { return NPO.prefs.able },
             set able(v) { NPO.setAble(v) },
-            get hsla() { return NPO.hsla },
             togAble: () => { NPO.togAble() }
     
         };
@@ -409,7 +410,6 @@ new (function () {
             
             (this[obj.id] = new NPO(obj)).loadComplete();
             
-    
         });
     
     });
