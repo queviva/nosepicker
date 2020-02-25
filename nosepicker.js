@@ -3,7 +3,6 @@
  * @version 3.0
  */
 
-
 // weird _new construction_ IS necessary, thank you
 new (function () {
     
@@ -252,7 +251,7 @@ new (function () {
         let dataPrefs = obj.dataset.nose ? JSON.parse(obj.dataset.nose) : {};
 
         for (let p in defPrefs) {
-            this.prefs[p] = dataPrefs[p] ? dataPrefs[p] : defPrefs[p];
+            this.prefs[p] = dataPrefs[p] !== undefined ? dataPrefs[p] : defPrefs[p];
         }
 
         this.obj = obj;
@@ -415,3 +414,4 @@ new (function () {
     });
     
 })();
+
