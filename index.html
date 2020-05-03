@@ -82,21 +82,32 @@ svg {
 <input id="pick0caption" class="pick0butt" type="button" value="caption" style="top:66px">
 <input id="pick0editable" class="pick0butt" type="button" value="editable" style="top:112px">
 
-<div id="picker0" class="nosepicker pick0" style="background-color:#ea0;" contentEditable="true" data-disabled="false" data-caption="true"
-        ></div>
+<div id="picker0" class="nosepicker pick0" style="background-color:#ea0;" contentEditable="true"
+ data-nose='{
+    "caption" : true
+ }'
+></div>
 </div>
         
-<div id="samp0" class="nosepicker samp">samp0</div>
-<div id="samp1" class="nosepicker samp">samp1</div>
-<div id="samp2" class="nosepicker samp">samp2</div>
+<div id="samp0" data-nose class="nosepicker samp">samp0</div>
+<div id="samp1" data-nose class="nosepicker samp">samp1</div>
+<div id="samp2" data-nose class="nosepicker samp">samp2</div>
 
 <svg><path id="heart" class="nosepicker"
- data-nose-input-event-name="ralph"
- data-nose-color-src="fill"
+ data-nose = '{
+    "colorsrc" : "fill",
+    "transPattern" : true
+ }'
 /></svg>
 
 </body>
-<script id="nosepickerScript" src="nosepicker.js"></script>
+<script defer src="nosepicker.js"
+ data-nose='{
+    "selector" : "nose",
+    "makeRef" : "nosePick",
+    "loadedEventName" : "sampLoaded"
+ }'
+></script>
 <script id="demoScript">
 
     var pizzaface,
@@ -108,15 +119,8 @@ svg {
     (ss0 = document.getElementById('ss0').sheet.rules)
     ){cssHash[ss0[i].selectorText] = ss0[i];}
     
-    
-document.querySelectorAll('.samp, .pick0').forEach(s => {
-    s.addEventListener('noseinput', e =>
-        s.style.backgroundColor = NP[s.id].value
-    );
-});
-
 samp0.addEventListener('noseinput', e => {
-    heart.style.stroke = NP.samp0.value;
+    heart.style.stroke = samp0.nosePick.value;
 });
 
 samp1.addEventListener('click', e => {
@@ -127,10 +131,6 @@ samp1.addEventListener('click', e => {
 samp2.addEventListener('noseinput', e => {
     let H = e.detail.hsla;
     samp2.style.color = 'hsl(' + (120 + H.h) +','+H.s+'%,'+ (100 - H.l) +'%)';
-});
-
-samp2.addEventListener('dblclick', e => {
-    NP.samp1.togAbility();
 });
 
 heart.addEventListener('ralph', e => {
@@ -147,7 +147,7 @@ heart.addEventListener('noseloaded', e => {
     console.log('noseload!!!')
 })
 
-var NP = new NosePicker();
+//var NP = new NosePicker();
 
 </script>
 </html>

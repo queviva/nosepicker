@@ -6,8 +6,6 @@
 // weird _new construction_ IS necessary, thank you
 new (function () {
     
-    'use strict';
-    
     // the default preferences
     const defPrefs = {
         selector: 'picker',
@@ -20,12 +18,11 @@ new (function () {
         colorSelf: true,
         colorText: true,
         transPattern: false,
-        sens: { X: 1, Y: 1 },
-        lizzList: {}
+        sens: { X: 1, Y: 1 }
     };
     
     // grab any options that over-rite defaults
-    const opts = JSON.parse(((document.querySelector(
+    let opts = JSON.parse(((document.querySelector(
         'script[src*="nosepicker"][src$=".js"]'
     ) || {}).dataset || {}).nose || '{}');
 
@@ -246,14 +243,14 @@ new (function () {
     // the NosePicker Object itself
     const NPO = function(obj) {
 
-        this.prefs = {};
+        this.prefs = { lizzList: {}};
 
-        let dataPrefs = obj.dataset.nose ? JSON.parse(obj.dataset.nose) : {};
+        let dataPrefs = JSON.parse(obj.dataset[defPrefs.selector] || '{}');
 
         for (let p in defPrefs) {
             this.prefs[p] = dataPrefs[p] !== undefined ? dataPrefs[p] : defPrefs[p];
         }
-
+        
         this.obj = obj;
 
         this.hsla = {};
@@ -276,12 +273,12 @@ new (function () {
         }
 
         if (this.prefs.transPattern) {
-
+            
             obj.addEventListener(this.prefs.inputEventName, e => {
 
                 let A = 0.5 - e.detail.hsla.a / 2;
-
-                obj.style.backgroundImage = e.detail.hsla.a < 1 ?
+                
+                obj.style.backgroundImage = A > 0 ?
                     `repeating-linear-gradient(
                         -45deg,
                         rgba(0,0,0,${ A }),
@@ -359,8 +356,8 @@ new (function () {
         this.setAble(false);
 
         this.prefs.lizzList = {};
-
-        this.prefs.kind = v.split(',');
+        
+        try{ this.prefs.kind = v.split(','); }catch(T){}
 
         for (let k in this.prefs.kind) {
             let K = kindList(this, [this.prefs.kind[k]]);
@@ -393,23 +390,30 @@ new (function () {
     // init when page fully loaded
     window.addEventListener('load', () => {
         
+        console.log('nosepicker.js loaded');
+        
         document.querySelectorAll(
-            `[data-${defPrefs.selector.replace(/[^a-z-]/gi, '')}]`
+            `[data-${defPrefs.selector.replace(/[^a-z-]/gi, '')}]:not(script)`
         ).forEach(obj => {
     
-            obj.addEventListener('getNosePickerRef', e => {
-                
-                obj.dispatchEvent(new CustomEvent(
-                    'catchNosePickerRef', {
-                        detail : this[obj.id].createRef()
-                    }
-                ));
-                
-            });
-            
             (this[obj.id] = new NPO(obj)).loadComplete();
             
         });
+        
+        console.log('get ref lizzer added in nose.js');
+        
+        window.addEventListener('getNosePickerRef', e => {
+        
+            console.log('got a ref request', this[e.detail].createRef());
+            window.dispatchEvent(new CustomEvent(
+                'catchNosePickerRef', {
+                    detail: this[e.detail].createRef()
+                }
+            ));
+        
+        });
+        
+        console.log(this);
     
     });
     

@@ -149,7 +149,7 @@ input[type=range]:focus {
          data-nose='{
             "kind" : "swipe,touch",
             "able" : true,
-            "sens" : {"X" : 1,"Y" : 4}
+            "sens" : {"X" : 1, "Y" : 4}
          }'
         ><i>swipe!</i></div>
     </div>
@@ -170,14 +170,21 @@ input[type=range]:focus {
     <input id=butt0 type=button value=tog-able>
     <input id=butt1 type=button value=rand-type>
     </div>
-    </div>
 </div>
 </body>
+<script defer src="nosepicker.js"
+ data-nose='{
+    "selector" : "nose",
+    "makeRef" : "nosePick",
+    "loadedEventName" : "sampLoaded"
+ }'
+></script>
 <script id="demoScript">
 
 window.addEventListener('load', e => {
 
     samps = document.querySelectorAll('.samp');
+    
     samps.forEach(s => {
         
         s.addEventListener('noseinput', e => s.parentNode.children[0].style.color = s.nosePick.value);
@@ -189,11 +196,25 @@ window.addEventListener('load', e => {
         
     });
     
-    samp0.addEventListener('catchNosePickerRef', e => {
+    console.log('catch nost lizzer added');
+    window.addEventListener('catchNosePickerRef', e => {
+        console.log('caught', e.detail);
         butt1.nose = e.detail;
     });
+    
+    console.log('samp0 load lizzer added');
+    
     samp0.addEventListener('sampLoaded', e => {
-        samp0.dispatchEvent(new Event('getNosePickerRef'));
+        
+        console.log('samp0 load recieved in demo');
+        console.log('dispatching ref request');
+        
+        window.dispatchEvent(new CustomEvent(
+            'getNosePickerRef', {
+                detail : 'samp0'
+                , remove : e=>console.log('dispatched')
+            }
+        ));
     });
     
     slide0.addEventListener('input', e => {
@@ -204,7 +225,6 @@ window.addEventListener('load', e => {
     });
     
     butt0.addEventListener('click', e => {
-        //console.log('togging samp0');
         samp0.nosePick.togAble();
     });
     
@@ -215,16 +235,9 @@ window.addEventListener('load', e => {
         this.nose.kind = rand;
         
     });
-    
-    
+
 });
 
 </script>
-<script src="nosepicker.js"
- data-nose='{
-    "selector" : "nose",
-    "makeRef" : "nosePick",
-    "loadedEventName" : "sampLoaded"
- }'
-></script>
+
 </html>
