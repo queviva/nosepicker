@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+<title>one line nose</title>
+<style>
+
+.nosepicker {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    height: 100px;
+    width: 30px;
+    padding: 20px;
+    line-height: 90px;
+    font-size: 30px;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #f00;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: width linear 0.3s;
+}
+
+.nosepicker:hover {
+    width: 300px;
+}
+
+.sample {
+    position: absolute;
+    bottom: 30px;
+    left: 20px;
+    height: 100px;
+    width: 300px;
+    line-height: 100px;
+    font-size: 20px;
+    font-style: italic;
+    text-align: center;
+    background-color: #fff;
+    border: 8px solid #000;
+}
+
+</style>
+</head>
+<body>
+
+<div id="picker0" class="nosepicker" style="background-color:rgb(255, 177, 20)" data-vals='{ "h": 40, "s": 100, "l": 54, "a": 1, "sns": 500, "low": 50 }'></div>
+<div id="picker1" class="nosepicker" style="top:180px"></div>
+
+<div id="samp0" class="sample">on input</div>
+<div id="samp1" class="sample" style="left:355px">on change</div>
+<div id="samp2" class="sample" style="bottom:160px;left:355px;background-color:none">
+    hackground img
+</div>
+
+</body>
+<script id="oneLiner" src="oneLineNose.min.js"></script>
+<script id="sampleHandlers">
+
+picker0.addEventListener('input', e => {
+    picker0.innerHTML = picker0.style.backgroundColor;
+    picker0.style.color = picker0.vals.l < 45 ? '#fff' : '#000';
+    samp0.style.backgroundColor = picker0.value;
+    samp0.style.color = picker0.vals.l < 45 ? '#fff' : '#000';
+    samp2.style.backgroundImage = picker0.style.backgroundImage;
+}, false);
+
+picker0.addEventListener('change', e => {
+    //console.log(picker0.value);
+    samp1.style.backgroundColor = picker0.value;
+    samp1.style.color = picker0.vals.l < 45 ? '#fff' : '#000';
+});
+
+picker1.addEventListener('input', e => {
+    samp0.style.borderColor = e.detail;
+    samp2.style.borderColor = e.detail;
+}, false);
+
+picker1.addEventListener('change', e => {
+    samp1.style.borderColor = picker1.value;
+});
+
+</script>
+</html>
