@@ -3,6 +3,13 @@
 <head>
 <title>nosepicker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script id="nosepickerscript" defer src="nosepicker.js"
+ data-nose='{
+    "selector" : "nose",
+    "makeRef" : "nosePick",
+    "loadedEventName" : "sampLoaded"
+ }'
+></script>
 <style id="demoStyles">
 
 * {
@@ -123,6 +130,7 @@ input[type=range]:focus {
     
 </style>
 </head>
+
 <body>
 <div id="holder">
     <div id="page0">
@@ -136,7 +144,8 @@ input[type=range]:focus {
         </div>
         <div id="samp0" style="background-color:#ea0" class="samp"
          data-nose='{
-            "kind" : "coast,point"
+            "kind" : "coast,point",
+            "makeRef" : false
          }'
         ><i>coast!</i></div>
     </div>
@@ -172,16 +181,11 @@ input[type=range]:focus {
     </div>
 </div>
 </body>
-<script defer src="nosepicker.js"
- data-nose='{
-    "selector" : "nose",
-    "makeRef" : "nosePick",
-    "loadedEventName" : "sampLoaded"
- }'
-></script>
+
 <script id="demoScript">
 
-window.addEventListener('load', e => {
+//window.addEventListener('load', e => {
+(function() {
 
     samps = document.querySelectorAll('.samp');
     
@@ -189,32 +193,17 @@ window.addEventListener('load', e => {
         
         s.addEventListener('noseinput', e => s.parentNode.children[0].style.color = s.nosePick.value);
         s.addEventListener('dblclick', e => s.nosePick.togAble());
-        s.addEventListener('sampLoaded', e => {
-            //console.log(s.id, 'loaded ref', e.detail.ref);
-            //console.log(s.id,'value is',s.nosePick.value);
-        });
         
     });
-    
-    console.log('catch nost lizzer added');
-    window.addEventListener('catchNosePickerRef', e => {
-        console.log('caught', e.detail);
-        butt1.nose = e.detail;
-    });
-    
-    console.log('samp0 load lizzer added');
     
     samp0.addEventListener('sampLoaded', e => {
         
-        console.log('samp0 load recieved in demo');
-        console.log('dispatching ref request');
+        samp0.addEventListener('catchNosePickerRef', e =>
+            samp0.nosePick = e.detail
+        ,{once:true});
         
-        window.dispatchEvent(new CustomEvent(
-            'getNosePickerRef', {
-                detail : 'samp0'
-                , remove : e=>console.log('dispatched')
-            }
-        ));
+        samp0.dispatchEvent(new CustomEvent('getNosePickerRef'));
+        
     });
     
     slide0.addEventListener('input', e => {
@@ -232,11 +221,11 @@ window.addEventListener('load', e => {
         
         let rand = 'wheel point,coast swipe,touch'.split(' ')[~~(Math.random() * 3)];
         console.log('kind was', samp0.nosePick.kind, 'is now',rand);
-        this.nose.kind = rand;
+        samp0.nosePick.kind = rand;
         
     });
 
-});
+})();
 
 </script>
 

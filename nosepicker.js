@@ -3,10 +3,16 @@
  * @version 3.0
  */
 
-// weird _new construction_ IS necessary, thank you
+// anonymouse new closure
 new (function () {
     
-    // the default preferences
+    // DEBUGG {
+    //'use strict';
+    //'use strong';
+    // localStorage.clear();
+    //}
+    
+    // default preferences {
     const defPrefs = {
         selector: 'picker',
         makeRef: false,
@@ -17,26 +23,29 @@ new (function () {
         able: true,
         colorSelf: true,
         colorText: true,
-        transPattern: false,
+        transPattern: true,
         sens: { X: 1, Y: 1 }
     };
+    //}
     
-    // grab any options that over-rite defaults
+    // grab any options that over-rite defaults {
     let opts = JSON.parse(((document.querySelector(
         'script[src*="nosepicker"][src$=".js"]'
     ) || {}).dataset || {}).nose || '{}');
-
-    // set any valid opts passed in data-param
+    //}
+    
+    // set any valid opts passed in data-param {
     for (let p in opts) {
         if (defPrefs[p] !== undefined) defPrefs[p] = opts[p];
     }
+    //}
 
-    // all the helpful methods
-    const //{
+    // award-winning method to gate a value {
+    const clam = (...x) => x.sort((a, b) => a - b)[1],
+    //}
 
-    // award-winning method to gate a value
-    clam = (...x) => x.sort((a, b) => a - b)[1],
-
+    // lizzers {
+    
     // the over-all listener for event handling
     lizzer = (e, nose, dx, dy, CTRL, v = nose.hsla) => {
 
@@ -165,6 +174,9 @@ new (function () {
 
     },
 
+    //}
+    
+    // kinds of lizzers {
     kindList = (nose, k) => {
 
         return {
@@ -237,10 +249,9 @@ new (function () {
         }[k];
 
     };
-
     //}
 
-    // the NosePicker Object itself
+    // the NosePicker Object itself {
     const NPO = function(obj) {
 
         this.prefs = { lizzList: {}};
@@ -255,14 +266,26 @@ new (function () {
 
         this.hsla = {};
 
-        this.looping = false,
+        this.looping = false;
 
-        this.coastInc = [0, 0],
+        this.coastInc = [0, 0];
 
         this.prev = { X: 0, Y: 0 };
 
         this.value = window.getComputedStyle(obj)[this.prefs.colorsrc] || '#000';
-
+            
+        // listener to dispatch a reference {
+        obj.addEventListener('getNosePickerRef', e => {
+        
+            obj.dispatchEvent(new CustomEvent(
+                'catchNosePickerRef', {
+                    detail: this.createRef()
+                }
+            ));
+        
+        });
+        //}
+        
         if (this.prefs.colorSelf) {
             obj.addEventListener(this.prefs.inputEventName, e => {
                 let v = e.detail.hsla;
@@ -290,9 +313,10 @@ new (function () {
             });
 
         }
-
+        
     };
-
+    //}
+    
     // protos {
     NPO.prototype.loadComplete = function () {
         
@@ -386,36 +410,20 @@ new (function () {
         this.prefs.sens = v;
     };
     // }
-    
-    // init when page fully loaded
-    window.addEventListener('load', () => {
         
-        console.log('nosepicker.js loaded');
+    // init when page fully loaded {
+    window.addEventListener('load', () => {
         
         document.querySelectorAll(
             `[data-${defPrefs.selector.replace(/[^a-z-]/gi, '')}]:not(script)`
-        ).forEach(obj => {
+        ).forEach(obj =>
     
-            (this[obj.id] = new NPO(obj)).loadComplete();
+            (this[obj.id] = new NPO(obj)).loadComplete()
             
-        });
-        
-        console.log('get ref lizzer added in nose.js');
-        
-        window.addEventListener('getNosePickerRef', e => {
-        
-            console.log('got a ref request', this[e.detail].createRef());
-            window.dispatchEvent(new CustomEvent(
-                'catchNosePickerRef', {
-                    detail: this[e.detail].createRef()
-                }
-            ));
-        
-        });
-        
-        console.log(this);
+        );
     
     });
+    //}
     
 })();
 
