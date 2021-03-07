@@ -3,6 +3,24 @@
  * @version 3.0
  */
 
+////////////////////////////////////////////////////////////{
+// for most elementary use, put this
+// in the head of your page:
+//
+// <script
+//  src="nosepicker.js"
+//  data-nose='{
+//     "option" : "value"
+//  }'
+// ></script>
+//
+// for any element that you want to be a nose-picker,
+// put a data-picker param inside the tag declaration:
+//
+// <tag data-picker ... ... ...></tag>
+//
+////////////////////////////////////////////////////////////}
+
 // anonymouse new closure
 new (function () {
     
