@@ -326,7 +326,7 @@ new (function () {
                         rgba(0,0,0,${ A }) 10px,
                         transparent 10px,
                         transparent 20px
-                    )` : '';
+                    )` : obj.style.backgroundImage;
 
             });
 
