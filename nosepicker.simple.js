@@ -5,7 +5,8 @@ new (function() {
     G = (...v) => v.sort((a, b) => a - b)[1],
     
     H = (
-        v, [r, g, b, a] = (v).match(/\d+\.*\d*/g).map(z => z /= 255),
+        v,
+        [r, g, b, a] = (v).match(/\d+\.*\d*/g).map(z => z /= 255),
         max = Math.max(r, g, b),
         min = Math.min(r, g, b),
         d = max - min,
@@ -100,7 +101,7 @@ new (function() {
         
         })
         
-        window.dispatchEvent(new CustomEvent('picker',{detail:this}))
+        window.dispatchEvent(new CustomEvent('pickload',{detail:this}))
         
     });
     
