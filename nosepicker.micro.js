@@ -3,6 +3,10 @@
     
     Q = 'hsla %% ',
     
+    R = JSON.parse(((document.querySelector(
+        'script[src*="nosepicker"][src$=".js"]'
+    ) || {}).dataset || {}).nose || '{}').selector || 'nose',
+    
     liz = (
         e, n, X, Y, K,
         v = n.hsla,
@@ -20,10 +24,10 @@
             )`
             
         ].forEach((k, i) =>
-        
+
             n.root.style.setProperty(
-                '--nose-' + (Q[i+4] ? Q[i] : 'hsla'),
-                Q[i+4] ? v[i] + Q[i+4] : k
+                //`--${R}-${Q[i+4]?Q[i]:'hsla'}`,Q[i+4]?v[i]+Q[i+4]:k
+               ...(Q[i+4]?[`--${R}-`+Q[i],v[i]+Q[i+4]]:[`--${R}-hsla`,k])
             )
             
         )
@@ -33,15 +37,14 @@
 
     document.querySelectorAll(
 
-        '[data-nose]:not(script)'
-        //`[data-${R}]:not(script)`
+        `[data-${R}]:not(script)`
 
     ).forEach((obj, i) =>
 
         
         new(function(
             obj,
-            prefs = JSON.parse(obj.dataset.nose || '{}'),
+            prefs = JSON.parse(obj.dataset[R] || '{}'),
             prev = [0, 0]
         ) {
     
@@ -54,9 +57,9 @@
                         (
                             prefs.hsla ||
                             window.getComputedStyle(obj)
-                            .getPropertyValue('--nose-hsla')
+                            .getPropertyValue(`--${R}-hsla`)
                         )
-                        .match(/\d*\.?\d+/g)
+                        .match(/(\d*\.?\d+)/g)
                         .map(v => Number(v))
     
                 })) { this[k] = r[k] }
