@@ -7,29 +7,34 @@
         e, n, X, Y, K,
         v = n.hsla,
         z = e.stopPropagation() + e.preventDefault()
-    ) => {
+    ) =>
         
-        n.root.style.setProperty(
-            '--nose-hsla',
+        [
+            ...v,
+            
             `hsla(
                 ${v[0]-=K?0:Y},
                 ${v[1]=K?G(v[1]+Y,100,0):v[1]}%,
                 ${v[2]=K?v[2]:G(v[2]+X,100,0)}%,
                 ${v[3]=K?G(v[3]-X*0.01,1,0):v[3]}
-        )`)
-        
-        v.forEach((k, i) => {
-            n.root.style.setProperty('--nose-' + Q[i], v[i] + Q[i+4])
-        })
+            )`
             
+        ].forEach((k, i) =>
         
-    }
+            n.root.style.setProperty(
+                '--nose-' + (Q[i+4] ? Q[i] : 'hsla'),
+                Q[i+4] ? v[i] + Q[i+4] : k
+            )
+            
+        )
+    
     
 ) => window.addEventListener('load', e =>
 
     document.querySelectorAll(
 
         '[data-nose]:not(script)'
+        //`[data-${R}]:not(script)`
 
     ).forEach((obj, i) =>
 
@@ -51,11 +56,11 @@
                             window.getComputedStyle(obj)
                             .getPropertyValue('--nose-hsla')
                         )
-                        .replace(/[^\d,.]/g, '')
-                        .split(',')
+                        .match(/\d*\.?\d+/g)
                         .map(v => Number(v))
     
                 })) { this[k] = r[k] }
+                
     
             for (const k in (r = {
     
