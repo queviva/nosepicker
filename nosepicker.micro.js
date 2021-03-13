@@ -3,9 +3,10 @@
     
     Q = 'hsla %% ',
     
-    R = JSON.parse(((document.querySelector(
-        'script[src*="nosepicker"][src$=".js"]'
-    ) || {}).dataset || {}).nose || '{}').selector || 'nose',
+    R = JSON.parse(
+            (document.currentScript.dataset || {})
+            .nose || '{}'
+        ).selector || 'nose',
     
     liz = (
         e, n, X, Y, K,
@@ -24,13 +25,12 @@
             )`
             
         ].forEach((k, i) =>
-
+            
             n.root.style.setProperty(
-                //`--${R}-${Q[i+4]?Q[i]:'hsla'}`,Q[i+4]?v[i]+Q[i+4]:k
-               ...(Q[i+4]?[`--${R}-`+Q[i],v[i]+Q[i+4]]:[`--${R}-hsla`,k])
+                `--${R}-${i<4?Q[i]:'hsla'}`,i<4?v[i]+Q[i+4]:k
             )
             
-        )
+    )
     
     
 ) => window.addEventListener('load', e =>
@@ -41,15 +41,14 @@
 
     ).forEach((obj, i) =>
 
-        
-        new(function(
+        new (function(
             obj,
             prefs = JSON.parse(obj.dataset[R] || '{}'),
             prev = [0, 0]
         ) {
-    
+
             for (const k in (r = {
-    
+        
                     root: document.getElementById(prefs.root) ||
                         document.documentElement,
     
@@ -60,13 +59,8 @@
                             .getPropertyValue(`--${R}-hsla`)
                         )
                         .match(/(\d*\.?\d+)/g)
-                        .map(v => Number(v))
-    
-                })) { this[k] = r[k] }
-                
-    
-            for (const k in (r = {
-    
+                        .map(v => Number(v)),
+                        
                     wheel: e => liz(
                         e, this,
                         (e.shiftKey ? 0.001 : 0.01) * e.wheelDeltaX,
@@ -83,7 +77,13 @@
     
                     touchstart: e => prev = [e.touches[0].pageX, e.touches[0].pageY]
     
-                })) { obj.addEventListener(k, r[k], { passive: false }) }
+                })) {
+                    
+                    k.match(/root|hsla/) ?
+                    this[k] = r[k] :
+                    obj.addEventListener(k, r[k], {passive: false})
+                    
+                }
     
         })(obj)
         
