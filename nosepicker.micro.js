@@ -3,10 +3,7 @@
     
     Q = 'hsla %% ',
     
-    R = JSON.parse(
-            (document.currentScript.dataset || {})
-            .nose || '{}'
-        ).selector || 'nose',
+    R = JSON.parse((document.currentScript.dataset || {}).nose || '{}').selector || 'nose',
     
     liz = (
         e, n, X, Y, K,
@@ -26,9 +23,21 @@
             
         ].forEach((k, i) =>
             
-            n.root.style.setProperty(
-                `--${R}-${i<4?Q[i]:'hsla'}`,i<4?v[i]+Q[i+4]:k
-            )
+            /*
+            n.root.dispatchEvent(new CustomEvent(
+                R + '-input',
+                {
+                    detail :
+                    */
+                    
+                    n.root.style.setProperty(
+                        `--${R}-${i<4?Q[i]:'hsla'}`,i<4?v[i]+Q[i+4]:k
+                    )
+                    /*
+                    === undefined ? v : '',
+                }
+            ))
+            */
             
     )
     
@@ -48,7 +57,7 @@
         ) {
 
             for (const k in (r = {
-        
+                
                     root: document.getElementById(prefs.root) ||
                         document.documentElement,
     
