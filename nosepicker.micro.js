@@ -30,7 +30,7 @@
         
             )
         
-        === undefined ? z.replace(/\s+/g,'') : ''}))
+        === undefined ? z : ''}))
     
 ) => window.addEventListener('load', e =>
 
