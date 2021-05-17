@@ -41,7 +41,6 @@
     ).forEach((obj, i) =>
 
         new (function(
-            obj,
             prefs = JSON.parse(obj.dataset[R] || '{}'),
             prev = [0, 0],
             r = {
@@ -85,8 +84,8 @@
                 obj.addEventListener(k, r[k], { passive: false })
             
             }
-                
-        })(obj)
+            
+        })()
     
     )
 
