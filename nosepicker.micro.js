@@ -1,9 +1,16 @@
 ((
+    dset,
+    
     G = (...v) => v.sort((a, b) => a - b)[1],
     
     Q = 'hsla %% ',
     
-    R = JSON.parse((document.currentScript.dataset || {}).nose || '{}').selector || 'nose',
+    P = Object.assign(
+        { selector: 'nose' },
+        JSON.parse(Object.values(dset)[0] || '{}')
+    ),
+    
+    R = P.selector,
     
     liz = (
         e, n, X, Y, K,
@@ -55,7 +62,7 @@
                         .getPropertyValue(`--${R}-hsla`) ||
                         '40,100,60,1'
                     )
-                    .match(/[\d|.]+/g)
+                    .match(/[\d\.]+/g)
                     .map(v => Number(v)),
             
                 wheel: e => liz(
@@ -91,4 +98,4 @@
 
 )
 
-)();
+)(document.currentScript.dataset);

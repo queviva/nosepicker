@@ -1,10 +1,10 @@
-<!doctype html>
-<html>
+<!doctype html><html>
+    
 <head>
 <title>one line nose</title>
 <style>
 
-.nosepicker {
+[data-nose] {
     position: absolute;
     top: 20px;
     left: 20px;
@@ -21,7 +21,7 @@
     transition: width linear 0.3s;
 }
 
-.nosepicker:hover {
+[data-nose]:hover {
     width: 300px;
 }
 
@@ -41,10 +41,11 @@
 
 </style>
 </head>
+
 <body>
 
-<div id="picker0" class="nosepicker" style="background-color:rgb(255, 177, 20)" data-vals='{ "h": 40, "s": 100, "l": 54, "a": 1, "sns": 500, "low": 50 }'></div>
-<div id="picker1" class="nosepicker" style="top:180px"></div>
+<div id="picker0" data-nose style="background-color:rgb(255, 177, 20)" data-vals='{ "h": 40, "s": 100, "l": 54, "a": 1, "sns": 500, "low": 50 }'></div>
+<div id="picker1" data-nose style="top:180px"></div>
 
 <div id="samp0" class="sample">on input</div>
 <div id="samp1" class="sample" style="left:355px">on change</div>
@@ -53,31 +54,33 @@
 </div>
 
 </body>
+
 <script id="oneLiner" src="oneLineNose.min.js"></script>
+
 <script id="sampleHandlers">
 
-picker0.addEventListener('input', e => {
+picker0.addEventListener('nose-input', e => {
     picker0.innerHTML = picker0.style.backgroundColor;
-    picker0.style.color = picker0.vals.l < 45 ? '#fff' : '#000';
-    samp0.style.backgroundColor = picker0.value;
+    picker0.style.color = e.detail.vals.l < 45 ? '#fff' : '#000';
+    samp0.style.backgroundColor = e.detail.color;
     samp0.style.color = picker0.vals.l < 45 ? '#fff' : '#000';
     samp2.style.backgroundImage = picker0.style.backgroundImage;
 }, false);
 
-picker0.addEventListener('change', e => {
-    //console.log(picker0.value);
-    samp1.style.backgroundColor = picker0.value;
-    samp1.style.color = picker0.vals.l < 45 ? '#fff' : '#000';
+picker0.addEventListener('nose-change', e => {
+    samp1.style.backgroundColor = e.detail.color;
+    samp1.style.color = e.detail.vals.l < 45 ? '#fff' : '#000';
 });
 
-picker1.addEventListener('input', e => {
-    samp0.style.borderColor = e.detail;
-    samp2.style.borderColor = e.detail;
+picker1.addEventListener('nose-input', e => {
+    samp0.style.borderColor = e.detail.color;
+    samp2.style.borderColor = e.detail.color;
 }, false);
 
-picker1.addEventListener('change', e => {
+picker1.addEventListener('nose-change', e => {
     samp1.style.borderColor = picker1.value;
 });
 
 </script>
+
 </html>
