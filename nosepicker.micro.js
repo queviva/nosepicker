@@ -1,5 +1,5 @@
 ((
-    dset,
+    dset = document.currentScript.dataset,
     
     G = (...v) => v.sort((a, b) => a - b)[1],
     
@@ -22,12 +22,7 @@
             [
                 ...v,
         
-                `hsla(
-                    ${v[0]-=K?0:Y},
-                    ${v[1]=K?G(v[1]+Y,100,0):v[1]}%,
-                    ${v[2]=K?v[2]:G(v[2]+X,100,0)}%,
-                    ${v[3]=K?G(v[3]-X*0.01,1,0):v[3]}
-                )`
+`hsla(${v[0]-=K?0:Y},${v[1]=K?G(v[1]+Y,100,0):v[1]}%,${v[2]=K?v[2]:G(v[2]+X,100,0)}%,${v[3]=K?G(v[3]-X*0.01,1,0):v[3]})`
         
             ].forEach((k, i) =>
         
@@ -45,22 +40,24 @@
 
         `[data-${R}]:not(script)`
 
-    ).forEach((obj, i) =>
+    ).forEach(obj =>
 
         new (function(
-            prefs = JSON.parse(obj.dataset[R] || '{}'),
+            
+            prefs = Object.assign({},P,JSON.parse(obj.dataset[R]||'{}')),
+            
             prev = [0, 0],
+            
             r = {
             
-                root: document.getElementById(prefs.root) ||
-                    obj, //document.documentElement,
+                root: document.getElementById(prefs.root) || obj,
             
                 hsla:
                     (
                         prefs.hsla ||
                         window.getComputedStyle(obj)
                         .getPropertyValue(`--${R}-hsla`) ||
-                        '40,100,60,1'
+                        '40,100,50,1'
                     )
                     .match(/[\d\.]+/g)
                     .map(v => Number(v)),
@@ -92,10 +89,28 @@
             
             }
             
+            if (prefs.pattern) {
+            
+                obj.addEventListener(`${R}-input`,
+                (e, A = 0.5 - parseFloat(e.detail.split(',')[3]) / 2) =>
+                    
+                    this.root.style.backgroundImage = A > 0 ?
+                        `repeating-linear-gradient(
+                            -45deg,
+                            rgba(0,0,0,${ A }),
+                            rgba(0,0,0,${ A }) 10px,
+                            transparent 10px,
+                            transparent 20px
+                        )` : ''//obj.style.backgroundImage
+            
+                );
+            
+            }
+
         })()
     
     )
 
 )
 
-)(document.currentScript.dataset);
+)();

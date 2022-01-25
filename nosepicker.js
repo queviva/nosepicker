@@ -1,39 +1,20 @@
-/**
- * @author pizzaface
- * @version 3.0
- */
-
 ////////////////////////////////////////////////////////////{
-// for most elementary use, put this
-// in the head of your page:
-//
-// <script
-//  src="nosepicker.js"
-//  data-nose='{
-//     "option" : "value"
-//  }'
-// ></script>
-//
-// for any element that you want to be a nose-picker,
-// put a data-picker param inside the tag declaration:
-//
-// <tag data-picker ... ... ...></tag>
+// pizzaface - MCMLXXXVIII
 //
 ////////////////////////////////////////////////////////////}
 
-// anonymouse new closure
-new (function () {
-    
-    // DEBUGG {
-    //'use strict';
-    //'use strong';
-    // localStorage.clear();
-    //}
-    
-    // default preferences {
-    const defPrefs = {
+// expiration check {
+//new Date() < new Date('2023-10-13') &&
+//}
+
+((
+    // preserve the dataset for when content loaded
+    dset = document.currentScript.dataset,
+
+    // prefs {
+    default_prefs = {
+        
         selector: 'picker',
-        makeRef: false,
         kind: 'touch,wheel', // wheel|touch|swipe|coast|point
         colorsrc: 'background-color',
         loadedEventName: 'noseloaded',
@@ -41,30 +22,29 @@ new (function () {
         able: true,
         colorSelf: true,
         colorText: true,
-        transPattern: true,
+        pattern: true,
+        makeRef: false,
         sens: { X: 1, Y: 1 }
-    };
-    //}
-    
-    // grab any options that over-rite defaults {
-    let opts = JSON.parse(((document.querySelector(
-        'script[src*="nosepicker"][src$=".js"]'
-    ) || {}).dataset || {}).nose || '{}');
-    //}
-    
-    // set any valid opts passed in data-param {
-    for (let p in opts) {
-        if (defPrefs[p] !== undefined) defPrefs[p] = opts[p];
-    }
-    //}
 
+    },
+    
+    // prefs set in script tag data-param
+    param_prefs = JSON.parse(Object.values(dset)[0] || '{}'),
+    
+    // over-rite default prefs with script tag data-params
+    prefs = Object.assign({}, default_prefs, param_prefs),
+    
+    //}
+    
     // award-winning method to gate a value {
-    const clam = (...x) => x.sort((a, b) => a - b)[1],
+    clam = (...x) => x.sort((a, b) => a - b)[1]
     //}
-
-    // lizzers {
+  
+// run on window load because getting computed styles
+) => window.addEventListener('load', () => (function() {
     
-    // the over-all listener for event handling
+    // lizzers {
+    const
     lizzer = (e, nose, dx, dy, CTRL, v = nose.hsla) => {
 
         e.stopPropagation();
@@ -100,7 +80,7 @@ new (function () {
         }));
 
     },
-
+    
     wheelLizzer = (e, nose) => {
 
         lizzer(
@@ -266,19 +246,15 @@ new (function () {
             }
         }[k];
 
-    };
+    }
     //}
 
     // the NosePicker Object itself {
     const NPO = function(obj) {
 
-        this.prefs = { lizzList: {}};
-
-        let dataPrefs = JSON.parse(obj.dataset[defPrefs.selector] || '{}');
-
-        for (let p in defPrefs) {
-            this.prefs[p] = dataPrefs[p] !== undefined ? dataPrefs[p] : defPrefs[p];
-        }
+        this.prefs = Object.assign({ lizzList: {}}, prefs,
+            JSON.parse(obj.dataset[prefs.selector] || '{}')
+        );
         
         this.obj = obj;
 
@@ -313,7 +289,7 @@ new (function () {
             });
         }
 
-        if (this.prefs.transPattern) {
+        if (this.prefs.pattern) {
             
             obj.addEventListener(this.prefs.inputEventName, e => {
 
@@ -392,7 +368,7 @@ new (function () {
 
     };
     NPO.prototype.setKind = function (v) {
-
+    
         let oldAble = this.prefs.able;
 
         this.setAble(false);
@@ -428,20 +404,24 @@ new (function () {
         this.prefs.sens = v;
     };
     // }
-        
-    // init when page fully loaded {
-    window.addEventListener('load', () => {
-        
-        document.querySelectorAll(
-            `[data-${defPrefs.selector.replace(/[^a-z-]/gi, '')}]:not(script)`
-        ).forEach(obj =>
+       
+    // loop through all data-selector objects {
+    document.querySelectorAll(
+            
+        // that are NOT a script tag
+        `[data-${prefs.selector}]:not(script)`
+            
+    // make each one a nosepicker object
+    ).forEach(obj =>
     
             (this[obj.id] = new NPO(obj)).loadComplete()
-            
-        );
     
-    });
+    );
     //}
-    
-})();
+
+})()))();
+
+// expiration message {
+//=== undefined || (console.log('eXp!red'));
+//}
 

@@ -1,13 +1,223 @@
 <!doctype html>
 <head>
 <title>demo picker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link id="luckiestFont" href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
+<style id="demoStyles">
+:root {
+    --main-color: #666;
+    --greyed-out: #888;
+    --back-color: #666;
+    --holder-back: #111;
+    --faded-txt: rgba(255, 255, 255, 0.5);
+    --trans-speed: 0.3s;
+    --samp-var: #c30;
+}
+
+* {
+    box-sizing: border-box;
+    word-wrap: break-word;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: var(--back-color);
+    font-size: 22px;
+    text-align: justify;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -epub-hyphens: auto;
+    hyphens: auto;
+}
+
+.holder {
+	position: relative;
+    color: var(--main-color);
+    background-color: var(--holder-back);
+    margin: auto;
+    width: 100%;
+    max-width: 700px;
+}
+
+a {
+    text-decoration: none;
+    color: var(--greyed-out);
+}
+
+a:hover, a:visited {
+    color: var(--greyed-out);
+    transition: color linear var(--trans-speed);
+}
+
+b {
+    color: var(greyed-out);
+}
+
+pre {
+    background-color: var(--main-color);
+    margin: 0px;
+    padding: 10px;
+    color: #fff;
+    overflow: auto;
+}
+
+hr {
+    border-top: 1px solid var(--main-color);
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    margin: 7px 0px 7px 0px;
+}
+
+.qr {
+    padding: 10px;
+}
+
+.qa:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.qa > div {
+    float: left;
+    padding: 10px;
+    height: auto;
+}
+
+.qa > div:nth-child(1) {
+  width: 65%;
+}
+
+.qa > div:nth-child(2) {
+  width: 35%;
+}
+
+.qb:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.qb > div {
+    float: left;
+    padding: 10px;
+    height: auto;
+}
+
+.qb > div:nth-child(1) {
+  width: 35%;
+}
+
+.qb > div:nth-child(2) {
+  width: 65%;
+}
+
+.mobr {
+    display: none;
+}
+
+.strong-disagree {
+    text-align: center;
+    padding: 5px;
+    width: 100%;
+    font-size: 20px;
+    background-color: var(--main-color);
+    color: #fff;
+    display:flex;
+    margin: auto;
+}
+
+.strong-disagree > label {
+    width: 20%;
+}
+
+.survQue {
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 27px;
+}
+    
+.survArr {
+    width: 50%;
+    text-align: center;
+    font-size: 10px;
+    float: left;
+}
+
+.survArr.left {
+    border-right: 1px solid #888;
+}
+
+.survArr.left:before {
+    content: '\25C0 \25C0 \25C0  ';
+}
+
+.survArr.rite:after {
+    content: '  \25B6 \25B6 \25B6';
+}
+
+input[type=radio] {
+    height: 30px;
+    width: 30px;
+}
+
+#svg0 {
+    position:relative;
+    width:220px;
+    height:340;
+    overflow: visible;
+    border: 0px solid #ea0;
+}
+
+/*possibly a portrait mobi-fone*/
+@media screen and (max-width:500px) {
+    .strong-disagree {
+        font-size: 12px;
+    }
+	.qa > div:nth-child(1),
+	.qa > div:nth-child(2),
+	.qb > div:nth-child(1),
+	.qb > div:nth-child(2)
+	{
+    	width: 100%;
+    }
+    
+    #svg0 {
+        width: 200px;
+    }
+    
+    .mobr {
+        display: inline-block;
+    }
+    
+}
+
+/*possibly a mobile landscaper*/
+@media screen and (orientation: landscape) and (max-width: 760px) {
+    
+    #svg0 {
+        width: 100px;
+    }
+    
+}
+
+.signature {
+    text-align: right;
+    font-family: 'luckiest guy';
+    font-style: italic;
+    height: 200px;
+    user-select:none;
+}
+</style>
 <style id="ss0">
 
 .pick0 {
     position: absolute;
-    top: 20px;
-    left: 120px;
-    height: 92px;
+    left: 90px;
+    height: 130px;
     width: 30px;
     padding: 20px;
     white-space: nowrap;
@@ -19,10 +229,6 @@
     text-overflow: ellipsis;
     transition: width linear 0.3s;
     outline: none;
-    --XXcolor: white;
-    --XXbackground-size: 15px 15px;
-    --XXmix-blend-mode: multiply;
-    --XXbackground-blend-mode: darken;
 }
 
 .nosepicker:hover {
@@ -35,8 +241,6 @@
 
 input[type="button"] {
     position: absolute;
-    top: 20px;
-    left: 20px;
     height: 40px;
     width: 80px;
     border-width: 3px;
@@ -56,6 +260,7 @@ input[type="button"] {
     background-color: #c308;
     --xbackground-color:rgba(200,0,0,.08);
 }
+
 #samp2 {
     background-color: #0c3;
 }
@@ -64,90 +269,315 @@ svg {
     height: 200px;
     width: 200px;
 }
+
 #heart {
-    background-color:#f0f;
-    fill: #900;
-    stroke: #400;
+    --nose-hsla:hsla(0,100%,40%,1);
+    fill:var(--nose-hsla);
+    stroke: #000;
     stroke-width: 10px;
     color: #ddd;
     transform-origin: 50% 50%;
     transform: rotate(-30deg) translate(35px, -10px);
     d:path('M 0 150 Q 5 100 0 50 A 30 30 0 0 1 100 50 A 30 30 0 0 1 100 150 Q 50 145 0 150 Z');
 }
+
 </style>
+<script id="microNose" src="nosepicker.nano.js"></script>
 </head>
+
 <body>
-<div style="height:155px;border: 1px solid #000">
-<input id="pick0disable" class="pick0butt" type="button" value="disabled">
-<input id="pick0caption" class="pick0butt" type="button" value="caption" style="top:66px">
-<input id="pick0editable" class="pick0butt" type="button" value="editable" style="top:112px">
-
-<div id="picker0" class="nosepicker pick0" style="background-color:#ea0;" contentEditable="true"
- data-nose='{
-    "caption" : true
- }'
-></div>
-</div>
+<div class="holder">
+    
+    <div class="qr">
         
-<div id="samp0" data-nose class="nosepicker samp">samp0</div>
-<div id="samp1" data-nose class="nosepicker samp">samp1</div>
-<div id="samp2" data-nose class="nosepicker samp">samp2</div>
-
-<svg><path id="heart" class="nosepicker"
- data-nose = '{
-    "colorsrc" : "fill",
-    "transPattern" : true
- }'
-/></svg>
-
-</body>
-<script defer src="nosepicker.js"
+        <div
+         data-nose='{"pattern":true}'
+         style="
+            --nose-hsla:hsla(40,100%,50%,1);
+            height:200px;width:100%;
+            background-color:var(--nose-hsla);
+         "
+        ></div>
+        <br>
+        <center style="font-size:10px;font-style:italic;">
+            scroll up|dn to change color;
+            left|right for brightness;<br>
+            ctrl+scroll for transparency and luminosity;<br>
+            shift+scroll to increase sensitivity
+        </center>
+        
+    </div>
+    
+    <hr>
+    
+    <div class="qr">
+        
+    <b><a href="nosepicker.micro.js">nosepicker.js</a></b>
+    converts any specified element into an html color picker;
+    it generates a customizable <i>nose-input event</i> that
+    can be listened for, and handled, just like any other
+    &lt;input type=color&gt; object
+    
+        
+    </div>
+    
+    <div class="qr">
+        
+    include the script, then indicate which elements you
+    would like to be nosepickers by including a <i>data-param</i>;
+    add a <i>--nose-hsla</i> variable to the css style tag;
+    any options can be specified in the well-formatted JSON
+    value of the <i>data-param</i>
+    <br><br>
+    here is an example that lists all of the default values
+    just so that you will know what all the defaults are:
+    <br><br>
+                <pre>
+            
+&lt;script src="nosepicker.micro.js"
  data-nose='{
     "selector" : "nose",
-    "makeRef" : "nosePick",
-    "loadedEventName" : "sampLoaded"
+    "pattern"  : false,
+    "root"     : [self]
  }'
-></script>
-<script id="demoScript">
+&gt;&lt;/script&gt;
 
-    var pizzaface,
-    cssHash = {},
-    cMark = '\u2713',
-    xMark = '\u2717';
-    
-    for (let i in //ss0
-    (ss0 = document.getElementById('ss0').sheet.rules)
-    ){cssHash[ss0[i].selectorText] = ss0[i];}
-    
-samp0.addEventListener('noseinput', e => {
-    heart.style.stroke = samp0.nosePick.value;
-});
+&lt;div id="picker" data-nose
+ style="--nose-hsla:hsla(40,100%,50%,1)"
+&gt;&lt;/div&gt;
 
-samp1.addEventListener('click', e => {
-    NP.samp0.setValue(NP.samp1.value);
-    samp0.style.backgroundColor = NP.samp0.value;
-});
+&lt;script&gt;
 
-samp2.addEventListener('noseinput', e => {
-    let H = e.detail.hsla;
-    samp2.style.color = 'hsl(' + (120 + H.h) +','+H.s+'%,'+ (100 - H.l) +'%)';
-});
-
-heart.addEventListener('ralph', e => {
+picker.addEventListener('nose-input', e => {
     
-    let H = e.detail.hsla;
-    let p = (0.5 + (Math.pow((H.l/100) - 0.5, 2) * 2 ));
-    
-    heart.style.stroke = 'hsl('+ H.h +','+ H.s +'%,'+ H.l * p +'%)';
-    heart.style.fill = NP.heart.value;
+        // e.detail is an hsla color string
         
-});
+        // the css var --nose-hsla is the same
+        // the css var --nose-h is the hue
+        // the css var --nose-s is the saturation
+        // the css var --nose-l is the luminosity
+        // the css var --nose-a is the opacity
+        
+    }
+);
+        
+&lt;/script&gt;
 
-heart.addEventListener('noseloaded', e => {
-    console.log('noseload!!!')
-})
+        </pre>
+    </div>
+    
+    <div class="qr">
+        what do all of these defaults mean?
+        <ul>
+            <li><b>selector</b>: the name that you want to use
+            as the <i>data-param</i> to label which elements should
+            be selected; by default, nosepicker.js will select any
+            element with &lt;element data-nose&gt; as a parameter;
+            whatever <i>string</i> you make this value will change
+            the name of the <i>input event</i> and the css
+            <i>--nose-hsla</i> variable
+            </li>
+            <br>
+            <li><b>pattern</b>: a boolean indicating whether or not
+            you would like a background pattern to appear behind
+            transparent colors; by default, this is <i>false</i></li>
+            <br>
+            <li><b>root</b>: the name of the element that you would
+            like to <i>actually use</i> as the element whose color
+            values are the ones that the nosepicker will change;
+            that is to say, scrolling up|dn on a particular element
+            can change the color values of <i>any element</i>
+            in the page that you specify - by default, nosepickers
+            change <i>themselves</i>
+            </li>
+            <br>
+            <li><b>css variables</b>: by default, nosepicker.js will
+            set the values of several css variables called
+            <i>--nose-hsla</i> for the full hsla color string,
+            <i>--nose-h</i> for just the hue,
+            <i>--nose-s</i> for just the saturation, &c. &c.
+            these variable names will begin with whatever you
+            specify as the <i>selector</i>
+            </li>
+        </ul>
+    </div>
+    
+    <hr>
+    
+    <div class="qr">
+        nosepicker.js will attempt to convert any element
+        into a color picker; here is an example of an <i>svg</i>
+        path being used to generate an hsla output string:
+    </div>
+    
+    <div class="qb">
+        <div><svg><path id="heart" data-nose /></svg></div>
+        <div><i id="heartoutput">hsla(...)</i></div>
+        <script id="heartScript">
+            heart.addEventListener('nose-input', e => {
+                heartoutput.innerHTML = e.detail;
+            })
+        </script>
+    </div>
+    
+    <div id="rootExample" class="qr" style="
+    
+        --nose-h:280;
+        --nose-s:100%;
+        --nose-l:60%;
+        --nose-a:1;
+        
+        --nose-hsla:hsla(
+            var(--nose-h),
+            var(--nose-s),
+            var(--nose-l),
+            var(--nose-a)
+        );
+        
+        --dark:hsla(
+            calc(1 * var(--nose-h)),
+            calc(0.7 * var(--nose-s)),
+            calc(0.4 * var(--nose-l)),
+            var(--nose-a)
+        );
+        
+        --lite:hsla(
+            calc(1 * var(--nose-h)),
+            calc(0.5 * var(--nose-s)),
+            calc(1.3 * var(--nose-l)),
+            var(--nose-a)
+        );
+        
+        --comp1:hsla(
+            calc(60 + var(--nose-h)),
+            calc(1 * var(--nose-s)),
+            calc(1 * var(--nose-l)),
+            var(--nose-a)
+        );
+        
+        --comp2:hsla(
+            calc(120 + var(--nose-h)),
+            calc(1 * var(--nose-s)),
+            calc(1 * var(--nose-l)),
+            var(--nose-a)
+        );
+        
+        background-color:var(--main-color);
+        border:1px solid var(--holder-back);
+    ">
+        
+        <span style="color:var(--lite)">
+            let's look at an example of when you would want to use
+            a different <i>root</i> element;
+        </span>
+        
+        <span style="color:var(--nose-hsla)">
+            all of the aspects of this div are styled using
+            css vars that <i>calc()</i> their values based
+            on the <i>--nose-hsla</i> values;
+        </span>
+        
+        <span style="color:var(--dark);">
+            this way, selecting colors in the bar below
+            alters all the relative colors for the entire
+            style sheet of this div, including complimentary
+            colors
+        </span>
+        
+        <div class="qr" style="text-align:center;">
+            <div style="
+                display:inline-block;
+                height:50px;
+                width:50px;
+                border-radius:50%;
+                background-color:var(--comp1);
+                font-size:8px;
+            "></div>
+        
+            <div style="
+                display:inline-block;
+                height:50px;
+                width:50px;
+                border-radius:50%;
+                background-color:var(--comp2);
+                font-size:8px;
+            "></div>
+        
+            <div style="
+                display:inline-block;
+                height:50px;
+                width:50px;
+                border-radius:50%;
+                background-color:var(--dark);
+                font-size:8px;
+            "></div>
+        </div>
+        
+        <div
+         data-nose='{"root":"rootExample"}'
+         style="
+          height:100px;
+          width:100%;
+          background-color:var(--nose-hsla);
+          border:10px solid var(--dark);
+         "
+        ></div>
 
-//var NP = new NosePicker();
+    </div>
+    
+    <br>
+    <div class="qr">
+        
+        if you are happy with the defaults, that is:
+        
+        <ul>
+        <li>you do not want a patterned background</li>
+        
+        <li>you are alright using <i>data-nose</i> as the parameter</li>
+        
+        <li>you're ok with <i>--nose-hsla</i> as the css variable</li>
+        
+        <li>and you can use css <i>calc()</i> instead of
+        an event handler</li>
+        </ul>
+        
+        then you can use the <i>even smaller</i>
+        <b><a href="nosepicker.nano.js">nosepicker.nano.js</a></b>
+        
+        <br><br>
+        the nano~fied version is more than simply a compressed
+        version of <b>nosepicker.micro.js</b>; it has been
+        explicitly designed to be incredibly small, only one
+        line of javascript, and currently <i>950 characters</i>
+        long
+        <br><br>
+        
+        <pre>
+            
+&lt;script src="nosepicker.nano.js"&gt;&lt;/script&gt;
 
-</script>
+&lt;div data-nose
+ style="background-color:var(--nose-hsla)"
+&gt;&lt;/div&gt;
+
+        </pre>
+    
+        <br>
+        if you are NOT happy with that, there is a more complex,
+        customizable, full-sized version of the script
+        whose features are
+        <b><a href="demos.html">discussed here</a></b>
+        
+    </div>
+    
+    
+    <br><br><hr>
+    
+    <div class="qr signature"
+    data-nose style="color:var(--nose-hsla)"
+    >~queviva</div>
+
+</div>
+</body>
+
 </html>
