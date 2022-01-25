@@ -299,6 +299,7 @@ svg {
          "
         ></div>
         <br>
+        
         <center style="font-size:10px;font-style:italic;">
             scroll up|dn to change color;
             left|right for brightness;<br>
@@ -325,7 +326,7 @@ svg {
         
     include the script, then indicate which elements you
     would like to be nosepickers by including a <i>data-param</i>;
-    add a <i>--nose-hsla</i> variable to the css style tag;
+    add a <i>&#8209;&#8209;nose-hsla</i> variable to the css style tag;
     any options can be specified in the well-formatted JSON
     value of the <i>data-param</i>
     <br><br>
@@ -350,16 +351,15 @@ svg {
 
 picker.addEventListener('nose-input', e => {
     
-        // e.detail is an hsla color string
+    // e.detail is an hsla color string
+
+    // the css var --nose-hsla is the same
+    // the css var --nose-h is the hue
+    // the css var --nose-s is the saturation
+    // the css var --nose-l is the luminosity
+    // the css var --nose-a is the opacity
         
-        // the css var --nose-hsla is the same
-        // the css var --nose-h is the hue
-        // the css var --nose-s is the saturation
-        // the css var --nose-l is the luminosity
-        // the css var --nose-a is the opacity
-        
-    }
-);
+});
         
 &lt;/script&gt;
 
@@ -375,7 +375,7 @@ picker.addEventListener('nose-input', e => {
             element with &lt;element data-nose&gt; as a parameter;
             whatever <i>string</i> you make this value will change
             the name of the <i>input event</i> and the css
-            <i>--nose-hsla</i> variable
+            <i>--nose-hsla</i> variables
             </li>
             <br>
             <li><b>pattern</b>: a boolean indicating whether or not
@@ -393,9 +393,9 @@ picker.addEventListener('nose-input', e => {
             <br>
             <li><b>css variables</b>: by default, nosepicker.js will
             set the values of several css variables called
-            <i>--nose-hsla</i> for the full hsla color string,
-            <i>--nose-h</i> for just the hue,
-            <i>--nose-s</i> for just the saturation, &c. &c.
+            <i>&#8209;&#8209;nose-hsla</i> for the full hsla color string,
+            <i>&#8209;&#8209;nose-h</i> for just the hue,
+            <i>&#8209;&#8209;nose-s</i> for just the saturation, &c. &c.
             these variable names will begin with whatever you
             specify as the <i>selector</i>
             </li>
@@ -513,15 +513,21 @@ picker.addEventListener('nose-input', e => {
             "></div>
         </div>
         
-        <div
+        <div id="remove"
          data-nose='{"root":"rootExample"}'
          style="
-          height:100px;
+          height:300px;
           width:100%;
           background-color:var(--nose-hsla);
           border:10px solid var(--dark);
          "
         ></div>
+        <script>
+            rootExample.addEventListener('nose-input', e => {
+                //console.log(e.detail)
+                remove.innerHTML=e.detail;
+            })
+        </script>
 
     </div>
     

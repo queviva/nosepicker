@@ -71,8 +71,8 @@
             
                 touchmove: e => liz(
                     e, this,
-                    0.01 * (prev[0] - e.touches[0].clientX),
-                    0.01 * (prev[1] - e.touches[0].clientY),
+                    0.01 * (prev[0] - e.touches[0].pageX),
+                    0.01 * (prev[1] - e.touches[0].pageY),
                     e.touches[1]
                 ),
             
