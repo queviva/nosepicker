@@ -301,10 +301,9 @@ svg {
         <br>
         
         <center style="font-size:10px;font-style:italic;">
-            scroll up|dn to change color;
-            left|right for brightness;<br>
+            scroll up|dn, left|right to change color and brightness;<br>
             ctrl+scroll for transparency and luminosity;<br>
-            shift+scroll to increase sensitivity
+            use two-touches for ctrl on touchscreen
         </center>
         
     </div>
@@ -375,7 +374,10 @@ picker.addEventListener('nose-input', e => {
             element with &lt;element data-nose&gt; as a parameter;
             whatever <i>string</i> you make this value will change
             the name of the <i>input event</i> and the css
-            <i>--nose-hsla</i> variables
+            <i>--nose-hsla</i> variables; for example, if you set
+            the selector to "picker", then the input event
+            name will be <i>picker-input</i> and the css variables
+            will be <i>&#8209;&#8209;picker-hsla</i>
             </li>
             <br>
             <li><b>pattern</b>: a boolean indicating whether or not
@@ -406,18 +408,33 @@ picker.addEventListener('nose-input', e => {
     
     <div class="qr">
         nosepicker.js will attempt to convert any element
-        into a color picker; here is an example of an <i>svg</i>
-        path being used to generate an hsla output string:
+        into a color picker; here is an example of an
+        <i>svg path</i>
+        being used to generate an hsla output string:
     </div>
     
     <div class="qb">
+        
         <div><svg><path id="heart" data-nose /></svg></div>
-        <div><i id="heartoutput">hsla(...)</i></div>
+        
+        <div>
+            <i id="heartoutput"
+             style="
+                color:var(--nose-hsla);
+                font-size:2em;
+             "
+            >
+            hsla(...)
+            </i>
+        </div>
+        
         <script id="heartScript">
             heart.addEventListener('nose-input', e => {
                 heartoutput.innerHTML = e.detail;
+                heartoutput.style.color = e.detail;
             })
         </script>
+        
     </div>
     
     <div id="rootExample" class="qr" style="
@@ -474,7 +491,7 @@ picker.addEventListener('nose-input', e => {
         <span style="color:var(--nose-hsla)">
             all of the aspects of this div are styled using
             css vars that <i>calc()</i> their values based
-            on the <i>--nose-hsla</i> values;
+            on the <i>&#8209;&#8209;nose-hsla</i> values;
         </span>
         
         <span style="color:var(--dark);">
@@ -513,21 +530,15 @@ picker.addEventListener('nose-input', e => {
             "></div>
         </div>
         
-        <div id="remove"
+        <div
          data-nose='{"root":"rootExample"}'
          style="
-          height:300px;
+          height:100px;
           width:100%;
           background-color:var(--nose-hsla);
           border:10px solid var(--dark);
          "
         ></div>
-        <script>
-            rootExample.addEventListener('nose-input', e => {
-                //console.log(e.detail)
-                remove.innerHTML=e.detail;
-            })
-        </script>
 
     </div>
     
@@ -541,7 +552,7 @@ picker.addEventListener('nose-input', e => {
         
         <li>you are alright using <i>data-nose</i> as the parameter</li>
         
-        <li>you're ok with <i>--nose-hsla</i> as the css variable</li>
+        <li>you're ok with <i>&#8209;&#8209;nose-hsla</i> as the css variable</li>
         
         <li>and you can use css <i>calc()</i> instead of
         an event handler</li>
@@ -554,7 +565,7 @@ picker.addEventListener('nose-input', e => {
         the nano~fied version is more than simply a compressed
         version of <b>nosepicker.micro.js</b>; it has been
         explicitly designed to be incredibly small, only one
-        line of javascript, and currently <i>950 characters</i>
+        line of javascript, and currently <i>946 characters</i>
         long
         <br><br>
         
