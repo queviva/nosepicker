@@ -14,11 +14,11 @@
     // prefs {
     default_prefs = {
         
-        selector: 'picker',
+        selector: 'nose',
         kind: 'touch,wheel', // wheel|touch|swipe|coast|point
         colorsrc: 'background-color',
-        loadedEventName: 'noseloaded',
-        inputEventName: 'noseinput',
+        loaded: 'nose-loaded',
+        input: 'nose-input',
         able: true,
         colorSelf: true,
         colorText: true,
@@ -41,7 +41,7 @@
     //}
   
 // run on window load because getting computed styles
-) => window.addEventListener('load', () => (function() {
+) => window.addEventListener('load', () => new (function() {
     
     // lizzers {
     const
@@ -50,7 +50,7 @@
         e.stopPropagation();
         e.preventDefault();
 
-        nose.obj.dispatchEvent(new CustomEvent(nose.prefs.inputEventName, {
+        nose.obj.dispatchEvent(new CustomEvent(nose.prefs.input, {
 
             detail: {
                 vals: [v.h, v.s, v.l, v.a] = CTRL ? [
@@ -249,161 +249,81 @@
     }
     //}
 
-    // the NosePicker Object itself {
-    const NPO = function(obj) {
-
-        this.prefs = Object.assign({ lizzList: {}}, prefs,
-            JSON.parse(obj.dataset[prefs.selector] || '{}')
-        );
+    // dispatcheries {
+    const dispatchers = {
         
-        this.obj = obj;
-
-        this.hsla = {};
-
-        this.looping = false;
-
-        this.coastInc = [0, 0];
-
-        this.prev = { X: 0, Y: 0 };
-
-        this.value = window.getComputedStyle(obj)[this.prefs.colorsrc] || '#000';
+       value : (n, v) => {
+           
+           // this hack allows hsla conversion of ANY valid css color
+           let DIV = document.createElement('div');
+           DIV.style.color = v;
+           n.value = DIV.style.color;
+       
+           let
+       
+           [r, g, b, a] = (n.value).match(/\d+\.*\d*/g).map(v => v /= 255),
+               max = Math.max(r, g, b),
+               min = Math.min(r, g, b),
+               d = max - min,
+               dX = d !== 0;
+       
+           n.hsla = {
+               h: dX ? (max === r ? (g - b) / d : max === g ? 2 + ((b - r) / d) : 4 + ((r - g) / d)) * 60 : 0,
+               s: dX ? 100 * (v.l > 50 ? d / (2 - max - min) : d / (max + min)) : 0,
+               l: 50 * (max + min),
+               a: a === undefined ? 1 : a * 255
+           };
+           
+           if (n.prefs.colorSelf) {
+               n.obj.style[n.prefs.colorsrc] = n.value;
+               if (n.prefs.colorText) n.obj.style.color = n.hsla.l > 55 || n.hsla.a < 0.85 ? '#000' : '#fff';
+           }
+           
+       
+       },
+       
+       kind  : (n, v) => {
+       
+           let oldAble = n.prefs.able;
+       
+           n.set_able(n, false);
+       
+           n.prefs.lizzList = {};
+       
+           try { n.prefs.kind = v.split(','); }
+           catch (T) {}
+       
+           for (let k in n.prefs.kind) {
+               let K = kindList(n, [n.prefs.kind[k]]);
+               for (let evt in K) {
+                   n.prefs.lizzList[evt] = K[evt];
+               }
+           }
+       
+           n.set_able(n, oldAble);
+           
+       },
+       
+       able  : (n, v) => {
+           
+            for (let evt in n.prefs.lizzList || {}) {
             
-        // listener to dispatch a reference {
-        obj.addEventListener('getNosePickerRef', e => {
+                n.obj[((n.prefs.able = v) ? 'add' : 'remove') + 'EventListener'](
+                    evt,
+                    n.prefs.lizzList[evt], { passive: false }
+                );
+            }
+       
+       },
+       
+       sens  : (n, v) => {
         
-            obj.dispatchEvent(new CustomEvent(
-                'catchNosePickerRef', {
-                    detail: this.createRef()
-                }
-            ));
-        
-        });
-        //}
-        
-        if (this.prefs.colorSelf) {
-            obj.addEventListener(this.prefs.inputEventName, e => {
-                let v = e.detail.hsla;
-                obj.style[this.prefs.colorsrc] = e.detail.value;
-                if (this.prefs.colorText) obj.style.color = e.detail.hsla.l > 55 || e.detail.hsla.a < 0.85 ? '#000' : '#fff';
-                
-            });
-        }
-
-        if (this.prefs.pattern) {
-            
-            obj.addEventListener(this.prefs.inputEventName, e => {
-
-                let A = 0.5 - e.detail.hsla.a / 2;
-                
-                obj.style.backgroundImage = A > 0 ?
-                    `repeating-linear-gradient(
-                        -45deg,
-                        rgba(0,0,0,${ A }),
-                        rgba(0,0,0,${ A }) 10px,
-                        transparent 10px,
-                        transparent 20px
-                    )` : obj.style.backgroundImage;
-
-            });
-
-        }
-        
+            n.prefs.sens = v;
+           
+       }
+    
     };
     //}
-    
-    // protos {
-    NPO.prototype.loadComplete = function () {
-        
-        this.obj.dispatchEvent(new CustomEvent(this.prefs.loadedEventName, {
-            detail : {
-                value : this.setValue(this.value),
-                kind : this.setKind(this.prefs.kind),
-                ref : (this.prefs.makeRef) ? this.obj[this.prefs.makeRef] = this.createRef() : ''
-            }
-        }));
-
-    };
-    NPO.prototype.createRef = function () {
-    
-        let NPO = this;
-        
-        return {
-    
-            get value() { return NPO.value },
-            set value(v) { NPO.setValue(v) },
-            get hsla() { return NPO.hsla },
-            set hsla(v) { NPO.setValue(v) },
-            get kind() { return NPO.prefs.kind.join(',') },
-            set kind(v) { NPO.setKind(v) },
-            get sens() { return NPO.prefs.sens },
-            set sens(v) { NPO.setSens(v) },
-            get able() { return NPO.prefs.able },
-            set able(v) { NPO.setAble(v) },
-            togAble: () => { NPO.togAble() }
-    
-        };
-    
-    };
-    NPO.prototype.setValue = function (v) {
-
-        // this hack allows hsla conversion of ANY valid css color
-        let DIV = document.createElement('div');
-        DIV.style.color = v;
-        this.value = DIV.style.color;
-        
-        let
-
-        [r, g, b, a] = (this.value).match(/\d+\.*\d*/g).map(v => v /= 255),
-            max = Math.max(r, g, b),
-            min = Math.min(r, g, b),
-            d = max - min,
-            dX = d !== 0;
-
-        this.hsla = {
-            h: dX ? (max === r ? (g - b) / d : max === g ? 2 + ((b - r) / d) : 4 + ((r - g) / d)) * 60 : 0,
-            s: dX ? 100 * (v.l > 50 ? d / (2 - max - min) : d / (max + min)) : 0,
-            l: 50 * (max + min),
-            a: a === undefined ? 1 : a * 255
-        };
-
-    };
-    NPO.prototype.setKind = function (v) {
-    
-        let oldAble = this.prefs.able;
-
-        this.setAble(false);
-
-        this.prefs.lizzList = {};
-        
-        try{ this.prefs.kind = v.split(','); }catch(T){}
-
-        for (let k in this.prefs.kind) {
-            let K = kindList(this, [this.prefs.kind[k]]);
-            for (let evt in K) {
-                this.prefs.lizzList[evt] = K[evt];
-            }
-        }
-
-        this.setAble(oldAble);
-
-    };
-    NPO.prototype.setAble = function (v) {
-
-        for (let evt in this.prefs.lizzList) {
-            this.obj[((this.prefs.able = v) ? 'add' : 'remove') + 'EventListener'](
-                evt,
-                this.prefs.lizzList[evt], { passive: false }
-            );
-        }
-
-    };
-    NPO.prototype.togAble = function () {
-        this.setAble(this.prefs.able ? false : true);
-    };
-    NPO.prototype.setSens = function (v) {
-        this.prefs.sens = v;
-    };
-    // }
        
     // loop through all data-selector objects {
     document.querySelectorAll(
@@ -412,9 +332,69 @@
         `[data-${prefs.selector}]:not(script)`
             
     // make each one a nosepicker object
-    ).forEach(obj =>
-    
-            (this[obj.id] = new NPO(obj)).loadComplete()
+    ).forEach(obj => this[obj.id] = new (function(){
+            
+            this.prefs = Object.assign({ lizzList: {} }, prefs,
+                JSON.parse(obj.dataset[prefs.selector] || '{}')
+            );
+        
+            this.obj = obj;
+        
+            this.hsla = {};
+        
+            this.looping = false;
+        
+            this.coastInc = [0, 0];
+        
+            this.prev = { X: 0, Y: 0 };
+        
+            this.value = window.getComputedStyle(obj)[this.prefs.colorsrc] || '#000';
+        
+            for (let d in dispatchers) {
+                
+                this['set_' + d] = dispatchers[d];
+                
+                obj.addEventListener(
+                    `${prefs.selector}-set-${d}`, e => {
+                        dispatchers[d](this, e.detail)
+                    }
+                );
+                
+            }
+        
+            if (this.prefs.colorSelf) {
+                obj.addEventListener(this.prefs.input, e => {
+                    let v = e.detail.hsla;
+                    obj.style[this.prefs.colorsrc] = e.detail.value;
+                    if (this.prefs.colorText) obj.style.color = e.detail.hsla.l > 55 || e.detail.hsla.a < 0.85 ? '#000' : '#fff';
+        
+                });
+            }
+        
+            if (this.prefs.pattern) {
+        
+                obj.addEventListener(this.prefs.input, e => {
+        
+                    let A = 0.5 - e.detail.hsla.a / 2;
+        
+                    obj.style.backgroundImage = A > 0 ?
+                        `repeating-linear-gradient(
+                                -45deg,
+                                rgba(0,0,0,${ A }),
+                                rgba(0,0,0,${ A }) 10px,
+                                transparent 10px,
+                                transparent 20px
+                            )` : obj.style.backgroundImage;
+        
+                });
+        
+            }
+        
+            this.set_value(this, this.value);
+            this.set_kind(this, this.prefs.kind);
+        
+        })()
+
     
     );
     //}

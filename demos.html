@@ -4,13 +4,7 @@
 <title>nosepicker extra</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link id="luckiestFont" href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
-<script id="nosepickerscript" src="nosepicker.js"
- data-nose='{
-    "selector" : "nose",
-    "makeRef" : "nosePick",
-    "loadedEventName" : "sampLoaded"
- }'
-></script>
+<script id="nosepickerscript" src="nosepicker.js"></script>
 <style id="demoStyles">
 
 :root {
@@ -192,7 +186,7 @@ input[type=range]:focus {
 <div class="holder">
     
     <div demo class="qr">
-        <div data-nose='{"kind":"coast,point"}'
+        <div id="XXX" data-nose='{"kind":"coast,point"}'
          style="
             height:150px;
             text-align:center;
@@ -201,9 +195,8 @@ input[type=range]:focus {
          "
         ></div>
         <center style="font-size:0.5em;">
-            <i>click and point to fly through a werld of colors</i>
+            <i>click and point to coast through a werld of colors</i>
         </center>
-    
     </div>
     
     <div intro class="qr">
@@ -215,12 +208,90 @@ input[type=range]:focus {
         and allows for all kinds of customizations - it's the
         perfect thing for you picky nosepickers
     </div>
+    
+    <div prescript class="qr">
+        include the script, along with any options in the
+        <i>data-param</i>; specify nosepicker elements with
+        a <i>data-param</i>; handle any events with listeners,
+        as usual; set any options dynamically by dispatching
+        an event to the nosepicker:
+        
+        <br><br>
+        
+        <pre>
+&lt;script src="nosepicker.js"
+ data-nose='{
+    "selector"  : 'nose',
+    "kind"      : 'touch,wheel', // wheel|touch|swipe|coast|point
+    "colorsrc"  : 'background-color',
+    "loaded"    : 'nose-loaded',
+    "input"     : 'nose-input',
+    "colorSelf" : true,
+    "colorText" : true,
+    "pattern"   : true,
+    "able"      : true,
+    "makeRef"   : false,
+    "sens"      : { X: 1, Y: 1 }
+ '}
+&gt;&lt;/script&gt;
+
+&lt;div id="picker" data-nose&gt;&lt;/div&gt;
+
+&lt;script&gt;
+    
+    picker.addEventListener('nose-input', e => {
+    
+        // e.detail.value is an hsla color string
+        
+        // e.detail.hsla is an object ...
+        // e.detail.hsla.h is the hue
+        // e.detail.hsla.s is the saturation
+        // e.detail.hsla.l is the luminosity
+        // e.detail.hsla.a is the opacity
+        
+        // e.detail.vals is an array ...
+        // e.detail.vals[0] is the hue
+        // e.detail.vals[1] is the saturation
+        // e.detail.vals[2] is the luminosity
+        // e.detail.vals[3] is the opacity
+        
+    });
+    
+    // set options dynamically by dispatching events ...
+    // settable options are value|kind|able|sens
+    
+    picker.dispatchEvent(new CustomEvent(
+        'nose-set-value', {detail:'0,100,50,1'})
+    );
+    
+    picker.dispatchEvent(new CustomEvent(
+        'nose-set-kind', {detail: 'coast,point'})
+    );
+    
+    picker.dispatchEvent(new CustomEvent(
+        'nose-set-able', {detail: false})
+    );
+    
+    picker.dispatchEvent(new CustomEvent(
+        'nose-set-sens', {detail: {X:1, Y:1})
+    );
+    
+&lt;/script&gt;
+        </pre>
+    </div>
 
     <br><br><hr><div class="qr signature">~queviva</div>
+    
 </div>
 </body>
 
 <script>
+    
+    document.addEventListener('dblclick', e => {
+        XXX.dispatchEvent(new CustomEvent(
+            'nose-set-value',{ detail: "#008"}
+        ));
+    });
     
 </script>
 
