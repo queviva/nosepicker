@@ -186,12 +186,12 @@ input[type=range]:focus {
 <div class="holder">
     
     <div demo class="qr">
-        <div id="XXX" data-nose='{"kind":"coast,point"}'
+        <div data-nose='{"kind":"coast,point"}'
          style="
             height:150px;
             text-align:center;
             line-height:75px;
-            background-color:#da0;
+            background-color:#ea0;
          "
         ></div>
         <center style="font-size:0.5em;">
@@ -221,11 +221,11 @@ input[type=range]:focus {
         <pre>
 &lt;script src="nosepicker.js"
  data-nose='{
-    "selector"  : 'nose',
-    "kind"      : 'touch,wheel', // wheel|touch|swipe|coast|point
-    "colorsrc"  : 'background-color',
-    "loaded"    : 'nose-loaded',
-    "input"     : 'nose-input',
+    "selector"  : "nose",
+    "kind"      : "touch,wheel", // wheel|touch|swipe|coast|point
+    "colorsrc"  : "background-color",
+    "loaded"    : "nose-loaded",
+    "input"     : "nose-input",
     "colorSelf" : true,
     "colorText" : true,
     "pattern"   : true,
@@ -261,7 +261,7 @@ input[type=range]:focus {
     // settable options are value|kind|able|sens
     
     picker.dispatchEvent(new CustomEvent(
-        'nose-set-value', {detail:'0,100,50,1'})
+        'nose-set-value', {detail:'#f00'})
     );
     
     picker.dispatchEvent(new CustomEvent(
@@ -280,19 +280,215 @@ input[type=range]:focus {
         </pre>
     </div>
 
+    <div defaults class="qr">
+        now I bet you want to know what all these things do,
+        don't you? ok, here it is:
+        <ul>
+            <li><b>selector</b>:
+            as per yoosh, this is the <i>string</i> that you
+            want to be the <i>data-param</i> and <i>nose-input</i>
+            event; by default, nosepicker.js selects all elements
+            with a <i>data-nose</i> parameter, and generates
+            a <i>nose-input</i> event; if, for example, you
+            changed this to "picker", then the script would
+            select all elements with <i>data-picker</i> as
+            a parameter, and generate a <i>picker-input</i>
+            event
+            </li>
+            <br>
+            <li><b>kind</b>: this is a coma-separated string
+            which lists all the kinds of nosepicker listeners
+            you want to add to just this specific element;
+            the default is "touch,wheel" which will create
+            both a scroll listener and a touch listener for
+            touchscreens; the possible options are:
+            <br><br>
+            <ul style="list-type:circle">
+                <li>wheel - scrolling up|dn, left|right;
+                ctrl+scroll changes transparency and
+                shift+scroll changes sensitivity
+                </li>
+                <li>touch - moving a touchpoint on touchscreens
+                changes hue and luminosity, using two touchpoints
+                changes transparency and saturation,
+                </li>
+                <li>swipe - either on a touchscreen, or with
+                a mouse, just swipe around; again, two fingers
+                acts a ctrl+swipe
+                </li>
+                <li>coast - this is point-and-fly type of
+                navigation; you just click in one spot,
+                either on a touchscreen on with a mouse,
+                and then you will fly through the colors
+                continuously in whichever direction you're
+                pointing
+                </li>
+                <li>point - is just like coast but uses
+                a pointer event</li>
+            </ul>
+            </li>
+            <br>
+            <li><b>colorsrc</b>: the style aspect that
+            nosepicker.js will use as the starting color;
+            this might be "fill" if you have, for example,
+            an <i>svg path</i>
+            </li>
+            <br>
+            <li><b>loaded</b>: the name of the <i>nose-loaded</i>
+            event that gets generated when a nosepicker loads
+            </li>
+            <br>
+            <li><b>input</b>: the name of the <i>nose-input</i>
+            event that gets generated when the color changes
+            </li>
+            <br>
+            <li><b>colorSelf</b>: boolean as to whether or not
+            the picker should color its own self - by default
+            it will, but you might not want that
+            </li>
+            <br>
+            <li><b>colorText</b>: true|false if you want the
+            color of the text inside the nosepicker to be
+            contrasted with the selected color
+            </li>
+            <br>
+            <li><b>pattern</b>: boolean true|false if you want
+            a patterned background behind transparent colors
+            </li>
+            <br>
+            <li><b>able</b>: simply a boolean as to whether
+            the nosepicker is enabled
+            </li>
+            <br>
+            <li><b>sens</b>: adjusts the sensitivity of the
+            motion in the X, and Y, direction - this is an
+            <i>object</i> specifying a <i>float</i> for the
+            adjustment to both the X&#8209;sensitivity and the
+            Y&#8209;sensitivity
+            </li>
+        </ul>
+    </div>
+    
+    <div id="samples">
+        <hr>
+        <div class="qa">
+            <div id="samp0"
+             data-nose='{"kind":"touch,wheel"}'
+             style="
+                height:100px;
+                background-color:#909;
+            "></div>
+            <div class="sampDiv"> scroll </div>
+        </div>
+        <hr>
+        <div class="qb">
+            <div class="sampDiv"> swipe </div>
+            <div id="samp1"
+             data-nose='{"kind":"swipe,touch"}'
+             style="
+                height:100px;
+                background-color:#ea0;
+            "></div>
+        </div>
+        <hr>
+        <div class="qa">
+            <div id="samp2"
+             data-nose='{"kind":"coast,point"}'
+             style="
+                height:100px;
+                background-color:#c30;
+            "></div>
+            <div class="sampDiv"> coast </div>
+        </div>
+        <hr>
+        <style>
+            #samples {
+                user-select:none;
+            }
+            .sampDiv {
+                line-height:70px;
+                font-size:1.5em;
+                text-align:center;
+                font-style: italic;
+            }
+        </style>
+        <script>
+        
+            [0,1,2].forEach(n => {
+                
+                let samp = document.getElementById('samp' + n);
+                let col = window.getComputedStyle(samp).backgroundColor;
+                
+                samp.addEventListener('nose-input', e => {
+                    samp.innerHTML = e.detail.value;
+                });
+                
+                samp.addEventListener('dblclick', () => {
+                    samp.dispatchEvent(new CustomEvent(
+                        'nose-set-value',
+                        { detail: (samp.innerHTML = col) }
+                    ));
+                });
+                
+            });
+            
+        </script>
+        
+    </div>
+    
+    <div dispatchery class="qr">
+        
+        all interactions with nosepickers are done through
+        <i>dispatching events</i>; various options can by
+        set directly, by sending <i>event.detail</i>
+        values to the nosepicker; the prefix
+        will be whatever the <i>selector</i> is,
+        which by default is <i>nose&#8209;</i>
+        
+        <ul>
+            <li><b>nose-set-value</b>:
+            this sets the color value to whatever valid
+            <i>css color string</i> gets passed in
+            </li>
+            <br>
+            <li><b>nose-set-kind</b>: you can actually
+            change the <i>kind</i> of nosepicker while
+            it's being used; you could dynamically switch
+            from a scroll listener to a coast listener
+            </li>
+            <br>
+            <li><b>nose-set-able</b>: passing a boolean
+            will either disable or enable to nosepicker
+            </li>
+            <br>
+            <li><b>nose-set-sens</b>: again, this is an
+            <i>object</i> that has an X, and a Y, <i>float</i>
+            value adjustment to the nosepicker's sensitivity;
+            for example, to double the sensitivity, pass in
+            <i>{X:0.5, Y:0.5}</i>
+            </li>
+            
+        </ul>
+        <br>
+        as an example, if you wanted to directly set the
+        color of a nosepicker called 'picker' to a hex
+        value for red when you double-click the window,
+        this would do that:
+        <br><br>
+        <pre>
+window.addEventListener('dblclick', () => {
+    picker.dispatchEvent(new CustomEvent(
+        'nose-set-value',
+        {detail: '#c30'}
+    ));
+});
+</pre>
+        
+    </div>
+    
     <br><br><hr><div class="qr signature">~queviva</div>
     
 </div>
 </body>
-
-<script>
-    
-    document.addEventListener('dblclick', e => {
-        XXX.dispatchEvent(new CustomEvent(
-            'nose-set-value',{ detail: "#008"}
-        ));
-    });
-    
-</script>
 
 </html>

@@ -23,7 +23,6 @@
         colorSelf: true,
         colorText: true,
         pattern: true,
-        makeRef: false,
         sens: { X: 1, Y: 1 }
 
     },
@@ -279,7 +278,6 @@
                if (n.prefs.colorText) n.obj.style.color = n.hsla.l > 55 || n.hsla.a < 0.85 ? '#000' : '#fff';
            }
            
-       
        },
        
        kind  : (n, v) => {
@@ -333,70 +331,67 @@
             
     // make each one a nosepicker object
     ).forEach(obj => this[obj.id] = new (function(){
-            
-            this.prefs = Object.assign({ lizzList: {} }, prefs,
-                JSON.parse(obj.dataset[prefs.selector] || '{}')
-            );
-        
-            this.obj = obj;
-        
-            this.hsla = {};
-        
-            this.looping = false;
-        
-            this.coastInc = [0, 0];
-        
-            this.prev = { X: 0, Y: 0 };
-        
-            this.value = window.getComputedStyle(obj)[this.prefs.colorsrc] || '#000';
-        
-            for (let d in dispatchers) {
-                
-                this['set_' + d] = dispatchers[d];
-                
-                obj.addEventListener(
-                    `${prefs.selector}-set-${d}`, e => {
-                        dispatchers[d](this, e.detail)
-                    }
-                );
-                
-            }
-        
-            if (this.prefs.colorSelf) {
-                obj.addEventListener(this.prefs.input, e => {
-                    let v = e.detail.hsla;
-                    obj.style[this.prefs.colorsrc] = e.detail.value;
-                    if (this.prefs.colorText) obj.style.color = e.detail.hsla.l > 55 || e.detail.hsla.a < 0.85 ? '#000' : '#fff';
-        
-                });
-            }
-        
-            if (this.prefs.pattern) {
-        
-                obj.addEventListener(this.prefs.input, e => {
-        
-                    let A = 0.5 - e.detail.hsla.a / 2;
-        
-                    obj.style.backgroundImage = A > 0 ?
-                        `repeating-linear-gradient(
-                                -45deg,
-                                rgba(0,0,0,${ A }),
-                                rgba(0,0,0,${ A }) 10px,
-                                transparent 10px,
-                                transparent 20px
-                            )` : obj.style.backgroundImage;
-        
-                });
-        
-            }
-        
-            this.set_value(this, this.value);
-            this.set_kind(this, this.prefs.kind);
-        
-        })()
-
     
-    );
+        this.prefs = Object.assign({ lizzList: {} }, prefs,
+            JSON.parse(obj.dataset[prefs.selector] || '{}')
+        );
+    
+        this.obj = obj;
+    
+        this.hsla = {};
+    
+        this.looping = false;
+    
+        this.coastInc = [0, 0];
+    
+        this.prev = { X: 0, Y: 0 };
+    
+        this.value = window.getComputedStyle(obj)[this.prefs.colorsrc] || '#000';
+    
+        for (let d in dispatchers) {
+    
+            this['set_' + d] = dispatchers[d];
+    
+            obj.addEventListener(
+                `${prefs.selector}-set-${d}`, e => {
+                    dispatchers[d](this, e.detail)
+                }
+            );
+    
+        }
+    
+        if (this.prefs.colorSelf) {
+            obj.addEventListener(this.prefs.input, e => {
+                let v = e.detail.hsla;
+                obj.style[this.prefs.colorsrc] = e.detail.value;
+                if (this.prefs.colorText) obj.style.color = e.detail.hsla.l > 55 || e.detail.hsla.a < 0.85 ? '#000' : '#fff';
+    
+            });
+        }
+    
+        if (this.prefs.pattern) {
+    
+            obj.addEventListener(this.prefs.input, e => {
+    
+                let A = 0.5 - e.detail.hsla.a / 2;
+    
+                obj.style.backgroundImage = A > 0 ?
+                    `repeating-linear-gradient(
+                       -45deg,
+                       rgba(0,0,0,${ A }),
+                       rgba(0,0,0,${ A }) 10px,
+                       transparent 10px,
+                       transparent 20px
+                    )` : '';
+    
+            });
+    
+        }
+    
+        this.set_value(this, this.value);
+        this.set_kind(this, this.prefs.kind);
+    
+    })());
     //}
 
 })()))();
