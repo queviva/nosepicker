@@ -57,7 +57,7 @@
                         prefs.hsla ||
                         window.getComputedStyle(obj)
                         .getPropertyValue(`--${R}-hsla`) ||
-                        '40,100,50,1'
+                        '0,100,50,1'
                     )
                     .match(/[\d\.]+/g)
                     .map(v => Number(v)),
@@ -97,11 +97,11 @@
                     this.root.style.backgroundImage = A > 0 ?
                         `repeating-linear-gradient(
                             -45deg,
-                            rgba(0,0,0,${ A }),
-                            rgba(0,0,0,${ A }) 10px,
+                            rgba(0,0,0,${A}),
+                            rgba(0,0,0,${A}) 10px,
                             transparent 10px,
                             transparent 20px
-                        )` : ''//obj.style.backgroundImage
+                        )` : ''
             
                 );
             

@@ -1,6 +1,7 @@
 <!doctype html>
+
 <head>
-<title>demo picker</title>
+<title>nosepicker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link id="luckiestFont" href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
 <style id="demoStyles">
@@ -11,7 +12,6 @@
     --holder-back: #111;
     --faded-txt: rgba(255, 255, 255, 0.5);
     --trans-speed: 0.3s;
-    --samp-var: #c30;
 }
 
 * {
@@ -118,153 +118,6 @@ hr {
     display: none;
 }
 
-.strong-disagree {
-    text-align: center;
-    padding: 5px;
-    width: 100%;
-    font-size: 20px;
-    background-color: var(--main-color);
-    color: #fff;
-    display:flex;
-    margin: auto;
-}
-
-.strong-disagree > label {
-    width: 20%;
-}
-
-.survQue {
-    padding: 10px;
-    width: 100%;
-    text-align: center;
-    font-size: 27px;
-}
-    
-.survArr {
-    width: 50%;
-    text-align: center;
-    font-size: 10px;
-    float: left;
-}
-
-.survArr.left {
-    border-right: 1px solid #888;
-}
-
-.survArr.left:before {
-    content: '\25C0 \25C0 \25C0  ';
-}
-
-.survArr.rite:after {
-    content: '  \25B6 \25B6 \25B6';
-}
-
-input[type=radio] {
-    height: 30px;
-    width: 30px;
-}
-
-#svg0 {
-    position:relative;
-    width:220px;
-    height:340;
-    overflow: visible;
-    border: 0px solid #ea0;
-}
-
-/*possibly a portrait mobi-fone*/
-@media screen and (max-width:500px) {
-    .strong-disagree {
-        font-size: 12px;
-    }
-	.qa > div:nth-child(1),
-	.qa > div:nth-child(2),
-	.qb > div:nth-child(1),
-	.qb > div:nth-child(2)
-	{
-    	width: 100%;
-    }
-    
-    #svg0 {
-        width: 200px;
-    }
-    
-    .mobr {
-        display: inline-block;
-    }
-    
-}
-
-/*possibly a mobile landscaper*/
-@media screen and (orientation: landscape) and (max-width: 760px) {
-    
-    #svg0 {
-        width: 100px;
-    }
-    
-}
-
-.signature {
-    text-align: right;
-    font-family: 'luckiest guy';
-    font-style: italic;
-    height: 200px;
-    user-select:none;
-}
-</style>
-<style id="ss0">
-
-.pick0 {
-    position: absolute;
-    left: 90px;
-    height: 130px;
-    width: 30px;
-    padding: 20px;
-    white-space: nowrap;
-    line-height: 90px;
-    font-size: 30px;
-    text-align: center;
-    background-color: #f00;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transition: width linear 0.3s;
-    outline: none;
-}
-
-.nosepicker:hover {
-    width: 300px;
-}
-
-.nosepicker:focus {
-    width: 300px;
-}
-
-input[type="button"] {
-    position: absolute;
-    height: 40px;
-    width: 80px;
-    border-width: 3px;
-    outline: none;
-    font-style: italic;
-}
-
-.samp {
-    position: relative;
-    height: 100px;
-    width: 300px;
-    color: #fff;
-    background-color: #ea0;
-}
-
-#samp1 {
-    background-color: #c308;
-    --xbackground-color:rgba(200,0,0,.08);
-}
-
-#samp2 {
-    background-color: #0c3;
-}
-
 svg {
     height: 200px;
     width: 200px;
@@ -281,6 +134,39 @@ svg {
     d:path('M 0 150 Q 5 100 0 50 A 30 30 0 0 1 100 50 A 30 30 0 0 1 100 150 Q 50 145 0 150 Z');
 }
 
+/*possibly a portrait mobi-fone*/
+@media screen and (max-width:500px) {
+    .strong-disagree {
+        font-size: 12px;
+    }
+	.qa > div:nth-child(1),
+	.qa > div:nth-child(2),
+	.qb > div:nth-child(1),
+	.qb > div:nth-child(2)
+	{
+    	width: 100%;
+    }
+    
+    .mobr {
+        display: inline-block;
+    }
+    
+}
+
+/*possibly a mobile landscaper*/
+@media screen and (orientation: landscape) and (max-width: 760px) {
+
+    
+}
+
+.signature {
+    text-align: right;
+    font-family: 'luckiest guy';
+    font-style: italic;
+    height: 200px;
+    user-select:none;
+}
+
 </style>
 <script id="microNose" src="nosepicker.micro.js"></script>
 </head>
@@ -288,7 +174,7 @@ svg {
 <body>
 <div class="holder">
     
-    <div class="qr">
+    <div demo class="qr">
         
         <div
          data-nose='{"pattern":true}'
@@ -301,8 +187,10 @@ svg {
         <br>
         
         <center style="font-size:10px;font-style:italic;">
-            scroll up|dn, left|right to change color and brightness;<br>
-            ctrl+scroll for transparency and luminosity;<br>
+            scroll up|dn, left|right to change color and brightness;
+            <br class="mobr">
+            ctrl+scroll for transparency and luminosity;
+            <br class="mobr">
             use two-touches for ctrl on touchscreen
         </center>
         
@@ -310,9 +198,9 @@ svg {
     
     <hr>
     
-    <div class="qr">
+    <div intro class="qr">
         
-    <b><a href="nosepicker.micro.js">nosepicker.js</a></b>
+    <b><a href="nosepicker.micro.js">nosepicker.micro.js</a></b>
     converts any specified element into an html color picker;
     it generates a customizable <i>nose-input event</i> that
     can be listened for, and handled, just like any other
@@ -321,7 +209,7 @@ svg {
         
     </div>
     
-    <div class="qr">
+    <div prescript class="qr">
         
     include the script, then indicate which elements you
     would like to be nosepickers by including a <i>data-param</i>;
@@ -365,7 +253,7 @@ picker.addEventListener('nose-input', e => {
         </pre>
     </div>
     
-    <div class="qr">
+    <div defaults class="qr">
         what do all of these defaults mean?
         <ul>
             <li><b>selector</b>: the name that you want to use
@@ -406,14 +294,14 @@ picker.addEventListener('nose-input', e => {
     
     <hr>
     
-    <div class="qr">
+    <div svgexample class="qr">
         nosepicker.js will attempt to convert any element
         into a color picker; here is an example of an
         <i>svg path</i>
         being used to generate an hsla output string:
     </div>
     
-    <div class="qb">
+    <div heart class="qb">
         
         <div><svg><path id="heart" data-nose /></svg></div>
         
@@ -437,51 +325,57 @@ picker.addEventListener('nose-input', e => {
         
     </div>
     
-    <div id="rootExample" class="qr" style="
-    
-        --nose-h:280;
-        --nose-s:100%;
-        --nose-l:60%;
-        --nose-a:1;
+    <div id="rootExample" class="qr">
         
-        --nose-hsla:hsla(
-            var(--nose-h),
-            var(--nose-s),
-            var(--nose-l),
-            var(--nose-a)
-        );
+        <style>
         
-        --dark:hsla(
-            calc(1 * var(--nose-h)),
-            calc(0.7 * var(--nose-s)),
-            calc(0.4 * var(--nose-l)),
-            var(--nose-a)
-        );
+        #rootExample {
+            
+            --nose-h: 280;
+            --nose-s: 100%;
+            --nose-l: 60%;
+            --nose-a: 1;
+            
+            --nose-hsla: hsla(
+                var(--nose-h),
+                var(--nose-s),
+                var(--nose-l),
+                var(--nose-a)
+            );
+            
+            --dark: hsla(
+                calc(1.0 * var(--nose-h)),
+                calc(0.7 * var(--nose-s)),
+                calc(0.4 * var(--nose-l)),
+                var(--nose-a)
+            );
+            
+            --lite: hsla(
+                calc(1.0 * var(--nose-h)),
+                calc(0.5 * var(--nose-s)),
+                calc(1.3 * var(--nose-l)),
+                var(--nose-a)
+            );
+            
+            --comp1: hsla(
+                calc(20  + var(--nose-h)),
+                calc(1.0 * var(--nose-s)),
+                calc(1.0 * var(--nose-l)),
+                var(--nose-a)
+            );
+            
+            --comp2: hsla(
+                calc(0.0 + var(--nose-h)),
+                calc(0.5 * var(--nose-s)),
+                calc(1.0 * var(--nose-l)),
+                var(--nose-a)
+            );
+            
+            background-color: var(--main-color);
+            border: 1px solid var(--holder-back);
+        }
         
-        --lite:hsla(
-            calc(1 * var(--nose-h)),
-            calc(0.5 * var(--nose-s)),
-            calc(1.3 * var(--nose-l)),
-            var(--nose-a)
-        );
-        
-        --comp1:hsla(
-            calc(60 + var(--nose-h)),
-            calc(1 * var(--nose-s)),
-            calc(1 * var(--nose-l)),
-            var(--nose-a)
-        );
-        
-        --comp2:hsla(
-            calc(120 + var(--nose-h)),
-            calc(1 * var(--nose-s)),
-            calc(1 * var(--nose-l)),
-            var(--nose-a)
-        );
-        
-        background-color:var(--main-color);
-        border:1px solid var(--holder-back);
-    ">
+        </style>
         
         <span style="color:var(--lite)">
             let's look at an example of when you would want to use
@@ -497,8 +391,7 @@ picker.addEventListener('nose-input', e => {
         <span style="color:var(--dark);">
             this way, selecting colors in the bar below
             alters all the relative colors for the entire
-            style sheet of this div, including complimentary
-            colors
+            style sheet of this div, including theme colors
         </span>
         
         <div class="qr" style="text-align:center;">
@@ -543,16 +436,17 @@ picker.addEventListener('nose-input', e => {
     </div>
     
     <br>
-    <div class="qr">
+    <div nanoscript class="qr">
         
         if you are happy with the defaults, that is:
         
-        <ul>
+        <ul style="list-style-type:circle">
         <li>you do not want a patterned background</li>
         
-        <li>you are alright using <i>data-nose</i> as the parameter</li>
+        <li>you are alright using <i>data-nose</i> as the parameter
+        name</li>
         
-        <li>you're ok with <i>&#8209;&#8209;nose-hsla</i> as the css variable</li>
+        <li>you're ok with <i>&#8209;&#8209;nose-hsla</i> as the css variable name</li>
         
         <li>and you can use css <i>calc()</i> instead of
         an event handler</li>
@@ -581,8 +475,7 @@ picker.addEventListener('nose-input', e => {
     
         <br>
         if you are NOT happy with that, there is a more complex,
-        customizable, full-sized version of the script
-        whose features are
+        customizable, full-scale nosepicker whose features are
         <b><a href="demos.html">discussed here</a></b>
         
     </div>

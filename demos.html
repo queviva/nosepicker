@@ -1,8 +1,9 @@
 <!doctype html><html>
     
 <head>
-<title>nosepicker</title>
+<title>nosepicker extra</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link id="luckiestFont" href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
 <script id="nosepickerscript" src="nosepicker.js"
  data-nose='{
     "selector" : "nose",
@@ -12,35 +13,69 @@
 ></script>
 <style id="demoStyles">
 
+:root {
+    --main-color: #666;
+    --greyed-out: #888;
+    --back-color: #666;
+    --holder-back: #111;
+    --faded-txt: rgba(255, 255, 255, 0.5);
+    --trans-speed: 0.3s;
+}
+
 * {
     box-sizing: border-box;
     word-wrap: break-word;
 }
 
 body {
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
+    background-color: var(--back-color);
     font-size: 22px;
     text-align: justify;
     -webkit-hyphens: auto;
     -moz-hyphens: auto;
     -epub-hyphens: auto;
     hyphens: auto;
-    --thumbH: 20px;
 }
 
-#holder {
+.holder {
 	position: relative;
-	background-color: #eee;
+    color: var(--main-color);
+    background-color: var(--holder-back);
     margin: auto;
     width: 100%;
     max-width: 700px;
-    height: 100vh;
 }
 
-.qa {
+a {
+    text-decoration: none;
+    color: var(--greyed-out);
+}
+
+a:hover, a:visited {
+    color: var(--greyed-out);
+    transition: color linear var(--trans-speed);
+}
+
+b {
+    color: var(greyed-out);
+}
+
+pre {
+    background-color: var(--main-color);
+    margin: 0px;
     padding: 10px;
-    border: 0px solid #000;
+    color: #fff;
+    overflow: auto;
+}
+
+hr {
+    border-top: 1px solid var(--main-color);
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    margin: 7px 0px 7px 0px;
 }
 
 .qr {
@@ -56,17 +91,40 @@ body {
 .qa > div {
     float: left;
     padding: 10px;
+    height: auto;
 }
 
 .qa > div:nth-child(1) {
-  width: 35%;
+  width: 65%;
 }
 
 .qa > div:nth-child(2) {
-  width: 65%;
-  text-align: center;
+  width: 35%;
 }
 
+.qb:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.qb > div {
+    float: left;
+    padding: 10px;
+    height: auto;
+}
+
+.qb > div:nth-child(1) {
+  width: 35%;
+}
+
+.qb > div:nth-child(2) {
+  width: 65%;
+}
+
+.mobr {
+    display: none;
+}
 
 input[type=range] {
     -webkit-appearance: none;
@@ -94,140 +152,76 @@ input[type=range]:focus {
     outline: none;
 }
 
-.samp {
-    position: relative;
-    height: 60px;
-    line-height: 35px;
-    text-align: center;
-    width: 100%;
-    color: #fff;
-    background-color: #ee0;
-    scroll: auto;
-    user-select: none;
-}
-
 /*possibly a portrait mobi-fone*/
-@media screen and (max-width: 500px){
-    .qa {
-        padding: 0px 10px 0px 10px;
+@media screen and (max-width:500px) {
+    .strong-disagree {
+        font-size: 12px;
     }
-    .qa > div:nth-child(1),
-    .qa > div:nth-child(2) {
-        width: 100%;
+	.qa > div:nth-child(1),
+	.qa > div:nth-child(2),
+	.qb > div:nth-child(1),
+	.qb > div:nth-child(2)
+	{
+    	width: 100%;
     }
-    .samp {
-        height: 100px;
-        line-height: 75px;
+    
+    .mobr {
+        display: inline-block;
     }
+    
 }
 
 /*possibly a mobile landscaper*/
-@media screen
-    and (orientation: landscape)
-    and (max-width: 760px) {
+@media screen and (orientation: landscape) and (max-width: 760px) {
+
     
 }
-    
+
+.signature {
+    text-align: right;
+    font-family: 'luckiest guy';
+    font-style: italic;
+    height: 200px;
+    user-select:none;
+}
+
 </style>
 </head>
 
 <body>
-<div id="holder">
-    <div class="qr">this needs some werk ...</div>
-    <div id="page0">
-    <div class="qa">
-        <div id="comment0" style="font-size:12px;color:#ea0;">
-            click in the rectangle, then fly around through
-            the werld of colors <br>
-            <input id="slide0" type="range" style="height:10px"
-             min="1" max="9" steps="1" value="1"
-            ></input>
-        </div>
-        <div id="samp0" style="background-color:#ea0" class="samp"
-         data-nose='{
-            "kind" : "coast,point",
-            "makeRef" : false
-         }'
-        ><i>coast!</i></div>
+<div class="holder">
+    
+    <div demo class="qr">
+        <div data-nose='{"kind":"coast,point"}'
+         style="
+            height:150px;
+            text-align:center;
+            line-height:75px;
+            background-color:#da0;
+         "
+        ></div>
+        <center style="font-size:0.5em;">
+            <i>click and point to fly through a werld of colors</i>
+        </center>
+    
     </div>
-    <div class="qa">
-        <div id="comment1" style="font-size:12px;color:#a0e;">
-            swipe up|down &amp; left|right for color -
-            swipe with two fingers to adjust transparency
-        </div>
-        <div id="samp1" class="samp" style="background-color:#a0e"
-         data-nose='{
-            "kind" : "swipe,touch",
-            "able" : true,
-            "sens" : {"X" : 1, "Y" : 4}
-         }'
-        ><i>swipe!</i></div>
+    
+    <div intro class="qr">
+        so you think you need a more complicated colorpicker?
+        <i>fine then</i> ...
+        <br><br>
+        <b><a href="nosepicker.js">nosepicker.js</a></b>
+        is totally complicated, and bloated, and ridiculous,
+        and allows for all kinds of customizations - it's the
+        perfect thing for you picky nosepickers
     </div>
-    <div class="qa">
-        <div id="comment2" style="font-size:12px;color:#c30;">
-            scroll wheel over this area - use ctrl key for
-            transparency and saturation
-        </div>
-        <div id="samp2" class="samp" style="background-color:#c30"
-         data-nose='{
-            "kind" : "wheel",
-            "transPattern" : true,
-            "colorSelf" : true,
-            "colorsrc" : "backgroundColor"
-         }'
-        ><i>scroll!</i></div>
-    </div>
-    <input id=butt0 type=button value=tog-able>
-    <input id=butt1 type=button value=rand-type>
-    </div>
+
+    <br><br><hr><div class="qr signature">~queviva</div>
 </div>
 </body>
 
-<script id="demoScript">
-
-//window.addEventListener('load', e => {
-(function() {
-
-    samps = document.querySelectorAll('.samp');
+<script>
     
-    samps.forEach(s => {
-        
-        s.addEventListener('noseinput', e => s.parentNode.children[0].style.color = s.nosePick.value);
-        s.addEventListener('dblclick', e => s.nosePick.togAble());
-        
-    });
-    
-    samp0.addEventListener('sampLoaded', e => {
-        
-        samp0.addEventListener('catchNosePickerRef', e =>
-            samp0.nosePick = e.detail
-        ,{once:true});
-        
-        samp0.dispatchEvent(new CustomEvent('getNosePickerRef'));
-        
-    });
-    
-    slide0.addEventListener('input', e => {
-        samps.forEach(s => {
-            v = parseInt(slide0.value);
-            s.nosePick.sens = { X: v, Y: v };
-        });
-    });
-    
-    butt0.addEventListener('click', e => {
-        samp0.nosePick.togAble();
-    });
-    
-    butt1.addEventListener('click', function (e) {
-        
-        let rand = 'wheel point,coast swipe,touch'.split(' ')[~~(Math.random() * 3)];
-        console.log('kind was', samp0.nosePick.kind, 'is now',rand);
-        samp0.nosePick.kind = rand;
-        
-    });
-
-})();
-
 </script>
 
 </html>
