@@ -34,7 +34,7 @@
         
         === undefined ? z : ''}))
     
-) => window.addEventListener('load', e =>
+) => window.addEventListener('load', () =>
 
     document.querySelectorAll(
 
