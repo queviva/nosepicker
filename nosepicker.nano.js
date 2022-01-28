@@ -1,1 +1,35 @@
-((A='addEventListener',h='hsla',D=document,T='touches',G=(...v)=>v.sort((a,b)=>a-b)[1],L=(e,n,X,Y,K,v=n.H,z=e.stopPropagation()+e.preventDefault(),Q=h+' %% ')=>{[...v,h+`(${v[0]-=K?0:Y},${v[1]=K?G(v[1]+Y,100,0):v[1]}%,${v[2]=K?v[2]:G(v[2]+X,100,0)}%,${v[3]=K?G(v[3]-X*0.01,1,0):v[3]})`].forEach((k,i)=>n.R.style.setProperty('--nose-'+(i<4?Q[i]:h),i<4?v[i]+Q[i+4]:k))})=>window[A]('load',e=>D.querySelectorAll('[data-nose]:not(script)').forEach((J,i)=>new(function(p=JSON.parse(J.dataset.nose||'{}'),m=[0,0]){for(let k in(r={R:D.getElementById(p.root)||J,H:(window.getComputedStyle(J).getPropertyValue('--nose-'+h)||'0,100,50,1').match(/[\d|.]+/g).map(v=>Number(v)),wheel:e=>L(e,this,e.wheelDeltaX*(e.shiftKey?.001:.01),e.wheelDeltaY*(e.shiftKey?.001:.01),e.ctrlKey),touchmove:e=>L(e,this,.01*(m[0]-e[T][0].pageX),.01*(m[1]-e[T][0].pageY),e[T][1]),touchstart:e=>m=[e[T][0].pageX,e[T][0].pageY]})){k.match(/R|H/)?this[k]=r[k]:J[A](k,r[k])}})())))()
+((T='touches',G=(...v)=>v.sort((a,b)=>a-b)[1],m=[0,0],
+
+rat=console.log('this is nano'),
+
+C=(e,n,R,dx,dy,K)=>{
+    
+    e.stopPropagation();
+    e.preventDefault();
+    
+    R[0]=R[0]+(dy/50);
+    (K)?R[1]=G(R[1]-dx/100,0,100)
+    :R[2]=G(R[2]-dx/100,0,100);
+    R.forEach((v,i)=>n.style.setProperty('--nose-'+'HSL'[i],v+' %%'[i]));
+    
+},
+    
+Z={
+    'wheel':(e,n,r)=>C(e,n,r,e.wheelDeltaX,e.wheelDeltaY,e.ctrlKey),
+        
+    'touchstart':e=>m=[e[T][0].pageX,e[T][0].pageY],
+        
+    'touchmove':(e,n,r)=>
+            C(e,n,r,m[0]-e[T][0].pageX,m[1]-e[T][0].pageY,e[T][1])
+        
+})=>document.querySelectorAll(`[data-nose]:not(script)`).forEach(
+        
+    J=>{
+        
+    let r = [0,100,50].map((k,i)=>parseFloat(window.getComputedStyle(J).getPropertyValue('--nose-'+'HSL'[i]))||V[i]);
+    
+    for(let z in Z){J.addEventListener(z,e=>Z[z](e,J,r)),
+        { passive: false }
+    }
+    
+}))();
