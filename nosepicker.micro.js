@@ -1,6 +1,8 @@
 ((
     dset = document.currentScript.dataset,
     
+    T = 'touches',
+    
     G = (...v) => v.sort((a, b) => a - b)[1],
     
     Q = 'hsla %% ',
@@ -71,17 +73,17 @@
             
                 touchmove: e => liz(
                     e, this,
-                    0.01 * (prev[0] - e.touches[0].pageX),
-                    0.01 * (prev[1] - e.touches[0].pageY),
-                    e.touches[1]
+                    0.01 * (prev[0] - e[T][0].pageX),
+                    0.01 * (prev[1] - e[T][0].pageY),
+                    e[T][1]
                 ),
             
-                touchstart: e => prev = [e.touches[0].pageX, e.touches[0].pageY]
+                touchstart: e => prev = [e[T][0].pageX, e[T][0].pageY]
             
             }
         ) {
 
-            for (const k in r) {
+            for (let k in r) {
             
                 k.match(/root|hsla/) ?
                 this[k] = r[k] :
