@@ -1,7 +1,4 @@
 ((T='touches',G=(...v)=>v.sort((a,b)=>a-b)[1],m=[0,0],
-
-rat=console.log('this is nano'),
-
 C=(e,n,R,dx,dy,K)=>{
     
     e.stopPropagation();
