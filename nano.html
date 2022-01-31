@@ -1,0 +1,703 @@
+<!doctype html>
+
+<head>
+<title>nosepicker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link id="luckiestFont" href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
+<style id="demoStyles">
+:root {
+    --main-color: #666;
+    --greyed-out: #888;
+    --back-color: #666;
+    --holder-back: #111;
+    --faded-txt: rgba(255, 255, 255, 0.5);
+    --trans-speed: 0.3s;
+}
+
+* {
+    box-sizing: border-box;
+    word-wrap: break-word;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: var(--back-color);
+    font-size: 22px;
+    text-align: justify;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -epub-hyphens: auto;
+    hyphens: auto;
+}
+
+.holder {
+	position: relative;
+    color: var(--main-color);
+    background-color: var(--holder-back);
+    margin: auto;
+    width: 100%;
+    max-width: 700px;
+}
+
+a {
+    text-decoration: none;
+    color: var(--greyed-out);
+}
+
+a:hover, a:visited {
+    color: var(--greyed-out);
+    transition: color linear var(--trans-speed);
+}
+
+b {
+    color: var(greyed-out);
+}
+
+pre {
+    background-color: var(--main-color);
+    margin: 0px;
+    padding: 10px;
+    color: #fff;
+    overflow: auto;
+}
+
+hr {
+    border-top: 1px solid var(--main-color);
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    margin: 7px 0px 7px 0px;
+}
+
+.qr {
+    padding: 10px;
+}
+
+.qa:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.qa > div {
+    float: left;
+    padding: 10px;
+    height: auto;
+}
+
+.qa > div:nth-child(1) {
+  width: 65%;
+}
+
+.qa > div:nth-child(2) {
+  width: 35%;
+}
+
+.qb:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.qb > div {
+    float: left;
+    padding: 10px;
+    height: auto;
+}
+
+.qb > div:nth-child(1) {
+  width: 35%;
+}
+
+.qb > div:nth-child(2) {
+  width: 65%;
+}
+
+.mobr {
+    display: none;
+}
+
+/*possibly a portrait mobi-fone*/
+@media screen and (max-width:500px) {
+
+	.qa > div:nth-child(1),
+	.qa > div:nth-child(2),
+	.qb > div:nth-child(1),
+	.qb > div:nth-child(2)
+	{
+    	width: 100%;
+    }
+    
+    .mobr {
+        display: inline-block;
+    }
+    
+}
+
+/*possibly a mobile landscaper*/
+@media screen and (orientation: landscape) and (max-width: 760px) {
+
+    
+}
+
+.signature {
+    text-align: right;
+    font-family: 'luckiest guy';
+    font-style: italic;
+    height: 200px;
+    user-select:none;
+}
+
+</style>
+</head>
+
+<body style="background-color:#666;margin:0;">
+<div class="holder">
+    
+    <div demo id="svgHolder" class="qr">
+        
+        <svg id="houzzz" data-nose viewbox="-50 -30 100 60">
+            <path data-back />
+            <path data-side />
+            <path data-front />
+            <path data-roof />
+            <path data-door />
+            <ellipse data-window />
+            <path data-ground />
+        </svg>
+        
+        <style>
+        
+            #svgHolder {
+                text-align:center;
+                height:200px;
+            }
+            #houzzz {
+                --nose-hsla: hsla(20,100%,70%,1);
+                margin: auto;
+                width: 200px;
+                height: 200px;
+                overflow: visible;
+            }
+            
+            path, ellipse {
+                --lightness: var(--nose-L);
+                --midness: calc(0.5 * var(--lightness));
+                --darkness: calc(0.25 * var(--lightness));
+                --mdark : calc(1.5 * var(--darkness));
+                --ddark : calc(0.5 * var(--darkness));
+                
+                --fill: var(--lightness);
+                --stroke: var(--mdark);
+                
+                fill: hsl(var(--nose-H),var(--nose-S),var(--fill));
+                stroke: hsl(var(--nose-H),var(--nose-S),var(--stroke));
+                stroke-width: 3;
+                stroke-miterlimit: 200;
+                d: path(var(--d));
+            }
+            [data-back] {
+                --fill: var(--ddark);
+                --stroke: var(--ddark);
+                --d:'M0 0L-35 -2Q-17 -25 -10 -45Q5 -25 25 -20Z';
+            }
+            [data-side] {
+                --d:'M3 35L4 -11L30 0L 25 35';
+            }
+            [data-front] {
+                --d:'M-20 36L-25 -5Q-15 -20 -8 -35L4 -11L3 35';
+            }
+            [data-roof] {
+                --fill: var(--midness);
+                --stroke: var(--darkness);
+                --d:'M7 -2Q-5 -15 -10 -45Q5 -25 25 -25Q30 -10 40 2Z'
+            }
+            [data-door] {
+                --fill: var(--midness);
+                --stroke: var(--darkness);
+                --d:'M-13 36L-16 10L-4 7V35.6'
+                
+            }
+            [data-window] {
+                --fill: var(--midness);
+                --stroke: var(--darkness);
+                cx: -10;
+                cy: -10;
+                rx: 4;
+                ry: 9;
+                transform: rotate(3);
+                stroke-width: 2;
+            }
+            [data-ground] {
+                --fill: var(--ddark);
+                stroke: none;
+                --d:'M-50 41Q0 27 50 37Q0 32 -50 41Z'
+                
+            }
+        </style>
+        
+    </div>
+
+    <div intro class="qr">
+        
+        <b><a href="nosepicker.nano.js">nosepicker.nano.js</a></b>
+        is designed to be the smallest possible color picker
+        and still be fairly functional - scroll around on the
+        svg image above to see it werking
+    </div>
+    
+    <div prescript class="qr">
+        indicate any desired nano-nose-pickers using a
+        <i>data-nose</i> param, set the <i>nose-hsla</i>
+        css variable [else it will default to <i>0,100%,50%,1</i>],
+        then include the script
+        <br><br>
+        
+        let's look at an overdone example so you can see
+        all the defaults:
+        <br><br>
+        
+        <pre>
+&lt;div data-nose="target"
+
+ style="
+ 
+    --nose-hsla: hsla(40,80%,50%,1);
+    
+    /*
+        var(--nose-H);
+        var(--nose-S);
+        var(--nose-L);
+        var(--nose-A);
+        var(--nose-hsla);
+    */
+    
+    background-color: var(--nose-hsla);
+    
+    color: hsl(
+        var(--nose-H),
+        var(--nose-S),
+        calc(0.5 * var(--nose-L))
+    );
+    
+ "
+&gt;&lt;/div&gt;
+
+&lt;script src="nosepicker.nano.js"&gt;&lt;/script&gt;
+        </pre>
+    </div>
+    
+    <div defaults class="qr">
+        
+        what do all of these things mean here?
+        <br><br>
+        
+        <ul>
+            <li><b>data-nose</b>: this is the <i>data-param</i>
+            that tells the nano script to select this element
+            as a nosepicker
+            </li>
+            <br>
+            
+            <li><b>target</b>: this is an optional <i>string</i>
+            indicating the <i>id</i> of the element whose
+            <i>&#8209;&#8209;nose&#8209;hsla</i> css varibles
+            you actually want
+            to change - by default, nanopicker will change
+            the css vars of the element itself, but there
+            could be instances when you'd like it to change
+            some other object
+            </li>
+            <br>
+            
+            <li><b>&#8209;&#8209;nose&#8209;hsla</b>: this is the css variable
+            for the <i>hsla value</i> that you want to be
+            the initial color for this nosepicker - if you
+            do not include this var, nanopicker will use
+            a fully-opaque red [hsla(0,100%,50%,1)] - you
+            can enter either a valid css hsla() value, or
+            just a string of the values, like this:
+            <i>'280,70%,50%,0.5'</i> if you want
+            </li>
+            <br>
+            
+            <li><b>var(&#8209;&#8209;nose&#8209;*)</b>: these are all the
+            css vars that get set by the nanopicker
+            &#8209;&#8209;nose&#8209;H is the hue, &#8209;&#8209;nose&#8209;S is the saturation,
+            &c., &c.
+            </li>
+            <br>
+            
+            <li><b>background-color</b>: as an example,
+            the div's background-color has been set to
+            the hsla value from the nosepicker
+            </li>
+            <br>
+            
+            <li><b>color</b>: as another example, the
+            div's text color has been set to darker version
+            of the hsl color by making a specific hsl color
+            that darkens just the <i>lightness</i> variable
+            by fifty-percent
+            </li>
+            <br>
+            
+            <li><b>&lt;script&gt;</b>: for the nano~fied
+            version, the script tag must occur <i>after</i>
+            any elements in the page that you want to
+            be nanopickers
+            </li>
+            <br>
+            
+        </ul>
+    </div>
+    
+    <hr>
+    
+    <div id="balldemo" class="qr" data-nose>
+        
+        this div uses <i>css calc()</i>
+        to create a theme of colors based on the
+        &#8209;&#8209;nose&#8209;hsla values
+        <br><br>
+        
+        <div id="ballDiv">
+            <div id="ball1" class="ball"></div>
+            <div id="ball2" class="ball"></div>
+            <div id="ball3" class="ball"></div>
+        
+            <style>
+
+            * {
+                box-sizing: border-box;
+            }
+
+            #balldemo {
+                color: hsl(
+                    var(--nose-H),
+                    var(--nose-S),
+                    calc(0.5 * var(--nose-L))
+                );
+            }
+    
+            #ballDiv {
+                        
+                --nose-hsla: '280,100,50,1';
+                        
+                --lightness: var(--nose-L);
+                --midness:   calc(0.75 * var(--lightness));
+                --darkness:  calc(0.25 * var(--lightness));
+                --blackness: calc(0.05 * var(--lightness));
+                
+                --back: var(--lightness);
+                --bord: var(--midness);
+                        
+                display: flex;
+                flex-direction: rows;
+                justify-content: space-around;
+                        
+                width: 100%;
+                
+            }
+            
+            .ball {
+                float: left;
+                height: 100px;
+                width: 100px;
+                border-radius: 50%;
+                display: inline-block;
+                background-color: hsla(
+                    var(--nose-H),
+                    var(--nose-S),
+                    var(--back)
+                );
+                border: 5px solid hsl(
+                    var(--nose-H),
+                    var(--nose-S),
+                    calc(0.6 * var(--bord))
+                );
+            }
+
+            #ball1 {
+                --back: var(--lightness);
+                --bord: var(--midness);
+            }
+
+            #ball2 {
+                --back: var(--midness);
+                --bord: var(--darkness);
+            }
+
+            #ball3 {
+                --back: var(--darkness);
+                --bord: var(--blackness);
+            }
+
+            </style>
+        </div>
+    
+    </div>
+
+    <hr>
+    
+    <div presimple class="qr">
+        the simplest possible implimentation, starting
+        from the default red color, would
+        look like this:<br><br>
+        
+        <pre>
+&lt;div data-nose style="
+    background-color:var(--nose-hsla);
+"&gt;&lt;/div&gt;
+&lt;script&gt; src="nosepicker.nano.js"&lt;/script&gt;
+        </pre>
+    </div>
+
+    <div scripicker class="qr">
+        an actual display of the color value
+        could be done with a script that pulled
+        the value from the css variable
+        <br><br>
+        
+        <div class="qa">
+            
+            <div id="nanopicker" data-nose style="
+                height:200px;
+                --nose-hsla: '30,100,50,1';
+                background-color: var(--nose-hsla);
+            "></div>
+            
+            <div id="output" style="
+                font-family: luckiest guy;
+                font-size: 1.5em;
+                color: var(--nose-hsla);
+            ">
+                hsla(...)
+            </div>
+            
+            <script>
+            
+                np = document.getElementById('nanopicker');
+                op = document.getElementById('output');
+                
+                ['wheel','touchmove'].forEach(e =>
+                np.addEventListener(e, ()=>{
+                    op.innerHTML =
+                    (op.style.color=
+                    np.style.getPropertyValue('--nose-hsla'));
+                }))
+                
+            </script>
+            
+        </div>
+        
+    </div>
+    
+    <hr>
+    
+    <div codescussion class="qr">
+        the code itself is incredibly small; let's take a look...
+        <br><br>
+        <pre>
+((T='touches',G=(...v)=>v.sort((a,b)=>a-b)[1],m=[0,0],
+S=(v,n)=>[...v,'hsla('+v.map((p,i)=>p+' %% '[i])+')']
+.forEach((p,i)=>n.style.setProperty('--nose-'+('HSLA'
+[i]||'hsla'),p+' %%  '[i])),C=(e,n,v,X,Y,K)=>{
+e.stopPropagation();e.preventDefault();
+K?(v[1]=G(v[1]+Y/50,100,0),v[3]=G(v[3]-X/5000,1,0)):
+(v[0]-=Y/50,v[2]=G(v[2]+X/100,100,0));S(v,n);},
+)=>document.querySelectorAll('[data-nose]')
+.forEach((N,v,J)=>{ J=document.getElementById(N.dataset
+.nose)||N;S(v=(window.getComputedStyle(N).getProperty
+Value('--nose-hsla')||'0,100,50,1').match(/[\d\.]+/g)
+.map(p=>NuggVGmber(p)),N);let Z = {'wheel':e=>C(e,J,v,
+e.wheelDeltaX,e.wheelDeltaY,e.ctrlKey),'touchstart':
+e=>m=[e[T][0].pageX,e[T][0].pageY],'touchmove':
+e=>C(e,J,v,m[0]-e[T][0].pageX,m[1]-e[T][0].pageY,e[T][1])};
+for(let z in Z){N.addEventListener(z,Z[z])}}))();
+        </pre>
+        
+        <br>
+        <i>yikes!</i> what does all that mean?
+        <br><br>
+        
+        <pre>
+// creates an anonymouse closure
+((
+
+    // a string for use in touchscreen
+    T='touches',
+    
+    // the coords of the touchmove
+    m=[0,0],
+
+    // a method to gate a value
+    G=(...v)=>v.sort((a,b)=>a-b)[1],
+    
+    // method to set the css color vars
+    S=(
+        v, // the values array to set
+        n  // reference to the nanopicker
+    )=>
+    
+        // creates a new array
+        [
+            // the spreads the passed-in value
+            ...v
+            
+            // then adds another value
+            ,
+            
+            // which is a css hsla string
+            'hsla('+
+            
+            // adds each value plus correct unit
+            v.map((p,i)=>p+' %% '[i])
+            
+            // and closes the hsla string
+            +')'
+        ]
+        
+        // loops through the, now, five values
+        .forEach((p,i)=>
+        
+            // setting the nanopicker's css vals
+            n.style.setProperty(
+            
+                // to the value plus correct unit
+                '--nose-'+('HSLA'[i]||'hsla'),p+' %%  '[i]
+            )
+        ),
+
+    // method to calculate the new value
+    C=(
+        e, // the event
+        n, // nanopicker reference
+        v, // the value to adjust
+        X, // the x-coord change
+        Y, // the y-coord change
+        K  // was ctrl-key pressed?
+    )=>{
+    
+        // suppress any default behaviors
+        e.stopPropagation();e.preventDefault();
+
+        K? // if the ctrl-key was pressed ...
+         (
+            // gate the luminocity by y-delta
+            v[1]=G(v[1]+Y/50,100,0),
+            
+            // gate the opacity by the x-delta
+            v[3]=G(v[3]-X/5000,1,0)
+         )
+         
+         : // otherwise if no ctrl-key ...
+         
+         (
+            // adjust the hue
+            v[0]-=Y/50,
+            
+            // gate the lightness by the x-delta
+            v[2]=G(v[2]+X/100,100,0)
+            
+         );
+    
+        // set the value for this nanopicker
+        S(v,n);
+    
+    },
+    
+// loop through every specified element
+)=>document.querySelectorAll('[data-nose]').forEach((
+
+    N, // refernce to the nanopicker
+    v, // !!!OVERWRITTEN index!!!
+    J  // !!!OVERWRITTEN nodelist!!!
+    
+)=>{
+
+    // overwrite the nodelist by the target ...
+    J=document.getElementById(N.dataset.nose)
+    
+    // otherwise just use the element itself
+    ||N;
+        
+    // set the nano picker's value ...
+    S(
+    
+        // overwrite the index with the value
+        v=
+        
+            // by getting the style of this nanopicker
+            (window.getComputedStyle(N)
+        
+            // and its css var's value ...
+            .getPropertyValue('--nose-hsla')
+            
+            // otherwise use these defaults
+            ||'0,100,50,1')
+            
+            // find anything that's a number ...
+            .match(/[\d\.]+/g)
+            
+            // make it actually BE a number
+            .map(p=>Number(p)),
+            
+            // this nanopicker will get set
+            N);
+    
+    // create an object listing all listeners
+    let Z = {
+        
+        // the scroll listener ...
+        'wheel':e=>
+        
+            // calls the color-calculator
+            C(e,J,v,e.wheelDeltaX,e.wheelDeltaY,e.ctrlKey),
+            
+        // the touch start listener ...
+        'touchstart':e=>
+        
+            // resets the move-coords
+            m=[e[T][0].pageX,e[T][0].pageY],
+            
+        // the touch move listener ...
+        'touchmove':e=>
+        
+            // calls the color-calculator
+            C(e,J,v,m[0]-e[T][0].pageX,m[1]-e[T][0].pageY,e[T][1])
+    };
+    
+    // loop through all the listeners
+    for(let z in Z){
+    
+        // add them to this nanopicker
+        N.addEventListener(z,Z[z])
+        
+    }
+    
+// take a selfie on the moon
+}))();
+        </pre>
+        
+        <br>
+        <i>how could this be made any smaller?</i>
+        <br><br>
+        well, it would be nice if there were a way,
+        using only css, to make it unecessary to have
+        a <i>target</i> option - for now, I can't think
+        of a way around using that, but it would
+        significantly reduce the code's size to get
+        rid of the line that creates the <i>target</i>
+        
+    </div>
+
+    <br><hr><div class="qr signature">~queviva</div>
+    
+</div>
+</body>
+
+<script src="nosepicker.nano.js"></script>
+
+</html>
