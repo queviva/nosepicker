@@ -329,48 +329,53 @@ picker.addEventListener('nose-input', e => {
         
         #rootExample {
             
-            --nose-h: 280;
-            --nose-s: 100%;
-            --nose-l: 60%;
-            --nose-a: 1;
-            
-            --nose-hsla: hsla(
-                var(--nose-h),
-                var(--nose-s),
-                var(--nose-l),
-                var(--nose-a)
-            );
-            
-            --dark: hsla(
-                calc(1.0 * var(--nose-h)),
-                calc(0.7 * var(--nose-s)),
-                calc(0.4 * var(--nose-l)),
-                var(--nose-a)
-            );
-            
-            --lite: hsla(
-                calc(1.0 * var(--nose-h)),
-                calc(0.5 * var(--nose-s)),
-                calc(1.3 * var(--nose-l)),
-                var(--nose-a)
-            );
-            
-            --comp1: hsla(
-                calc(20  + var(--nose-h)),
-                calc(1.0 * var(--nose-s)),
-                calc(1.0 * var(--nose-l)),
-                var(--nose-a)
-            );
-            
-            --comp2: hsla(
-                calc(0.0 + var(--nose-h)),
-                calc(0.5 * var(--nose-s)),
-                calc(1.0 * var(--nose-l)),
-                var(--nose-a)
-            );
-            
             background-color: var(--main-color);
             border: 1px solid var(--holder-back);
+            
+            --nose-h: 280;
+            --nose-s: 100%;
+            --nose-l: 50%;
+            --nose-a: 1;
+            
+            --nose-hsla: hsla(280,100%,50%,1);
+            
+            --lite: hsl(
+                var(--nose-h),
+                var(--nose-s),
+                var(--nose-l)
+            );
+            
+            --midi: hsl(
+                var(--nose-h),
+                var(--nose-s),
+                calc(0.75 * var(--nose-l))
+            );
+            
+            --dark: hsl(
+                var(--nose-h),
+                var(--nose-s),
+                calc(0.5 * var(--nose-l))
+            );
+            
+            --deep: hsl(
+                var(--nose-h),
+                var(--nose-s),
+                calc(0.25 * var(--nose-l))
+            );
+            
+        }
+        .ball {
+            
+            display: inline-block;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            
+            --back: var(--lite);
+            --bord: var(--midi);
+            
+            background-color: var(--back);
+            border: 5px solid var(--bord);
         }
         
         </style>
@@ -380,7 +385,7 @@ picker.addEventListener('nose-input', e => {
             a different <i>root</i> element;
         </span>
         
-        <span style="color:var(--nose-hsla)">
+        <span style="color:var(--midi)">
             all of the aspects of this div are styled using
             css vars that <i>calc()</i> their values based
             on the <i>&#8209;&#8209;nose-hsla</i> values;
@@ -393,31 +398,14 @@ picker.addEventListener('nose-input', e => {
         </span>
         
         <div class="qr" style="text-align:center;">
-            <div style="
-                display:inline-block;
-                height:50px;
-                width:50px;
-                border-radius:50%;
-                background-color:var(--comp1);
-                font-size:8px;
+            <div class="ball" style="
+                --back:var(--lite);--bord:var(--midi)
             "></div>
-        
-            <div style="
-                display:inline-block;
-                height:50px;
-                width:50px;
-                border-radius:50%;
-                background-color:var(--comp2);
-                font-size:8px;
+            <div class="ball" style="
+                --back:var(--midi);--bord:var(--dark)
             "></div>
-        
-            <div style="
-                display:inline-block;
-                height:50px;
-                width:50px;
-                border-radius:50%;
-                background-color:var(--dark);
-                font-size:8px;
+            <div class="ball" style="
+                --back:var(--dark);--bord:var(--deep)
             "></div>
         </div>
         
@@ -426,7 +414,7 @@ picker.addEventListener('nose-input', e => {
          style="
           height:100px;
           width:100%;
-          background-color:var(--nose-hsla);
+          background-color:var(--lite);
           border:10px solid var(--dark);
          "
         ></div>

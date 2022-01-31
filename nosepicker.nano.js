@@ -24,7 +24,7 @@ C=(e,n,v,X,Y,K)=>{
 
 J=document.getElementById(N.dataset.nose)||N;
         
-    S(v=(window.getComputedStyle(N).getPropertyValue('--nose-hsla')||'0,100,50,1').match(/[\d\.]+/g).map(p=>Number(p)),N);
+    S(v=(window.getComputedStyle(J).getPropertyValue('--nose-hsla')||'0,100,50,1').match(/[\d\.]+/g).map(p=>Number(p)),J);
     
     let Z = {
         'wheel':e=>C(e,J,v,e.wheelDeltaX,e.wheelDeltaY,e.ctrlKey),
@@ -35,3 +35,10 @@ J=document.getElementById(N.dataset.nose)||N;
     for(let z in Z){N.addEventListener(z,Z[z])}
     
 }))();
+
+const xModByM = (x, M) => ((x % M) + M) % M;
+
+console.log(
+    (3 - 20) % 100,
+    xModByM(3-20, 100)
+);

@@ -57,7 +57,9 @@
                 hsla:
                     (
                         prefs.hsla ||
-                        window.getComputedStyle(obj)
+                        window.getComputedStyle(
+                            document.getElementById(prefs.root)||obj
+                        )
                         .getPropertyValue(`--${R}-hsla`) ||
                         '0,100,50,1'
                     )
