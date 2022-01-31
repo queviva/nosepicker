@@ -150,6 +150,7 @@ hr {
 }
 
 </style>
+<script defer src="nosepicker.nano.js"></script>
 </head>
 
 <body style="background-color:#666;margin:0;">
@@ -248,10 +249,10 @@ hr {
     </div>
     
     <div prescript class="qr">
+        include the script, then
         indicate any desired nano-nose-pickers using a
         <i>data-nose</i> param, set the <i>nose-hsla</i>
-        css variable [else it will default to <i>0,100%,50%,1</i>],
-        then include the script
+        css variable [else it will default to <i>0,100%,50%,1</i>]
         <br><br>
         
         let's look at an overdone example so you can see
@@ -259,6 +260,8 @@ hr {
         <br><br>
         
         <pre>
+&lt;script defer src="nosepicker.nano.js"&gt;&lt;/script&gt;
+
 &lt;div data-nose="target"
 
  style="
@@ -284,7 +287,6 @@ hr {
  "
 &gt;&lt;/div&gt;
 
-&lt;script src="nosepicker.nano.js"&gt;&lt;/script&gt;
         </pre>
     </div>
     
@@ -294,6 +296,13 @@ hr {
         <br><br>
         
         <ul>
+            <li><b>&lt;script defer&gt;</b>: for the nano~fied
+            version, the script must be defered until after
+            the DOM has loaded - that is, if it is not placed
+            at the <i>end</i> of the document
+            </li>
+            <br>
+            
             <li><b>data-nose</b>: this is the <i>data-param</i>
             that tells the nano script to select this element
             as a nosepicker
@@ -324,7 +333,10 @@ hr {
             
             <li><b>var(&#8209;&#8209;nose&#8209;*)</b>: these are all the
             css vars that get set by the nanopicker
-            &#8209;&#8209;nose&#8209;H is the hue, &#8209;&#8209;nose&#8209;S is the saturation,
+            <i>&#8209;&#8209;nose&#8209;H</i>
+            is the hue,
+            <i>&#8209;&#8209;nose&#8209;S</i>
+            is the saturation,
             &c., &c.
             </li>
             <br>
@@ -336,19 +348,13 @@ hr {
             <br>
             
             <li><b>color</b>: as another example, the
-            div's text color has been set to darker version
-            of the hsl color by making a specific hsl color
+            div's text color has been set to a darker version
+            of the nose-color by making a specific hsl color
             that darkens just the <i>lightness</i> variable
             by fifty-percent
             </li>
             <br>
             
-            <li><b>&lt;script&gt;</b>: for the nano~fied
-            version, the script tag must occur <i>after</i>
-            any elements in the page that you want to
-            be nanopickers
-            </li>
-            <br>
             
         </ul>
     </div>
@@ -443,14 +449,16 @@ hr {
     
     <div presimple class="qr">
         the simplest possible implimentation, starting
-        from the default red color, would
-        look like this:<br><br>
+        from the default red color, and placing the
+        script at the end of the file,
+        would look like this:<br><br>
         
         <pre>
 &lt;div data-nose style="
     background-color:var(--nose-hsla);
 "&gt;&lt;/div&gt;
-&lt;script&gt; src="nosepicker.nano.js"&lt;/script&gt;
+
+&lt;script src="nosepicker.nano.js"&gt;&lt;/script&gt;
         </pre>
     </div>
 
@@ -543,7 +551,7 @@ for(let z in Z){N.addEventListener(z,Z[z])}}))();
     
         // creates a new array
         [
-            // the spreads the passed-in value
+            // that spreads the passed-in value
             ...v
             
             // then adds another value
@@ -684,12 +692,25 @@ for(let z in Z){N.addEventListener(z,Z[z])}}))();
         <br>
         <i>how could this be made any smaller?</i>
         <br><br>
+        
         well, it would be nice if there were a way,
         using only css, to make it unecessary to have
         a <i>target</i> option - for now, I can't think
         of a way around using that, but it would
         significantly reduce the code's size to get
         rid of the line that creates the <i>target</i>
+        <br><br>
+        
+        also, there might be a way to avoid
+        passing around the nosepicker and value
+        <i>references</i> - that would reduce
+        the size by a few characters
+        <br><br>
+        
+        this code is based on an attempt, originally,
+        to demonstrate that a color-picker could be
+        written in <i>one line</i> of javascript,
+        which is possible
         
     </div>
 
@@ -698,6 +719,5 @@ for(let z in Z){N.addEventListener(z,Z[z])}}))();
 </div>
 </body>
 
-<script src="nosepicker.nano.js"></script>
 
 </html>
