@@ -498,18 +498,26 @@ hr {
         </dd>
         <br><br>
         
-        <div id="pickarea" class="qa" style="--nose-hsla: '40,100,50,1'">
+        <div id="pickarea" class="qa" style="
+            --nose-hsla: '40,100,50,1';
+            --outline: hsl(
+                var(--nose-h),
+                var(--nose-s),
+                calc(100% - var(--nose-l))
+            );
+        ">
             
             <div id="heart" data-nose="pickarea" style="
                 height:150px;
                 background-color:var(--nose-hsla);
+                border:1px solid var(--outline);
             "></div>
             
             <div id="output" style="
                 font-family: luckiest guy;
                 font-size: 1.5em;
                 color: var(--nose-hsla);
-                -webkit-text-stroke:1px var(--main-color);
+                -webkit-text-stroke:1px var(--outline);
             "> hsla(...) </div>
             
             <script>
