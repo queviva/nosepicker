@@ -386,7 +386,7 @@ hr {
                 --nose-hsla: '288,100,50,1';
                 
                 --lightness: var(--nose-L);
-                --midness:   calc(0.75 * var(--lightness));
+                --midness:   calc(0.65 * var(--lightness));
                 --darkness:  calc(0.25 * var(--lightness));
                 --blackness: calc(0.05 * var(--lightness));
                 
@@ -402,7 +402,7 @@ hr {
                 border: 5px solid hsl(
                     var(--nose-H),
                     var(--nose-S),
-                    var(--midness)
+                    var(--darkness)
                 );
                 
             }
@@ -456,7 +456,8 @@ hr {
         </div>
     
     </div>
-
+    <br>
+    
     <div presimple class="qr">
         
         the simplest possible implementation, starting
@@ -471,13 +472,30 @@ hr {
 
 &lt;script src="nosepicker.nano.js"&gt;&lt;/script&gt;
         </pre>
+        <br>
     </div>
 
+    <hr>
     <div scripicker class="qr">
         
-        an actual display of the color value
-        could be done with a script that pulled
-        the value from the css variable
+        a display of the color value
+        could be done with a script that
+        listened for the <i>wheel</i> and
+        <i>touch</i> events, then pulled
+        the value from the css variable;
+        
+        the individual hue, saturation, &c.
+        values can be turned into an array
+        by mapping anything in the css variable string
+        that looks like a number into an <i>actual</i>
+        number
+        <br><br>
+        
+        <dd style="font-size:0.8em;font-family:monospace;">
+        picker.style.getPropertyValue('--nose-hsla')<br>
+        .match(/[\d\.]+/g)<br>
+        .map(p=>Number(p))<br>
+        </dd>
         <br><br>
         
         <div id="pickarea" class="qa" style="--nose-hsla: '40,100,50,1'">
@@ -518,7 +536,6 @@ hr {
     </div>
     
     <hr>
-    
     <div codescussion class="qr">
         the code itself is incredibly small; let's take a look...
         <br><br>
