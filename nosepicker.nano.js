@@ -6,13 +6,15 @@ document.querySelectorAll('[data-nose]').forEach((
     
     T='touches',
     
+    H='hsla',
+    
     M=[0,0],
     
     G=(...v)=>v.sort((a,b)=>a-b)[1],
     
     S=()=>
-        [...V,'hsla('+V.map((p,i)=>p+' %% '[i])+')'].forEach((p,i)=>
-        J.style.setProperty('--nose-'+('HSLA'[i]||'hsla'),p+' %%  '[i]))
+        [...V,H+'('+V.map((p,i)=>p+' %% '[i])+')'].forEach((p,i)=>
+        J.style.setProperty('--nose-'+(H[i]||H),p+' %%  '[i]))
     ,
 
     C=(e,X,Y,K)=>{
@@ -37,7 +39,7 @@ document.querySelectorAll('[data-nose]').forEach((
         
         J=document.getElementById(N.dataset.nose)||N,
         
-        V=(window.getComputedStyle(J).getPropertyValue('--nose-hsla')||
+        V=(window.getComputedStyle(J).getPropertyValue('--nose-'+H)||
         '0,100,50,1').match(/[\d\.]+/g).map(p=>Number(p))
         
     );

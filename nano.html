@@ -1,7 +1,7 @@
 <!doctype html>
 
 <head>
-<title>nosepicker</title>
+<title>nanopicker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link id="luckiestFont" href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
 <style id="demoStyles">
@@ -183,7 +183,7 @@ hr {
                 overflow: visible;
             }
             path, ellipse {
-                --lightness: var(--nose-L);
+                --lightness: var(--nose-l);
                 --midness: calc(0.5 * var(--lightness));
                 --darkness: calc(0.25 * var(--lightness));
                 --mdark : calc(1.5 * var(--darkness));
@@ -192,8 +192,8 @@ hr {
                 --fill: var(--lightness);
                 --stroke: var(--mdark);
                 
-                fill: hsl(var(--nose-H),var(--nose-S),var(--fill));
-                stroke: hsl(var(--nose-H),var(--nose-S),var(--stroke));
+                fill: hsl(var(--nose-h),var(--nose-s),var(--fill));
+                stroke: hsl(var(--nose-h),var(--nose-s),var(--stroke));
                 stroke-width: 3;
                 stroke-miterlimit: 200;
                 d: path(var(--d));
@@ -277,19 +277,19 @@ hr {
     --nose-hsla: hsla(40,80%,50%,1);
     
     /*
-        var(--nose-H);
-        var(--nose-S);
-        var(--nose-L);
-        var(--nose-A);
+        var(--nose-h);
+        var(--nose-s);
+        var(--nose-l);
+        var(--nose-a);
         var(--nose-hsla);
     */
     
     background-color: var(--nose-hsla);
     
     color: hsl(
-        var(--nose-H),
-        var(--nose-S),
-        calc(0.5 * var(--nose-L))
+        var(--nose-h),
+        var(--nose-s),
+        calc(0.5 * var(--nose-l))
     );
     
  "
@@ -385,7 +385,7 @@ hr {
                 
                 --nose-hsla: '288,100,50,1';
                 
-                --lightness: var(--nose-L);
+                --lightness: var(--nose-l);
                 --midness:   calc(0.65 * var(--lightness));
                 --darkness:  calc(0.25 * var(--lightness));
                 --blackness: calc(0.05 * var(--lightness));
@@ -394,14 +394,14 @@ hr {
                 --bord: var(--midness);
                 
                 color: hsl(
-                    var(--nose-H),
-                    var(--nose-S),
+                    var(--nose-h),
+                    var(--nose-s),
                     var(--midness)
                 );
                 
                 border: 5px solid hsl(
-                    var(--nose-H),
-                    var(--nose-S),
+                    var(--nose-h),
+                    var(--nose-s),
                     var(--darkness)
                 );
                 
@@ -421,13 +421,13 @@ hr {
                 border-radius: 50%;
                 display: inline-block;
                 background-color: hsla(
-                    var(--nose-H),
-                    var(--nose-S),
+                    var(--nose-h),
+                    var(--nose-s),
                     var(--back)
                 );
                 border: 5px solid hsl(
-                    var(--nose-H),
-                    var(--nose-S),
+                    var(--nose-h),
+                    var(--nose-s),
                     calc(0.8 * var(--bord))
                 );
             }
@@ -540,21 +540,23 @@ hr {
         the code itself is incredibly small; let's take a look...
         <br><br>
         <pre>
-document.querySelectorAll('[data-nose]').forEach((N,V,J,
-T='touches',M=[0,0],G=(...V)=>V.sort((a,b)=>a-b)[1],
-S=()=>[...V,'hsla('+V.map((p,i)=>p+' %% '[i])+')'].forEach((p,i)=>
-J.style.setProperty('--nose-'+('HSLA'[i]||'hsla'),p+' %%  '[i])),
-C=(e,X,Y,K)=>{e.stopPropagation();e.preventDefault();
-S(K?(V[1]=G(V[1]+Y/50,100,0),V[3]=G(V[3]-X/5000,1,0)):
-(V[0]-=Y/50,V[2]=G(V[2]+X/100,100,0)));},
-Z={'wheel':e=>C(e,e.wheelDeltaX,e.wheelDeltaY,e.ctrlKey),
-'touchstart':e=>M=[e[T][0].pageX,e[T][0].pageY],
-'touchmove':e=>C(e,M[0]-e[T][0].pageX,M[1]-e[T][0].pageY,e[T][1])
-})=>{S(J=document.getElementById(N.dataset.nose)||N,
-V=(window.getComputedStyle(J).getPropertyValue('--nose-hsla')||
-'0,100,50,1').match(/[\d\.]+/g).map(p=>Number(p)));
-for(let z in Z){N.addEventListener(z,Z[z])}});
-            
+document.querySelectorAll('[data-nose]').forEach(
+(N,V,J,T='touches',H='hsla',M=[0,0],G=(...v)=>v
+.sort((a,b)=>a-b)[1],S=()=>[...V,H+'('+V.map((p,i)
+=>p+' %% '[i])+')'].forEach((p,i)=>J.style
+.setProperty('--nose-'+(H[i]||H),p+' %%  '[i])),
+C=(e,X,Y,K)=>{e.stopPropagation();
+e.preventDefault();S(K?(V[1]=G(V[1]+Y/50,100,0),
+V[3]=G(V[3]-X/5000,1,0)):(V[0]-=Y/50,V[2]=G(V[2]
++X/100,100,0)));},Z={'wheel':e=>C(e,e.wheelDeltaX,
+e.wheelDeltaY,e.ctrlKey),'touchstart':e=>M=[e[T]
+[0].pageX,e[T][0].pageY],'touchmove':e=>C(e,M[0]
+-e[T][0].pageX,M[1]-e[T][0].pageY,e[T][1])})=>{
+S(J=document.getElementById(N.dataset.nose)||N,
+V=(window.getComputedStyle(J).getPropertyValue(
+'--nose-'+H)||'0,100,50,1').match(/[\d\.]+/g)
+.map(p=>Number(p)));for(let z in Z){
+N.addEventListener(z,Z[z])}});
         </pre>
         
         <br>
@@ -568,6 +570,9 @@ document.querySelectorAll('[data-nose]').forEach((
     N, // the _N_anopicker element
     V, // _V_alue [overwrites index]
     J, // ob_J_ect [overwrites nodelist]
+    
+    // string for _H_sla vars
+    H='hsla'
     
     // string for _T_ouchscreens
     T='touches',
@@ -591,7 +596,7 @@ document.querySelectorAll('[data-nose]').forEach((
             ,
             
             // a css hsla string
-            'hsla('
+            H+'('
             
             // and the values mapped to
             +V.map((p,i)=>
@@ -615,10 +620,10 @@ document.querySelectorAll('[data-nose]').forEach((
                 '--nose-'
                 
                 // and H, S, L, A ...
-                +('HSLA'[i]
+                +H[i]
                 
                 // or hsla
-                ||'hsla')
+                ||H)
                 
                 // to the value ...
                 ,p
@@ -678,7 +683,7 @@ document.querySelectorAll('[data-nose]').forEach((
         
             // calls the color adjustor
             C(
-                e, // with all values
+                e, // with wheel values
                 e.wheelDeltaX,
                 e.wheelDeltaY,
                 e.ctrlKey
@@ -721,6 +726,7 @@ document.querySelectorAll('[data-nose]').forEach((
         
         // overwrite the index by
         V=(
+        
             // grabbing the target's style
             window.getComputedStyle(J)
             

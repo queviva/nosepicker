@@ -240,10 +240,10 @@ picker.addEventListener('nose-input', e => {
     // e.detail is an hsla color string
 
     // the css var --nose-hsla is the same
-    // the css var --nose-H is the hue
-    // the css var --nose-S is the saturation
-    // the css var --nose-L is the luminosity
-    // the css var --nose-A is the opacity
+    // the css var --nose-h is the hue
+    // the css var --nose-s is the saturation
+    // the css var --nose-l is the luminosity
+    // the css var --nose-a is the opacity
         
 });
 
@@ -318,8 +318,8 @@ picker.addEventListner('nose-change', e => {
             <li><b>css variables</b>: by default, nosepicker.js will
             set the values of several css variables called
             <i>&#8209;&#8209;nose-hsla</i> for the full hsla color string,
-            <i>&#8209;&#8209;nose-H</i> for just the hue,
-            <i>&#8209;&#8209;nose-S</i> for just the saturation,
+            <i>&#8209;&#8209;nose-h</i> for just the hue,
+            <i>&#8209;&#8209;nose-s</i> for just the saturation,
             &c. &c.
             these variable names will begin with whatever you
             specify as the <i>selector</i>
@@ -381,35 +381,35 @@ picker.addEventListner('nose-change', e => {
             background-color: var(--main-color);
             border: 1px solid var(--holder-back);
             
-            --nose-H: 280;
-            --nose-S: 100%;
-            --nose-L: 80%;
-            --nose-A: 1;
+            --nose-h: 280;
+            --nose-s: 100%;
+            --nose-l: 80%;
+            --nose-a: 1;
             
             --nose-hsla: hsla(280,100%,80%,1);
             
             --lite: hsl(
-                var(--nose-H),
-                var(--nose-S),
-                var(--nose-L)
+                var(--nose-h),
+                var(--nose-s),
+                var(--nose-l)
             );
             
             --midi: hsl(
-                var(--nose-H),
-                var(--nose-S),
-                calc(0.75 * var(--nose-L))
+                var(--nose-h),
+                var(--nose-s),
+                calc(0.75 * var(--nose-l))
             );
             
             --dark: hsl(
-                var(--nose-H),
-                var(--nose-S),
-                calc(0.5 * var(--nose-L))
+                var(--nose-h),
+                var(--nose-s),
+                calc(0.5 * var(--nose-l))
             );
             
             --deep: hsl(
-                var(--nose-H),
-                var(--nose-S),
-                calc(0.25 * var(--nose-L))
+                var(--nose-h),
+                var(--nose-s),
+                calc(0.25 * var(--nose-l))
             );
             
         }
@@ -467,9 +467,9 @@ picker.addEventListner('nose-change', e => {
           background-color:var(--lite);
           border:10px solid var(--dark);
           color:hsl(
-            calc(180 + var(--nose-H)),
-            var(--nose-S),
-            calc(100% - var(--nose-L))
+            calc(180 + var(--nose-h)),
+            var(--nose-s),
+            calc(100% - var(--nose-l))
           );
           text-align:center;
           line-height: 70px;

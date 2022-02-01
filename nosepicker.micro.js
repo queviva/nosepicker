@@ -22,7 +22,7 @@
     
     G=(...v)=>v.sort((a,b)=>a-b)[1],
     
-    Q=()=>'hsla('+V.map((p,i)=>p+' %% '[i])+')',
+    Q=()=>`hsla(${V.map((p,i)=>p+' %% '[i])})`,
     
     D=(e,d)=>N.dispatchEvent(new CustomEvent(e,d)),
     
@@ -31,9 +31,9 @@
         detail:Q(),
         
         p:[...V,Q()].forEach((p,i)=>
-           J.style.setProperty('--nose-'+('HSLA'[i]||'hsla'),p+' %%  '[i])),
+           J.style.setProperty('--nose-'+('hsla'[i]||'hsla'),p+' %%  '[i])),
         
-        i:F.pattern?(N.style.backgroundImage = V[3] < 1 ?
+        i:F.pattern?(N.style.backgroundImage=V[3]<1?
 `repeating-linear-gradient(-45deg,rgba(0,0,0,${0.5-V[3]/2}),rgba(0,0,0,${0.5-V[3]/2}) 10px,transparent 10px,transparent 20px)`:''
         ):''
         
