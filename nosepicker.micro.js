@@ -1,18 +1,14 @@
 ((
-    dset = document.currentScript.dataset,
+    dset=document.currentScript.dataset,
     
-    P = Object.assign(
-        { selector: 'nose' },
-        JSON.parse(Object.values(dset)[0] || '{}')
+    P=Object.assign(
+        {selector:'nose'},
+        JSON.parse(Object.values(dset)[0]||'{}')
     ),
     
-    R = P.selector
+    R=P.selector
     
-) => document.querySelectorAll(`[data-${R}]:not(script)`).forEach((
-    
-    N,
-    V,
-    J,
+) => document.querySelectorAll(`[data-${R}]:not(script)`).forEach((N,V,J,
     
     T='touches',
     
@@ -39,26 +35,17 @@
         
     }),
 
-    C=(e,X,Y,K)=>{
+    C=(e,X,Y,K,z=e.stopPropagation()+e.preventDefault())=>S(K?
+       (V[1]=G(V[1]+Y/50,100,0),V[3]=G(V[3]-X/5000,1,0)):
+       (V[0]-=Y/50,V[2]=G(V[2]+X/100,100,0))
+    ),
     
-        e.stopPropagation();
-        e.preventDefault();
-    
-        S(K?
-            (V[1]=G(V[1]+Y/50,100,0),V[3]=G(V[3]-X/5000,1,0)):
-            (V[0]-=Y/50,V[2]=G(V[2]+X/100,100,0))
-        );
-    
-    },
-    
-    Z = {
+    Z={
         'wheel':e=>C(e,e.wheelDeltaX,e.wheelDeltaY,e.ctrlKey),
         'touchstart':e=>M=[e[T][0].pageX,e[T][0].pageY],
         'touchmove':e=>C(e,M[0]-e[T][0].pageX,M[1]-e[T][0].pageY,e[T][1]),
         'click':e=>D(R+'-change',{detail:Q()}),
-        ['set-'+R]:e=>S(V=e.detail)
-        
-        
+        'set-val':e=>S(V=e.detail)
     }
     
 )=>{
@@ -72,8 +59,6 @@
         
     );
     
-    for(let z in Z){N.addEventListener(z,Z[z])}
+    for(let z in Z)N.addEventListener(z,Z[z]);
     
-})
-
-)();
+}))();
