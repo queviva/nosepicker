@@ -40,6 +40,6 @@ document.querySelectorAll('[data-nose]').forEach((
         
     );
     
-    for(let z in Z){N.addEventListener(z,Z[z])}
+    for(let z in Z)N.addEventListener(z,Z[z])
     
 });

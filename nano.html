@@ -664,40 +664,35 @@ document.querySelectorAll('[data-nose]').forEach((
         e, // the event
         X, // change-in-x
         Y, // change-in-y
-        K  // was ctrl pressed?
+        K, // was ctrl pressed?
         
-    )=>{
-    
         // swallow any default behaviors
-        e.stopPropagation();
-        e.preventDefault();
-    
-        // call the color setter
-        S(
+        z=stopPropagation()+e.preventDefault()
         
-            // false parameter saves characters
+        
+    // call the color setter
+    )=>S(
+        
+        // false parameter saves characters
+        
+        // if ctrl was pressed ...
+        K?(
+            // gate the saturation by y-delta
+            V[1]=G(v[1]+Y/50,100,0),
             
-            // if ctrl was pressed ...
-            K?(
-                // gate the saturation by y-delta
-                V[1]=G(v[1]+Y/50,100,0),
-                
-                // gate the opacity by x-delta
-                V[3]=G(v[3]-X/5000,1,0)
-                
-            ):( // otherwise, no control
+            // gate the opacity by x-delta
+            V[3]=G(v[3]-X/5000,1,0)
             
-                // adjust hue by y-delta
-                V[0]-=Y/50,
-                
-                // gate luminosity by x-delta
-                V[2]=G(v[2]+X/100,100,0)
-            )
+        ):( // otherwise, no control
+        
+            // adjust hue by y-delta
+            V[0]-=Y/50,
             
-        );
-    
-    
-    },
+            // gate luminosity by x-delta
+            V[2]=G(v[2]+X/100,100,0)
+        )
+
+    ),
     
     // list of all the event li_ZZ_ners
     Z = {
@@ -731,6 +726,7 @@ document.querySelectorAll('[data-nose]').forEach((
         
             // resets the move-coords
             e=>M=[e[T][0].pageX,e[T][0].pageY],
+            
     }
     
 // finally looping through each picker
@@ -770,13 +766,8 @@ document.querySelectorAll('[data-nose]').forEach((
         
     );
     
-    // loop through the list of lizzerz
-    for(let z in Z){
-    
-        // and add them to the nanopicker
-        N.addEventListener(z,Z[z])
-        
-    }
+    // add all the lizzners
+    for(let z in Z)N.addEventListener(z,Z[z])
     
 });
         </pre>
