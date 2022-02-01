@@ -1,8 +1,4 @@
-document.querySelectorAll('[data-nose]').forEach((
-    
-    N,
-    V,
-    J,
+document.querySelectorAll('[data-nose]').forEach((N,V,J,
     
     T='touches',
     
@@ -23,9 +19,8 @@ document.querySelectorAll('[data-nose]').forEach((
     Z = {
         'wheel':e=>C(e,e.wheelDeltaX,e.wheelDeltaY,e.ctrlKey),
         'touchstart':e=>M=[e[T][0].pageX,e[T][0].pageY],
-        'touchmove':e=>C(e,M[0]-e[T][0].pageX,M[1]-e[T][0].pageY,e[T][1])
-        
-        ,'set-val':e=>S(V=e.detail)
+        'touchmove':e=>C(e,M[0]-e[T][0].pageX,M[1]-e[T][0].pageY,e[T][1]),
+        'set-val':e=>S(V=e.detail)
     }
     
 )=>{
@@ -40,6 +35,6 @@ document.querySelectorAll('[data-nose]').forEach((
         
     );
     
-    for(let z in Z)N.addEventListener(z,Z[z])
+    for(let z in Z)N.addEventListener(z,Z[z]);
     
 });

@@ -1,9 +1,7 @@
 ((
-    dset=document.currentScript.dataset,
-    
     P=Object.assign(
         {selector:'nose'},
-        JSON.parse(Object.values(dset)[0]||'{}')
+        JSON.parse(Object.values(document.currentScript.dataset)[0]||'{}')
     ),
     
     R=P.selector
@@ -18,15 +16,15 @@
     
     G=(...v)=>v.sort((a,b)=>a-b)[1],
     
-    Q=()=>`hsla(${V.map((p,i)=>p+' %% '[i])})`,
+    H=()=>`hsla(${V.map((p,i)=>p+' %% '[i])})`,
     
     D=(e,d)=>N.dispatchEvent(new CustomEvent(e,d)),
     
     S=()=>D('nose-input',{
         
-        detail:Q(),
+        detail:H(),
         
-        p:[...V,Q()].forEach((p,i)=>
+        p:[...V,H()].forEach((p,i)=>
            J.style.setProperty('--nose-'+('hsla'[i]||'hsla'),p+' %%  '[i])),
         
         i:F.pattern?(N.style.backgroundImage=V[3]<1?
@@ -44,8 +42,8 @@
         'wheel':e=>C(e,e.wheelDeltaX,e.wheelDeltaY,e.ctrlKey),
         'touchstart':e=>M=[e[T][0].pageX,e[T][0].pageY],
         'touchmove':e=>C(e,M[0]-e[T][0].pageX,M[1]-e[T][0].pageY,e[T][1]),
-        'click':e=>D(R+'-change',{detail:Q()}),
-        'set-val':e=>S(V=e.detail)
+        'click':e=>D(R+'-change',{detail:H()}),
+        [R+'-set-val']:e=>S(V=e.detail)
     }
     
 )=>{

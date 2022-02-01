@@ -505,8 +505,8 @@ picker.dispatchEvent(new CustomEvent(
             guess.addEventListener('dblclick', e=>{
                 guess.dispatchEvent(
                     new CustomEvent(
-                        'set-val',{detail:[280,100,80,1]}
-                        //'set-able',{ detail: true }
+                        'nose-set-val',{detail:[280,100,80,1]}
+                        //'set-able',{ detail: ((+new Date)%2 === 0)}
                     )
                 )
             });
