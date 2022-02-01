@@ -153,7 +153,7 @@ hr {
 <script defer src="nosepicker.nano.js"></script>
 </head>
 
-<body style="background-color:#666;margin:0;">
+<body>
 <div class="holder">
     
     <div demo id="svgHolder" class="qr">
@@ -491,6 +491,7 @@ hr {
                 font-family: luckiest guy;
                 font-size: 1.5em;
                 color: var(--nose-hsla);
+                -webkit-text-stroke:1px var(--main-color);
             "> hsla(...) </div>
             
             <script>
@@ -527,8 +528,8 @@ T='touches',M=[0,0],G=(...V)=>V.sort((a,b)=>a-b)[1],
 S=()=>[...V,'hsla('+V.map((p,i)=>p+' %% '[i])+')'].forEach((p,i)=>
 J.style.setProperty('--nose-'+('HSLA'[i]||'hsla'),p+' %%  '[i])),
 C=(e,X,Y,K)=>{e.stopPropagation();e.preventDefault();
-K?(V[1]=G(V[1]+Y/50,100,0),V[3]=G(V[3]-X/5000,1,0)):
-(V[0]-=Y/50,V[2]=G(V[2]+X/100,100,0));S();},
+S(K?(V[1]=G(V[1]+Y/50,100,0),V[3]=G(V[3]-X/5000,1,0)):
+(V[0]-=Y/50,V[2]=G(V[2]+X/100,100,0)));},
 Z={'wheel':e=>C(e,e.wheelDeltaX,e.wheelDeltaY,e.ctrlKey),
 'touchstart':e=>M=[e[T][0].pageX,e[T][0].pageY],
 'touchmove':e=>C(e,M[0]-e[T][0].pageX,M[1]-e[T][0].pageY,e[T][1])
@@ -548,13 +549,13 @@ for(let z in Z){N.addEventListener(z,Z[z])}});
 document.querySelectorAll('[data-nose]').forEach((
     
     N, // the _N_anopicker element
-    V, // _v_alue OVERWRITES index
-    J, // ob_J_ect OVERWRITES nodelist
+    V, // _V_alue [overwrites index]
+    J, // ob_J_ect [overwrites nodelist]
     
     // string for _T_ouchscreens
     T='touches',
     
-    // coords for touch_m_oves
+    // coords for touch_M_oves
     M=[0,0],
     
     // method to _G_ate a value
@@ -625,29 +626,34 @@ document.querySelectorAll('[data-nose]').forEach((
         e.stopPropagation();
         e.preventDefault();
     
-        // if ctrl was pressed ...
-        K?(
-            // gate the saturation by y-delta
-            V[1]=G(v[1]+Y/50,100,0),
-            
-            // gate the opacity by x-delta
-            V[3]=G(v[3]-X/5000,1,0)
-            
-        ):( // otherwise, no control
+        // call the color setter
+        S(
         
-            // adjust hue by y-delta
-            V[0]-=Y/50,
+            // false parameter saves characters
             
-            // gate luminosity by x-delta
-            V[2]=G(v[2]+X/100,100,0)
+            // if ctrl was pressed ...
+            K?(
+                // gate the saturation by y-delta
+                V[1]=G(v[1]+Y/50,100,0),
+                
+                // gate the opacity by x-delta
+                V[3]=G(v[3]-X/5000,1,0)
+                
+            ):( // otherwise, no control
+            
+                // adjust hue by y-delta
+                V[0]-=Y/50,
+                
+                // gate luminosity by x-delta
+                V[2]=G(v[2]+X/100,100,0)
+            )
+            
         );
     
-        // call the color setter
-        S();
     
     },
     
-    // list of all the event listener_Z_
+    // list of all the event li_ZZ_ners
     Z = {
     
         // the scroll event ...
@@ -685,10 +691,10 @@ document.querySelectorAll('[data-nose]').forEach((
 )=>{
 
         
-    // call the settet [which takes no params]
+    // call the setter [which takes no params]
     S(
         
-        // save characters by setting vars in call
+        // setting vars in call saves characters
         
         // overwrite target to specified id ...
         J=document.getElementById(N.dataset.nose)
@@ -717,7 +723,7 @@ document.querySelectorAll('[data-nose]').forEach((
         
     );
     
-    // loop through the list of lizzenerz
+    // loop through the list of lizzerz
     for(let z in Z){
     
         // and add them to the nanopicker

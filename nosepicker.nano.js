@@ -10,10 +10,9 @@ document.querySelectorAll('[data-nose]').forEach((
     
     G=(...v)=>v.sort((a,b)=>a-b)[1],
     
-    S=()=>//N.dispatchEvent(new CustomEvent('nose-input',{detail:V+(
+    S=()=>
         [...V,'hsla('+V.map((p,i)=>p+' %% '[i])+')'].forEach((p,i)=>
         J.style.setProperty('--nose-'+('HSLA'[i]||'hsla'),p+' %%  '[i]))
-    //||'')}))
     ,
 
     C=(e,X,Y,K)=>{
@@ -21,9 +20,7 @@ document.querySelectorAll('[data-nose]').forEach((
         e.stopPropagation();
         e.preventDefault();
     
-        K?(V[1]=G(V[1]+Y/50,100,0),V[3]=G(V[3]-X/5000,1,0)):(V[0]-=Y/50,V[2]=G(V[2]+X/100,100,0));
-    
-        S();
+        S(K?(V[1]=G(V[1]+Y/50,100,0),V[3]=G(V[3]-X/5000,1,0)):(V[0]-=Y/50,V[2]=G(V[2]+X/100,100,0)));
     
     },
     
