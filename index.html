@@ -200,7 +200,8 @@ svg {
         
     <b><a href="nosepicker.micro.js">nosepicker.micro.js</a></b>
     converts any specified element into an html color picker;
-    it generates a customizable <i>nose-input event</i> that
+    it generates customizable <i>nose-input</i>
+    and <i>nose-change</i> events that
     can be listened for, and handled, just like any other
     &lt;input type=color&gt; object
     
@@ -245,6 +246,13 @@ picker.addEventListener('nose-input', e => {
     // the css var --nose-A is the opacity
         
 });
+
+picker.addEventListner('nose-change', e => {
+
+    // e.detail and all css vars
+    // are identical to input event
+
+});
         
 &lt;/script&gt;
 
@@ -266,10 +274,12 @@ picker.addEventListener('nose-input', e => {
             will be <i>&#8209;&#8209;picker-hsla</i>
             </li>
             <br>
+            
             <li><b>pattern</b>: a boolean indicating whether or not
             you would like a background pattern to appear behind
             transparent colors; by default, this is <i>false</i></li>
             <br>
+            
             <li><b>root</b>: the name of the element that you would
             like to <i>actually use</i> as the element whose color
             values are the ones that the nosepicker will change;
@@ -279,14 +289,49 @@ picker.addEventListener('nose-input', e => {
             change <i>themselves</i>
             </li>
             <br>
+            
+            <li><b>&#8209;&#8209;nose&#8209;hsla</b>:
+            the script reads initial values from a css variable;
+            by default, it is called
+            <i>&#8209;&#8209;nose&#8209;hsla</i>,
+            but the prefix will be whatever you set the
+            <i>selector</i> option to, if you chose to change it;
+            if no value is created, it will default to
+            <i>hsla(0,100%,50%,1)</i>; these values may also be
+            entered as a simple <i>string</i> as so: '0,100,50,1'
+            </li>
+            <br>
+            
+            <li><b>nose&#8209;input</b>: this is the
+            default name of the <i>input event</i> that
+            gets generated oninput - again, the prefix
+            will be the value of the <i>selector</i>
+            option string
+            </li>
+            <br>
+            
+            <li><b>e.detail</b>: the <i>detail</i> of either
+            event is equal to an hsla() color <i>string</i>
+            </li>
+            <br>
+            
             <li><b>css variables</b>: by default, nosepicker.js will
             set the values of several css variables called
             <i>&#8209;&#8209;nose-hsla</i> for the full hsla color string,
-            <i>&#8209;&#8209;nose-h</i> for just the hue,
-            <i>&#8209;&#8209;nose-s</i> for just the saturation, &c. &c.
+            <i>&#8209;&#8209;nose-H</i> for just the hue,
+            <i>&#8209;&#8209;nose-S</i> for just the saturation,
+            &c. &c.
             these variable names will begin with whatever you
             specify as the <i>selector</i>
             </li>
+            <br>
+            
+            <li><b>nose&#8209;change</b>: the default name of
+            the <i>onchange</i> event; all <i>detail</i>
+            and css variable values are identical to those
+            of the <i>input event</i>
+            </li>
+            
         </ul>
     </div>
     
@@ -303,11 +348,12 @@ picker.addEventListener('nose-input', e => {
         
         <div><svg><path id="heart" data-nose /></svg></div>
         
-        <div>
+        <div style="text-align:left">
             <i id="heartoutput"
              style="
                 color:var(--nose-hsla);
                 font-size:2em;
+                font-family: luckiest guy;
              "
             >
             hsla(...)
@@ -316,8 +362,11 @@ picker.addEventListener('nose-input', e => {
         
         <script id="heartScript">
             heart.addEventListener('nose-input', e => {
-                heartoutput.innerHTML = e.detail;
                 heartoutput.style.color = e.detail;
+                heartoutput.innerHTML = (e.detail)
+                .replace(/\s*,\s*/g, ', ')
+                .replace(/(\.\d\d)\d+/g,'$1')
+                .replace(/\s*\)/g,')');
             })
         </script>
         
@@ -334,10 +383,10 @@ picker.addEventListener('nose-input', e => {
             
             --nose-H: 280;
             --nose-S: 100%;
-            --nose-L: 50%;
+            --nose-L: 80%;
             --nose-A: 1;
             
-            --nose-hsla: hsla(280,100%,50%,1);
+            --nose-hsla: hsla(280,100%,80%,1);
             
             --lite: hsl(
                 var(--nose-H),
@@ -396,6 +445,7 @@ picker.addEventListener('nose-input', e => {
             alters all the relative colors for the entire
             style sheet of this div, including theme colors
         </span>
+        <br><br>
         
         <div class="qr" style="text-align:center;">
             <div class="ball" style="
@@ -409,13 +459,20 @@ picker.addEventListener('nose-input', e => {
             "></div>
         </div>
         
-        <div id="remove"
+        <div
          data-nose='{"root":"rootExample"}'
          style="
           height:100px;
           width:100%;
           background-color:var(--lite);
           border:10px solid var(--dark);
+          color:hsl(
+            calc(180 + var(--nose-H)),
+            var(--nose-S),
+            calc(100% - var(--nose-L))
+          );
+          text-align:center;
+          line-height: 70px;
          "
         ></div>
 
@@ -432,7 +489,8 @@ picker.addEventListener('nose-input', e => {
         <li>you are alright using <i>data-nose</i> as the parameter
         name</li>
         
-        <li>you're ok with <i>&#8209;&#8209;nose-hsla</i> as the css variable name</li>
+        <li>you're ok with <i>&#8209;&#8209;nose&#8209;</i> as the
+        css variable prefix</li>
         
         <li>and you can use css <i>calc()</i> instead of
         an event handler</li>

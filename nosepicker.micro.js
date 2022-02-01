@@ -18,24 +18,26 @@
     
     M=[0,0],
     
+    F=Object.assign({},P,JSON.parse(N.dataset[R]||'{}')),
+    
     G=(...v)=>v.sort((a,b)=>a-b)[1],
     
     Q=()=>'hsla('+V.map((p,i)=>p+' %% '[i])+')',
     
-    F=Object.assign({},P,JSON.parse(N.dataset[R]||'{}')),
+    D=(e,d)=>N.dispatchEvent(new CustomEvent(e,d)),
     
-    S=()=>N.dispatchEvent(new CustomEvent('nose-input',{
+    S=()=>D('nose-input',{
         
         detail:Q(),
         
-        x:[...V,Q()].forEach((p,i)=>
+        p:[...V,Q()].forEach((p,i)=>
            J.style.setProperty('--nose-'+('HSLA'[i]||'hsla'),p+' %%  '[i])),
         
         i:F.pattern?(N.style.backgroundImage = V[3] < 1 ?
 `repeating-linear-gradient(-45deg,rgba(0,0,0,${0.5-V[3]/2}),rgba(0,0,0,${0.5-V[3]/2}) 10px,transparent 10px,transparent 20px)`:''
         ):''
         
-    })),
+    }),
 
     C=(e,X,Y,K)=>{
     
@@ -53,9 +55,7 @@
         'wheel':e=>C(e,e.wheelDeltaX,e.wheelDeltaY,e.ctrlKey),
         'touchstart':e=>M=[e[T][0].pageX,e[T][0].pageY],
         'touchmove':e=>C(e,M[0]-e[T][0].pageX,M[1]-e[T][0].pageY,e[T][1]),
-        'click':e=>N.dispatchEvent(new CustomEvent(`${R}-change`,{
-            detail:Q()
-        }))
+        'click':e=>D(`${R}-change`,{detail:Q()})
     }
     
 )=>{
