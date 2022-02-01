@@ -253,6 +253,13 @@ picker.addEventListner('nose-change', e => {
     // are identical to input event
 
 });
+
+picker.dispatchEvent(new CustomEvent(
+    'set-nose',
+    { detail: [0,100,50,1] }
+    
+);
+
         
 &lt;/script&gt;
 
@@ -331,6 +338,15 @@ picker.addEventListner('nose-change', e => {
             and css variable values are identical to those
             of the <i>input event</i>
             </li>
+            <br>
+            
+            <li><b>dispatch set&#8209;nose</b>: interactions
+            with nosepickers are done through the dispatching
+            of events; by default, nosepickers listen for
+            a <i>set-nose</i> event whose detail is a
+            four-element array of the hsla float values;
+            this event name is altered by the <i>selector</i>
+            </li>
             
         </ul>
     </div>
@@ -354,6 +370,7 @@ picker.addEventListner('nose-change', e => {
                 color:var(--nose-hsla);
                 font-size:2em;
                 font-family: luckiest guy;
+                user-select: none;
              "
             >
             hsla(...)
@@ -443,8 +460,15 @@ picker.addEventListner('nose-change', e => {
         <span style="color:var(--dark);">
             this way, selecting colors in the bar below
             alters all the relative colors for the entire
-            style sheet of this div, including theme colors
+            style sheet of this div, including theme colors;
         </span>
+        
+        <span style="color:var(--lite);">
+            double-click the picker to dispatch a
+            <i>set-nose</i> event that resets the original
+            colors values
+        </span>
+        
         <br><br>
         
         <div class="qr" style="text-align:center;">
@@ -459,7 +483,7 @@ picker.addEventListner('nose-change', e => {
             "></div>
         </div>
         
-        <div
+        <div id="guess"
          data-nose='{"root":"rootExample"}'
          style="
           height:100px;
@@ -475,6 +499,16 @@ picker.addEventListner('nose-change', e => {
           line-height: 70px;
          "
         ></div>
+        
+        <script>
+            guess.addEventListener('dblclick', e=>{
+                guess.dispatchEvent(
+                    new CustomEvent(
+                        'set-nose',{detail:[280,100,80,1]}
+                    )
+                )
+            });
+        </script>
 
     </div>
     
