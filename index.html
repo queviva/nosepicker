@@ -166,7 +166,7 @@ svg {
 }
 
 </style>
-<script id="microNose" src="nosepicker.micro.js"></script>
+<script defer id="microNose" src="newmicro.js"></script>
 </head>
 
 <body>
@@ -239,10 +239,10 @@ picker.addEventListener('nose-input', e => {
     // e.detail is an hsla color string
 
     // the css var --nose-hsla is the same
-    // the css var --nose-h is the hue
-    // the css var --nose-s is the saturation
-    // the css var --nose-l is the luminosity
-    // the css var --nose-a is the opacity
+    // the css var --nose-H is the hue
+    // the css var --nose-S is the saturation
+    // the css var --nose-L is the luminosity
+    // the css var --nose-A is the opacity
         
 });
         
@@ -332,35 +332,35 @@ picker.addEventListener('nose-input', e => {
             background-color: var(--main-color);
             border: 1px solid var(--holder-back);
             
-            --nose-h: 280;
-            --nose-s: 100%;
-            --nose-l: 50%;
-            --nose-a: 1;
+            --nose-H: 280;
+            --nose-S: 100%;
+            --nose-L: 50%;
+            --nose-A: 1;
             
             --nose-hsla: hsla(280,100%,50%,1);
             
             --lite: hsl(
-                var(--nose-h),
-                var(--nose-s),
-                var(--nose-l)
+                var(--nose-H),
+                var(--nose-S),
+                var(--nose-L)
             );
             
             --midi: hsl(
-                var(--nose-h),
-                var(--nose-s),
-                calc(0.75 * var(--nose-l))
+                var(--nose-H),
+                var(--nose-S),
+                calc(0.75 * var(--nose-L))
             );
             
             --dark: hsl(
-                var(--nose-h),
-                var(--nose-s),
-                calc(0.5 * var(--nose-l))
+                var(--nose-H),
+                var(--nose-S),
+                calc(0.5 * var(--nose-L))
             );
             
             --deep: hsl(
-                var(--nose-h),
-                var(--nose-s),
-                calc(0.25 * var(--nose-l))
+                var(--nose-H),
+                var(--nose-S),
+                calc(0.25 * var(--nose-L))
             );
             
         }
@@ -409,7 +409,7 @@ picker.addEventListener('nose-input', e => {
             "></div>
         </div>
         
-        <div
+        <div id="remove"
          data-nose='{"root":"rootExample"}'
          style="
           height:100px;
@@ -468,7 +468,7 @@ picker.addEventListener('nose-input', e => {
     <br><br><hr>
     
     <div class="qr signature"
-    data-nose style="color:var(--nose-hsla)"
+    data-nose style="--nose-hsla:'40,0,40,1';color:var(--nose-hsla)"
     >~queviva</div>
 
 </div>

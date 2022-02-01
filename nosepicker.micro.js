@@ -1,120 +1,77 @@
 ((
     dset = document.currentScript.dataset,
     
-    T = 'touches',
-    
-    G = (...v) => v.sort((a, b) => a - b)[1],
-    
-    Q = 'hsla %% ',
-    
     P = Object.assign(
         { selector: 'nose' },
         JSON.parse(Object.values(dset)[0] || '{}')
     ),
     
-    R = P.selector,
+    R = P.selector
     
-    liz = (
-        e, n, X, Y, K,
-        v = n.hsla,
-        z = e.stopPropagation() + e.preventDefault()
-    ) =>
-        n.root.dispatchEvent(new CustomEvent(R + '-input', { detail:
-        
-            [
-                ...v,
-        
-`hsla(${v[0]-=K?0:Y},${v[1]=K?G(v[1]+Y,100,0):v[1]}%,${v[2]=K?v[2]:G(v[2]+X,100,0)}%,${v[3]=K?G(v[3]-X*0.01,1,0):v[3]})`
-        
-            ].forEach((k, i) =>
-        
-                n.root.style.setProperty(
-                    `--${R}-${i<4?Q[i]:'hsla'}`,i<4?v[i]+Q[i+4]:z=k
-                )
-        
-            )
-        
-        === undefined ? z : ''}))
+) => document.querySelectorAll(`[data-${R}]:not(script)`).forEach((
     
-) => window.addEventListener('load', () =>
-
-    document.querySelectorAll(
-
-        `[data-${R}]:not(script)`
-
-    ).forEach(obj =>
-
-        new (function(
-            
-            prefs = Object.assign({},P,JSON.parse(obj.dataset[R]||'{}')),
-            
-            prev = [0, 0],
-            
-            r = {
-            
-                root: document.getElementById(prefs.root) || obj,
-            
-                hsla:
-                    (
-                        prefs.hsla ||
-                        window.getComputedStyle(
-                            document.getElementById(prefs.root)||obj
-                        )
-                        .getPropertyValue(`--${R}-hsla`) ||
-                        '0,100,50,1'
-                    )
-                    .match(/[\d\.]+/g)
-                    .map(v => Number(v)),
-            
-                wheel: e => liz(
-                    e, this,
-                    (e.shiftKey ? 0.001 : 0.01) * e.wheelDeltaX,
-                    (e.shiftKey ? 0.001 : 0.01) * e.wheelDeltaY,
-                    e.ctrlKey
-                ),
-            
-                touchmove: e => liz(
-                    e, this,
-                    0.01 * (prev[0] - e[T][0].pageX),
-                    0.01 * (prev[1] - e[T][0].pageY),
-                    e[T][1]
-                ),
-            
-                touchstart: e => prev = [e[T][0].pageX, e[T][0].pageY]
-            
-            }
-        ) {
-
-            for (let k in r) {
-            
-                k.match(/root|hsla/) ?
-                this[k] = r[k] :
-                obj.addEventListener(k, r[k], { passive: false })
-            
-            }
-            
-            if (prefs.pattern) {
-            
-                obj.addEventListener(`${R}-input`,
-                (e, A = 0.5 - parseFloat(e.detail.split(',')[3]) / 2) =>
-                    
-                    this.root.style.backgroundImage = A > 0 ?
-                        `repeating-linear-gradient(
-                            -45deg,
-                            rgba(0,0,0,${A}),
-                            rgba(0,0,0,${A}) 10px,
-                            transparent 10px,
-                            transparent 20px
-                        )` : ''
-            
-                );
-            
-            }
-
-        })()
+    N,
+    V,
+    J,
     
-    )
+    T='touches',
+    
+    M=[0,0],
+    
+    G=(...v)=>v.sort((a,b)=>a-b)[1],
+    
+    Q=()=>'hsla('+V.map((p,i)=>p+' %% '[i])+')',
+    
+    F=Object.assign({},P,JSON.parse(N.dataset[R]||'{}')),
+    
+    S=()=>N.dispatchEvent(new CustomEvent('nose-input',{
+        
+        detail:Q(),
+        
+        x:[...V,Q()].forEach((p,i)=>
+           J.style.setProperty('--nose-'+('HSLA'[i]||'hsla'),p+' %%  '[i])),
+        
+        i:F.pattern?(N.style.backgroundImage = V[3] < 1 ?
+`repeating-linear-gradient(-45deg,rgba(0,0,0,${0.5-V[3]/2}),rgba(0,0,0,${0.5-V[3]/2}) 10px,transparent 10px,transparent 20px)`:''
+        ):''
+        
+    })),
 
-)
+    C=(e,X,Y,K)=>{
+    
+        e.stopPropagation();
+        e.preventDefault();
+    
+        S(K?
+            (V[1]=G(V[1]+Y/50,100,0),V[3]=G(V[3]-X/5000,1,0)):
+            (V[0]-=Y/50,V[2]=G(V[2]+X/100,100,0))
+        );
+    
+    },
+    
+    Z = {
+        'wheel':e=>C(e,e.wheelDeltaX,e.wheelDeltaY,e.ctrlKey),
+        'touchstart':e=>M=[e[T][0].pageX,e[T][0].pageY],
+        'touchmove':e=>C(e,M[0]-e[T][0].pageX,M[1]-e[T][0].pageY,e[T][1])
+        
+        ,'click':e=>N.dispatchEvent(new CustomEvent(`${R}-change`,{
+            detail:Q()
+        }))
+    }
+    
+)=>{
+    
+    S(
+        
+        J=document.getElementById(F.root)||N,
+        
+        V=(window.getComputedStyle(J).getPropertyValue('--nose-hsla')||
+        '0,100,50,1').match(/[\d\.]+/g).map(p=>Number(p))
+        
+    );
+    
+    for(let z in Z){N.addEventListener(z,Z[z])}
+    
+})
 
 )();

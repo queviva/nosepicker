@@ -10,7 +10,7 @@ document.querySelectorAll('[data-nose]').forEach((
     
     G=(...v)=>v.sort((a,b)=>a-b)[1],
     
-    S=()=>//N.dispatchEvent(new CustomEvent('nose-input',{detail:v+(
+    S=()=>//N.dispatchEvent(new CustomEvent('nose-input',{detail:V+(
         [...V,'hsla('+V.map((p,i)=>p+' %% '[i])+')'].forEach((p,i)=>
         J.style.setProperty('--nose-'+('HSLA'[i]||'hsla'),p+' %%  '[i]))
     //||'')}))

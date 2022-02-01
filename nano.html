@@ -505,7 +505,9 @@ hr {
                 }));
                 
                 np.addEventListener('nose-input', e => {
-                    console.log(e.detail)
+                    console.log(
+                        e.detail.split(',')
+                    )
                 })
                 
             </script>
@@ -745,9 +747,11 @@ document.querySelectorAll('[data-nose]').forEach((
         
     </div>
 
-    <br><hr><div data-nose class="qr signature" style="
-        --nose-hsla:'40,0,40,1';color:var(--nose-hsla)
-    ">~queviva</div>
+    <br><hr>
+
+    <div class="qr signature" data-nose
+        style="--nose-hsla:'40,0,40,1';color:var(--nose-hsla)"
+    >~queviva</div>
     
 </div>
 </body>
