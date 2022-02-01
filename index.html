@@ -166,7 +166,7 @@ svg {
 }
 
 </style>
-<script defer id="microNose" src="nosepicker.micro.js"></script>
+<script defer src="nosepicker.micro.js"></script>
 </head>
 
 <body>
@@ -371,6 +371,7 @@ picker.dispatchEvent(new CustomEvent(
                 font-size:2em;
                 font-family: luckiest guy;
                 user-select: none;
+               -webkit-text-stroke: 1px #000;
              "
             >
             hsla(...)
@@ -504,7 +505,8 @@ picker.dispatchEvent(new CustomEvent(
             guess.addEventListener('dblclick', e=>{
                 guess.dispatchEvent(
                     new CustomEvent(
-                        'set-nose',{detail:[280,100,80,1]}
+                        'set-val',{detail:[280,100,80,1]}
+                        //'set-able',{ detail: true }
                     )
                 )
             });
