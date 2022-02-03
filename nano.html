@@ -270,7 +270,7 @@ hr {
         <pre>
 &lt;script defer src="nosepicker.nano.js"&gt;&lt;/script&gt;
 
-&lt;div data-nose="target"
+&lt;div id="picker" data-nose="target"
 
  style="
  
@@ -294,6 +294,15 @@ hr {
     
  "
 &gt;&lt;/div&gt;
+
+&lt;script&gt;
+
+    picker.dispatchEvent(new CustomEvent(
+        'set-nose',
+        { detail: [20,80%,40%,1] }
+    ));
+    
+&lt;/script&gt;
 
         </pre>
     </div>
@@ -360,6 +369,13 @@ hr {
             of the nose-color by making a specific hsl color
             that darkens just the <i>lightness</i> variable
             by fifty-percent
+            </li>
+            <br>
+            
+            <li><b>dispatchEvent()</b>: sending a <i>set-nose</i>
+            event to the nanopicker will change the color
+            to whatever <i>array</i> of hsla values you
+            pass in as the <i>e.detail</i>
             </li>
             <br>
             
