@@ -20,7 +20,7 @@ document.querySelectorAll('[data-nose]').forEach((N,V,J,
         'wheel':e=>C(e,e.wheelDeltaX,e.wheelDeltaY,e.ctrlKey),
         'touchstart':e=>M=[e[T][0].pageX,e[T][0].pageY],
         'touchmove':e=>C(e,M[0]-e[T][0].pageX,M[1]-e[T][0].pageY,e[T][1]),
-        'set-val':e=>S(V=e.detail)
+        'set-nose':e=>S(V=e.detail)
     }
     
 )=>{
