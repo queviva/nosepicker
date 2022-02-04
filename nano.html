@@ -299,7 +299,7 @@ hr {
 
     picker.dispatchEvent(new CustomEvent(
         'set-nose',
-        { detail: [20,80%,40%,1] }
+        { detail: [20,80,40,1] }
     ));
     
 &lt;/script&gt;
@@ -341,10 +341,10 @@ hr {
             for the <i>hsla value</i> that you want to be
             the initial color for this nosepicker - if you
             do not include this var, nanopicker will use
-            a fully-opaque red [hsla(0,100%,50%,1)] - you
-            can enter either a valid css hsla() value, or
-            just a string of the values, like this:
-            <i>'280,70%,50%,0.5'</i> if you want
+            a fully-opaque red <i>hsla(0,100%,50%,1)</i>
+            - you can enter either a valid css hsla() value,
+            or just a string of the values, like this:
+            <i>'280,70,50,0.5'</i> if you want
             </li>
             <br>
             
