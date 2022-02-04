@@ -8,8 +8,6 @@
 //}
 
 ((
-    // preserve the dataset for when content loaded
-    dset = document.currentScript.dataset,
 
     // prefs {
     default_prefs = {
@@ -28,7 +26,9 @@
     },
     
     // prefs set in script tag data-param
-    param_prefs = JSON.parse(Object.values(dset)[0] || '{}'),
+    param_prefs = JSON.parse(Object.values(
+        document.currentScript.dataset
+    )[0] || '{}'),
     
     // over-rite default prefs with script tag data-params
     prefs = Object.assign({}, default_prefs, param_prefs),
@@ -391,9 +391,18 @@
         this.set_value(this, this.value);
         this.set_kind(this, this.prefs.kind);
     
+
+        
     })());
     //}
-
+    
+    // send patchooli with loaded event
+    console.log(prefs.loaded);
+    window.dispatchEvent(new CustomEvent(prefs.loaded, {detail:(j,e,v)=>{
+        (typeof j === 'object' ? j : document.getElementById(j))
+        .dispatchEvent(new CustomEvent(e, { detail: v }));
+    }}));
+        
 })()))();
 
 // expiration message {
