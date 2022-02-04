@@ -397,7 +397,6 @@
     //}
     
     // send patchooli with loaded event
-    console.log(prefs.loaded);
     window.dispatchEvent(new CustomEvent(prefs.loaded, {detail:(j,e,v)=>{
         (typeof j === 'object' ? j : document.getElementById(j))
         .dispatchEvent(new CustomEvent(e, { detail: v }));
