@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link id="luckiestFont" href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
 <script id="nosepickerscript" src="nosepicker.js"></script>
+<script id="pachtooli">
+    window.addEventListener('nose-loaded', e => {
+        window.patchooli = e.detail;
+    });
+</script>
 <style id="demoStyles">
 
 :root {
@@ -186,7 +191,7 @@ input[type=range]:focus {
 <div class="holder">
     
     <div demo class="qr">
-        <div data-nose='{"kind":"coast,point"}'
+        <div id="demomo" data-nose='{"kind":"coast,point"}'
          style="
             height:150px;
             text-align:center;
@@ -197,6 +202,11 @@ input[type=range]:focus {
         <center style="font-size:0.5em;">
             <i>click and point to coast through a werld of colors</i>
         </center>
+        <script>
+            demomo.addEventListener('dblclick', ()=> {
+                patchooli('demomo','nose-set-value','#c30');
+            })
+        </script>
     </div>
     
     <div intro class="qr">
@@ -303,7 +313,7 @@ input[type=range]:focus {
             both a scroll listener and a touch listener for
             touchscreens; the possible options are:
             <br><br>
-            <ul style="list-type:circle">
+            <ul style="list-style:circle">
                 <li>wheel - scrolling up|dn, left|right;
                 ctrl+scroll changes transparency and
                 shift+scroll changes sensitivity
@@ -424,10 +434,8 @@ input[type=range]:focus {
                 });
                 
                 samp.addEventListener('dblclick', () => {
-                    samp.dispatchEvent(new CustomEvent(
-                        'nose-set-value',
-                        { detail: (samp.innerHTML = col) }
-                    ));
+                    patchooli(samp,'nose-set-value',
+                    (samp.innerHTML = col))
                 });
                 
             });
@@ -439,7 +447,7 @@ input[type=range]:focus {
     <div dispatchery class="qr">
         
         all interactions with nosepickers are done through
-        <i>dispatching events</i>; various options can by
+        <i>dispatching events</i>; various options can be
         set directly, by sending <i>event.detail</i>
         values to the nosepicker; the prefix
         will be whatever the <i>selector</i> is,
@@ -470,21 +478,43 @@ input[type=range]:focus {
             
         </ul>
         <br>
+        the <i>detail</i> of the <i>nose-loaded</i> event
+        is a <i>function</i> that allows a shorthand method
+        for frequent communication through dispatch;
+        if you add a listener for <i>window.nose-loaded</i>
+        you can create a function that allows communication
+        with nose-pickers like this:
+        <br>
+        <dd style="text-align:center;"><i style="font-size:0.8em;">
+            patchooli('picker', 'nose-set-value', '#c30')
+        </i></dd>
+        <br>
+        its parameters of that function are:
+            <ul style="list-style:circle;">
+                <li> a picker <i>object</i>, or a <i>string</i>
+                of its ID</li>
+                
+                <li>the <i>string</i> name of the event</li>
+                
+                <li>the value to pass to the picker</li>
+            </ul>
+        
         the sample nosepickers above will reset to their
         original colors when you double-click them -
         as another example, if you wanted to directly set the
         color of a nosepicker called 'picker' to a hex
         value for red when you double-click the window,
-        this would do that:
+        this listener would do that:
         <br><br>
         <pre>
+            
 window.addEventListener('dblclick', () => {
     picker.dispatchEvent(new CustomEvent(
         'nose-set-value',
         {detail: '#c30'}
     ));
 });
-</pre>
+        </pre>
         
     </div>
     
