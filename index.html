@@ -371,7 +371,8 @@ picker.dispatchEvent(new CustomEvent(
                 font-size:2em;
                 font-family: luckiest guy;
                 user-select: none;
-               -webkit-text-stroke: 1px #000;
+                --outline: green;
+               -webkit-text-stroke: 1px var(--outline);
              "
             >
             hsla(...)
@@ -380,12 +381,21 @@ picker.dispatchEvent(new CustomEvent(
         
         <script id="heartScript">
             heart.addEventListener('nose-input', e => {
+                
                 heartoutput.style.color = e.detail;
+                
                 heartoutput.innerHTML = (e.detail)
                 .replace(/\s*,\s*/g, ', ')
                 .replace(/(\.\d\d)\d+/g,'$1')
                 .replace(/\s*\)/g,')');
-            })
+                
+                let H = e.detail.match(/[\d\.]+/g).map(p=>Number(p));
+                
+                heartoutput.style.setProperty('--outline',
+                    'hsl('+H[0]+','+H[1]+'%,'+ (100 - H[2]) +'%)'
+                );
+                
+            });
         </script>
         
     </div>
@@ -433,9 +443,10 @@ picker.dispatchEvent(new CustomEvent(
         }
         .ball {
             
+            float: left;
             display: inline-block;
-            height: 50px;
-            width: 50px;
+            height: 100px;
+            width: 100px;
             border-radius: 50%;
             
             --back: var(--lite);
@@ -472,7 +483,12 @@ picker.dispatchEvent(new CustomEvent(
         
         <br><br>
         
-        <div class="qr" style="text-align:center;">
+        <div class="qr" style="
+                display: flex;
+                flex-direction: rows;
+                justify-content: space-around;
+                width: 100%;
+        ">
             <div class="ball" style="
                 --back:var(--lite);--bord:var(--midi)
             "></div>
