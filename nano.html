@@ -510,6 +510,7 @@ hr {
     <hr>
     <div scripicker id="scripicker" class="qr">
         
+        <div discussion >
         a display of the color value
         could be done with a script that
         listened for the <i>wheel</i> and
@@ -526,32 +527,62 @@ hr {
         
         <dd style="font-size:0.8em;font-family:monospace;">
         picker.style.getPropertyValue('--nose-hsla')<br>
-        .match(/[\d\.]+/g)<br>
+        .match(/-?[\d\.]+/g)<br>
         .map(p=>Number(p))<br>
         </dd>
+        </div>
         <br><br>
         
         <style>
+            #scripicker {
+                transition: color 800ms;
+            }
+            
             #pickarea {
-                --nose-hsla: '40,100,50,1';
+                --nose-hsla: '0,100,30,1';
                 --outline: hsl(
                     var(--nose-h),
                     var(--nose-s),
                     calc(100% - var(--nose-l))
                 );
+                --trans: 500ms;
             }
+            
+            #heartHolder {
+                position: relative;
+                height: 150px;
+            }
+            
             #heart{
-                height:150px;
+                height: 100%;
                 width: 30px;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 background-color:var(--nose-hsla);
                 border:1px solid var(--outline);
-                transition: width linear 300ms;
+                transition: width var(--trans), background-color var(--trans);
             }
+            
             #heartHolder:hover #heart {
                 width: 100%;
+                transition: width var(--trans), background-color 0ms;
+            }
+            
+            #oldCol {
+                position: absolute;
+                top: calc(50% - 20px);
+                left: 5px;
+                height: 40px;
+                width: 40px;
+                background-color: hsla(0,100%,30%,1);
+                border: 1px solid var(--outline);
+                transform: rotate(45deg);
+                transition: transform var(--trans), background-color var(--trans);
+            }
+            
+            #heartHolder:hover #oldCol {
+                transform: rotate(405deg);
             }
             
             #output {
@@ -562,10 +593,12 @@ hr {
             }
             
         </style>
+        
         <div id="pickarea" class="qa">
             
             <div id="heartHolder">
             <div id="heart" data-nose="pickarea"></div>
+            <div id="oldCol"></div>
             </div>
             
             <div id="output"> hsla(...) </div>
@@ -574,17 +607,55 @@ hr {
             
                 sp = document.getElementById('scripicker');
                 pa = document.getElementById('pickarea');
+                oc = document.getElementById('oldCol');
                 op = document.getElementById('output');
-                np = document.getElementById('heart');
+                hp = document.getElementById('heart');
+                
+                oc.old = 'hsla(0,100%,30%,1)';
+                
+                backG = V => V[3]<1?`repeating-linear-gradient(-45deg,rgba(0,0,0,${0.5-V[3]/2}),rgba(0,0,0,${0.5-V[3]/2}) 10px,transparent 10px,transparent 20px)`:'';
+                
+                numUP = V => V.match(/-?[\d\.]+/g).map(v=>Number(v));
                 
                 ['wheel','touchmove'].forEach(e =>
-                np.addEventListener(e, ()=>{
+                hp.addEventListener(e, ()=>{
                     op.innerHTML = pa.style.getPropertyValue('--nose-hsla');
+                    
+                    V = op.innerHTML.match(/[\d\.-]+/g).map(v=>Number(v));
+                    
+                    hp.style.backgroundImage = backG(V);
+
                 }));
                 
-                np.addEventListener('click', e => {
-                    sp.style.color = pa.style.getPropertyValue('--nose-hsla');
-                })
+                ['mouseover','mouseout'].forEach(v =>
+                    hp.addEventListener(v, e => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                    },{ passive: false })
+                );
+                    
+                hp.addEventListener('click', e => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    oc.old = pa.style.getPropertyValue('--nose-hsla');
+                    sp.style.color = oc.old;
+                    V = numUP(oc.old);
+                    oc.style.backgroundColor = 'hsla('+V[0]+','+V[1]+'%,'+V[2]+'%,1)';
+                });
+                
+                hp.addEventListener('mouseleave', e => {
+                    
+                    op.innerHTML = oc.old;
+                    
+                    hp.dispatchEvent(new CustomEvent(
+                        'set-nose',{ detail: numUP(oc.old) }
+                    ));
+                    
+                    V = numUP(op.innerHTML);
+                    
+                    hp.style.backgroundImage = backG(V);
+                    
+                });
                 
             </script>
             
@@ -612,7 +683,7 @@ e.wheelDeltaY,e.ctrlKey),'touchstart':e=>M=[e[T]
 'set-nose':e=>S(V=e.detail)})=>{S(J=document
 .getElementById(N.dataset.nose)||N,V=(window
 .getComputedStyle(J).getPropertyValue(
-'--nose-'+H)||'0,100,50,1').match(/[\d\.]+/g)
+'--nose-'+H)||'0,100,50,1').match(/-?[\d\.]+/g)
 .map(p=>Number(p)));for(let z in Z)
 N.addEventListener(z,Z[z])});
         </pre>
@@ -802,7 +873,7 @@ document.querySelectorAll('[data-nose]').forEach((
         )
         
         // look for anything number-like
-        .match(/[\d\.]+/g)
+        .match(/-?[\d\.]+/g)
         
         // and make it an actual number
         .map(p=>Number(p))
