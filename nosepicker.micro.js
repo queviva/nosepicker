@@ -39,12 +39,18 @@
        (V[0]-=Y/50,V[2]=G(V[2]+X/100,100,0))
     ),
     
+    A=0,
+    
     Z={
         'wheel':e=>C(e,e.wheelDeltaX,e.wheelDeltaY,e.ctrlKey),
         'touchstart':e=>M=[e[T][0].pageX,e[T][0].pageY],
         'touchmove':e=>C(e,M[0]-e[T][0].pageX,M[1]-e[T][0].pageY,e[T][1]),
         'click':e=>D(R+'-change',{detail:H()}),
-        ['set-'+R]:e=>S(V=e.detail)
+        ['set-'+R]:e=>S(V=e.detail),
+        ['tog-'+R]:(e,b=(A=!A))=>{for(let z in Z){
+            (!e||!z.match(/-/))?
+            N[(b?'add':'remove')+'EventListener'](z,Z[z]):''
+        }}
     }
     
 )=>{
@@ -58,6 +64,7 @@
         
     );
     
-    for(let z in Z)N.addEventListener(z,Z[z]);
+    D(R+'load',Z['tog-'+R]());
+    
     
 })))();
