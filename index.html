@@ -1,7 +1,7 @@
 <!doctype html>
 
 <head>
-<title>nosepicker</title>
+<title>nanopicker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link id="luckiestFont" href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
 <style id="demoStyles">
@@ -118,22 +118,6 @@ hr {
     display: none;
 }
 
-svg {
-    height: 200px;
-    width: 200px;
-}
-
-#heart {
-    --nose-hsla:hsla(0,100%,40%,1);
-    fill:var(--nose-hsla);
-    stroke: #000;
-    stroke-width: 10px;
-    color: #ddd;
-    transform-origin: 50% 50%;
-    transform: rotate(-30deg) translate(35px, -10px);
-    d:path('M 0 150 Q 5 100 0 50 A 30 30 0 0 1 100 50 A 30 30 0 0 1 100 150 Q 50 145 0 150 Z');
-}
-
 /*possibly a portrait mobi-fone*/
 @media screen and (max-width:500px) {
 
@@ -166,422 +150,775 @@ svg {
 }
 
 </style>
-<script src="nosepicker.micro.js"></script>
+<script defer src="nosepicker.nano.js"></script>
 </head>
 
 <body>
 <div class="holder">
     
-    <div demo class="qr">
+    <div demo id="svgHolder" class="qr">
         
-        <div
-         data-nose='{"pattern":true}'
-         style="
-            --nose-hsla:hsla(40,100%,50%,1);
-            height:200px;width:100%;
-            background-color:var(--nose-hsla);
-         "
-        ></div>
-        <br>
+        <svg id="houzzz" data-nose viewbox="-38 -35 76 55">
+            <path data-back />
+            <path data-side />
+            <path data-front />
+            <path data-door />
+            <ellipse data-window />
+            <path data-shade />
+            <path data-roof />
+            <path data-ground />
+        </svg>
         
-        <center style="font-size:10px;font-style:italic;">
-            scroll up|dn, left|right to change color and brightness;
-            <br class="mobr">
-            ctrl+scroll for transparency and luminosity;
-            <br class="mobr">
-            use two-touches for ctrl on touchscreen
-        </center>
+        <style>
+        
+            #svgHolder {
+                text-align:center;
+                height:250px;
+            }
+            #houzzz {
+                --nose-hsla: hsla(20,100%,70%,1);
+                margin: auto;
+                width: 200px;
+                height: 250px;
+                overflow: visible;
+            }
+            path, ellipse {
+                --lightness: var(--nose-l);
+                --midness: calc(0.5 * var(--lightness));
+                --darkness: calc(0.25 * var(--lightness));
+                --mdark : calc(1.5 * var(--darkness));
+                --ddark : calc(0.5 * var(--darkness));
+                
+                --fill: var(--lightness);
+                --stroke: var(--mdark);
+                
+                fill: hsl(var(--nose-h),var(--nose-s),var(--fill));
+                stroke: hsl(var(--nose-h),var(--nose-s),var(--stroke));
+                stroke-width: 3;
+                stroke-miterlimit: 200;
+                d: path(var(--d));
+            }
+            [data-back] {
+                --fill: var(--ddark);
+                --stroke: var(--ddark);
+                --d:'M0 0L-35 -2Q-17 -25 -10 -45Q5 -25 25 -20Z';
+            }
+            [data-side] {
+                --d:'M3 35L4 -11L30 0L 25 35';
+            }
+            [data-front] {
+                --d:'M-20 36L-25 -5Q-15 -20 -8 -35L4 -11L3 35';
+            }
+            [data-door] {
+                --fill: var(--midness);
+                --stroke: var(--darkness);
+                --d:'M-13 36L-16 10L-4 7V35.6'
+            }
+            [data-window] {
+                --fill: var(--midness);
+                --stroke: var(--darkness);
+                cx: -10;
+                cy: -10;
+                rx: 4;
+                ry: 9;
+                transform: rotate(3);
+                stroke-width: 2;
+            }
+            [data-shade] {
+                --fill : calc(0.8 * var(--midness));
+                stroke: none;
+                opacity: 0.2;
+                --d:'M-25 -5Q-15 -20 -8 -35L4 -11 L30 0L29 6\
+                4 4L-1 8Q-10 -7 -11 -19L-24 4Z';
+            }
+            [data-roof] {
+                --fill: var(--midness);
+                --stroke: var(--darkness);
+                --d:'M7 -2Q-5 -15 -10 -45Q5 -25 25 -25Q30 -10 40 2\
+                Q28 -1 7 -2Z'
+            }
+            [data-ground] {
+                --fill: var(--ddark);
+                stroke: none;
+                --d:'M-50 41Q0 27 50 37Q0 32 -50 41Z'
+                
+            }
+        </style>
         
     </div>
-    
-    <hr>
-    
+
     <div intro class="qr">
         
-    <b><a href="nosepicker.micro.js">nosepicker.micro.js</a></b>
-    converts any specified element into an html color picker;
-    it generates customizable <i>nose-input</i>
-    and <i>nose-change</i> events that
-    can be listened for, and handled, just like any other
-    &lt;input type=color&gt; object
-    
+        <b><a href="nosepicker.nano.js">nosepicker.nano.js</a></b>
+        is designed to be the smallest possible color~picker
+        and still be fairly functional - scroll around on the
+        svg image above to see it werking -
         
+        there is a slightly more elaborate
+        <b><a href="micro.html">micro.js</a></b>
+        version, and an <i>even more</i> bloated,
+        <b><a href="demos.html">full featured</a></b>
+        version - though nano.picker ought
+        to be sufficient for most everthing
     </div>
     
     <div prescript class="qr">
+        include the script, then
+        indicate any desired nano-nose-pickers using a
+        <i>data-nose</i> param, set the <i>nose-hsla</i>
+        css variable [else it will default to <i>0,100%,50%,1</i>]
+        <br><br>
         
-    include the script, then indicate which elements you
-    would like to be nosepickers by including a <i>data-param</i>;
-    add a <i>&#8209;&#8209;nose-hsla</i> variable to the css style tag;
-    any options can be specified in the well-formatted JSON
-    value of the <i>data-param</i>
-    <br><br>
-    here is an example that lists all of the default values
-    just so that you will know what all the defaults are:
-    <br><br>
-                <pre>
-            
-&lt;script src="nosepicker.micro.js"
- data-nose='{
-    "selector" : "nose",
-    "pattern"  : false,
-    "root"     : [self]
- }'
-&gt;&lt;/script&gt;
+        let's look at an overdone example so you can see
+        all the defaults:
+        <br><br>
+        
+        <pre>
+&lt;script defer src="nosepicker.nano.js"&gt;&lt;/script&gt;
 
-&lt;div id="picker" data-nose
- style="--nose-hsla:hsla(40,100%,50%,1)"
+&lt;div id="picker" data-nose="target"
+
+ style="
+ 
+    --nose-hsla: hsla(40,80%,50%,1);
+    
+    /*
+        var(--nose-h);
+        var(--nose-s);
+        var(--nose-l);
+        var(--nose-a);
+        var(--nose-hsla);
+    */
+    
+    background-color: var(--nose-hsla);
+    
+    color: hsl(
+        var(--nose-h),
+        var(--nose-s),
+        calc(0.5 * var(--nose-l))
+    );
+    
+ "
 &gt;&lt;/div&gt;
 
 &lt;script&gt;
 
-picker.addEventListener('nose-input', e => {
+    picker.dispatchEvent(new CustomEvent(
+        'set-nose',
+        { detail: [20,80,40,1] }
+    ));
     
-    // e.detail is an hsla color string
-
-    // the css var --nose-hsla is the same
-    // the css var --nose-h is the hue
-    // the css var --nose-s is the saturation
-    // the css var --nose-l is the luminosity
-    // the css var --nose-a is the opacity
-        
-});
-
-picker.addEventListner('nose-change', e => {
-
-    // e.detail and all css vars
-    // are identical to input event
-
-});
-
-picker.dispatchEvent(new CustomEvent(
-    'set-nose',
-    { detail: [0,100,50,1] }
-    
-);
-
-        
 &lt;/script&gt;
 
         </pre>
     </div>
     
     <div defaults class="qr">
-        what do all of these defaults mean?
+        
+        what do all of these things mean here?
+        <br><br>
+        
         <ul>
-            <li><b>selector</b>: the name that you want to use
-            as the <i>data-param</i> to label which elements should
-            be selected; by default, nosepicker.js will select any
-            element with &lt;element data-nose&gt; as a parameter;
-            whatever <i>string</i> you make this value will change
-            the name of the <i>input event</i> and the css
-            <i>--nose-hsla</i> variables; for example, if you set
-            the selector to "picker", then the input event
-            name will be <i>picker-input</i> and the css variables
-            will be <i>&#8209;&#8209;picker-hsla</i>
+            <li><b>&lt;script defer&gt;</b>: for the nano~fied
+            version, the script must be defered until after
+            the DOM has loaded - that is, if it is not placed
+            at the <i>end</i> of the document
             </li>
             <br>
             
-            <li><b>pattern</b>: a boolean indicating whether or not
-            you would like a background pattern to appear behind
-            transparent colors; by default, this is <i>false</i></li>
-            <br>
-            
-            <li><b>root</b>: the name of the element that you would
-            like to <i>actually use</i> as the element whose color
-            values are the ones that the nosepicker will change;
-            that is to say, scrolling up|dn on a particular element
-            can change the color values of <i>any element</i>
-            in the page that you specify - by default, nosepickers
-            change <i>themselves</i>
+            <li><b>data-nose</b>: this is the <i>data-param</i>
+            that tells the nano script to select this element
+            as a nosepicker
             </li>
             <br>
             
-            <li><b>&#8209;&#8209;nose&#8209;hsla</b>:
-            the script reads initial values from a css variable;
-            by default, it is called
-            <i>&#8209;&#8209;nose&#8209;hsla</i>,
-            but the prefix will be whatever you set the
-            <i>selector</i> option to, if you chose to change it;
-            if no value is created, it will default to
-            <i>hsla(0,100%,50%,1)</i>; these values may also be
-            entered as a simple <i>string</i> as so: '0,100,50,1'
+            <li><b>target</b>: this is an optional <i>string</i>
+            indicating the <i>id</i> of the element whose
+            <i>&#8209;&#8209;nose&#8209;hsla</i> css varibles
+            you actually want
+            to change - by default, nanopicker will change
+            the css vars of the element itself, but there
+            could be instances when you'd like it to change
+            some other object
             </li>
             <br>
             
-            <li><b>nose&#8209;input</b>: this is the
-            default name of the <i>input event</i> that
-            gets generated oninput - again, the prefix
-            will be the value of the <i>selector</i>
-            option string
+            <li><b>&#8209;&#8209;nose&#8209;hsla</b>: this is the css variable
+            for the <i>hsla value</i> that you want to be
+            the initial color for this nosepicker - if you
+            do not include this var, nanopicker will use
+            a fully-opaque red <i>hsla(0,100%,50%,1)</i>
+            - you can enter either a valid css hsla() value,
+            or just a string of the values, like this:
+            <i>'280,70,50,0.5'</i> if you want
             </li>
             <br>
             
-            <li><b>e.detail</b>: the <i>detail</i> of either
-            event is equal to an hsla() color <i>string</i>
+            <li><b>var(&#8209;&#8209;nose&#8209;*)</b>: these are all the
+            css vars that get set by the nanopicker;
+            <i>&#8209;&#8209;nose&#8209;H</i>
+            is the hue,
+            <i>&#8209;&#8209;nose&#8209;S</i>
+            is the saturation,
+            &c., &c.
             </li>
             <br>
             
-            <li><b>css variables</b>: by default, nosepicker.js will
-            set the values of several css variables called
-            <i>&#8209;&#8209;nose-hsla</i> for the full hsla color string,
-            <i>&#8209;&#8209;nose-h</i> for just the hue,
-            <i>&#8209;&#8209;nose-s</i> for just the saturation,
-            &c. &c.
-            these variable names will begin with whatever you
-            specify as the <i>selector</i>
+            <li><b>background-color</b>: as an example,
+            the div's background-color has been set to
+            the hsla value from the nosepicker
             </li>
             <br>
             
-            <li><b>nose&#8209;change</b>: the default name of
-            the <i>onchange</i> event; all <i>detail</i>
-            and css variable values are identical to those
-            of the <i>input event</i>
+            <li><b>color</b>: as another example, the
+            div's text color has been set to a darker version
+            of the nose-color by making a specific hsl color
+            that darkens just the <i>lightness</i> variable
+            by fifty-percent
             </li>
             <br>
             
-            <li><b>dispatch set&#8209;nose</b>: interactions
-            with nosepickers are done through the dispatching
-            of events; by default, nosepickers listen for
-            a <i>set-nose</i> event whose detail is a
-            four-element array of the hsla float values;
-            this event name is altered by the <i>selector</i>
+            <li><b>dispatchEvent()</b>: sending a <i>set-nose</i>
+            event to the nanopicker will change the color
+            to whatever <i>array</i> of hsla values you
+            pass in as the <i>e.detail</i>
             </li>
+            <br>
+            
             
         </ul>
     </div>
     
-    <hr>
-    
-    <div svgexample class="qr">
-        nosepicker.js will attempt to convert any element
-        into a color picker; here is an example of an
-        <i>svg path</i>
-        being used to generate an hsla output string:
-    </div>
-    
-    <div heart class="qb">
+    <div id="balldemo" class="qr">
         
-        <div><svg><path id="heart" data-nose /></svg></div>
-        
-        <div style="text-align:left">
-            <i id="heartoutput"
-             style="
-                color:var(--nose-hsla);
-                font-size:2em;
-                font-family: luckiest guy;
-                user-select: none;
-                --outline: green;
-               -webkit-text-stroke: 1px var(--outline);
-             "
-            >
-            hsla(...)
-            </i>
-        </div>
-        
-        <script id="heartScript">
-            heart.addEventListener('nose-input', e => {
+        this div uses <i>css calc()</i>
+        to create a theme of colors based on the
+        &#8209;&#8209;nose&#8209;hsla values
+        generated by the middle circle;
+        <span style="color:hsl(
+            var(--nose-h),
+            var(--nose-s),
+            var(--lightness)
+        );">
+        double-click to dispatch a <i>set-nose</i> event
+        which resets to the original colors
+        </span>
+        <br><br>
                 
-                heartoutput.style.color = e.detail;
+            <style>
+
+            * {
+                box-sizing: border-box;
+            }
+
+            #balldemo {
                 
-                heartoutput.innerHTML = (e.detail)
-                .replace(/\s*,\s*/g, ', ')
-                .replace(/(\.\d\d)\d+/g,'$1')
-                .replace(/\s*\)/g,')');
+                --nose-hsla: '288,80,50,1';
                 
-                let H = e.detail.match(/[\d\.]+/g).map(p=>Number(p));
+                --lightness: var(--nose-l);
+                --midness:   calc(0.65 * var(--lightness));
+                --darkness:  calc(0.25 * var(--lightness));
+                --blackness: calc(0.05 * var(--lightness));
                 
-                heartoutput.style.setProperty('--outline',
-                    'hsl('+H[0]+','+H[1]+'%,'+ (100 - H[2]) +'%)'
+                --back: var(--lightness);
+                --bord: var(--midness);
+                
+                color: hsl(
+                    var(--nose-h),
+                    var(--nose-s),
+                    var(--midness)
                 );
                 
-            });
-        </script>
-        
-    </div>
+                border: 5px solid hsl(
+                    var(--nose-h),
+                    var(--nose-s),
+                    var(--darkness)
+                );
+                
+            }
     
-    <div id="rootExample" class="qr">
-        
-        <style>
-        
-        #rootExample {
-            
-            background-color: var(--main-color);
-            border: 1px solid var(--holder-back);
-            
-            --nose-h: 280;
-            --nose-s: 100%;
-            --nose-l: 80%;
-            --nose-a: 1;
-            
-            --nose-hsla: hsla(280,100%,80%,1);
-            
-            --lite: hsl(
-                var(--nose-h),
-                var(--nose-s),
-                var(--nose-l)
-            );
-            
-            --midi: hsl(
-                var(--nose-h),
-                var(--nose-s),
-                calc(0.75 * var(--nose-l))
-            );
-            
-            --dark: hsl(
-                var(--nose-h),
-                var(--nose-s),
-                calc(0.5 * var(--nose-l))
-            );
-            
-            --deep: hsl(
-                var(--nose-h),
-                var(--nose-s),
-                calc(0.25 * var(--nose-l))
-            );
-            
-        }
-        .ball {
-            
-            float: left;
-            display: inline-block;
-            height: 100px;
-            width: 100px;
-            border-radius: 50%;
-            
-            --back: var(--lite);
-            --bord: var(--midi);
-            
-            background-color: var(--back);
-            border: 5px solid var(--bord);
-        }
-        
-        </style>
-        
-        <span style="color:var(--lite)">
-            let's look at an example of when you would want to use
-            a different <i>root</i> element;
-        </span>
-        
-        <span style="color:var(--midi)">
-            all of the aspects of this div are styled using
-            css vars that <i>calc()</i> their values based
-            on the <i>&#8209;&#8209;nose-hsla</i> values;
-        </span>
-        
-        <span style="color:var(--dark);">
-            this way, selecting colors in the bar below
-            alters all the relative colors for the entire
-            style sheet of this div, including theme colors;
-        </span>
-        
-        <span style="color:var(--lite);">
-            double-click the picker to dispatch a
-            <i>set-nose</i> event that resets the original
-            colors values
-        </span>
-        
-        <br><br>
-        
-        <div class="qr" style="
+            #ballDiv {
                 display: flex;
                 flex-direction: rows;
                 justify-content: space-around;
                 width: 100%;
-        ">
-            <div class="ball" style="
-                --back:var(--lite);--bord:var(--midi)
-            "></div>
-            <div class="ball" style="
-                --back:var(--midi);--bord:var(--dark)
-            "></div>
-            <div class="ball" style="
-                --back:var(--dark);--bord:var(--deep)
-            "></div>
+            }
+            
+            .ball {
+                float: left;
+                height: 100px;
+                width: 100px;
+                border-radius: 50%;
+                display: inline-block;
+                background-color: hsla(
+                    var(--nose-h),
+                    var(--nose-s),
+                    var(--back)
+                );
+                border: 5px solid hsl(
+                    var(--nose-h),
+                    var(--nose-s),
+                    calc(0.8 * var(--bord))
+                );
+            }
+
+            #ball1 {
+                --back: var(--lightness);
+                --bord: var(--midness);
+            }
+
+            #ball2 {
+                --back: var(--midness);
+                --bord: var(--darkness);
+            }
+
+            #ball3 {
+                --back: var(--darkness);
+                --bord: var(--blackness);
+            }
+
+            </style>
+        
+        <div id="ballDiv">
+            <div id="ball1" class="ball"></div>
+            <div id="ball2" class="ball" data-nose="balldemo"></div>
+            <div id="ball3" class="ball"></div>
         </div>
         
-        <div id="guess"
-         data-nose='{"root":"rootExample"}'
-         style="
-          height:100px;
-          width:100%;
-          background-color:var(--lite);
-          border:10px solid var(--dark);
-          color:hsl(
-            calc(180 + var(--nose-h)),
-            var(--nose-s),
-            calc(100% - var(--nose-l))
-          );
-          text-align:center;
-          line-height: 70px;
-         "
-        ></div>
-        
         <script>
-            guess.addEventListener('dblclick', e=>{
-                guess.dispatchEvent(
-                    new CustomEvent(
-                        'set-nose',{detail:[280,100,80,1]}
-                        //'set-able',{ detail: ((+new Date)%2 === 0)}
-                    )
-                )
-            });
+            ball2.addEventListener('dblclick', e=>
+                ball2.dispatchEvent(new CustomEvent(
+                    'set-nose',{detail:[288,80,50,1]}
+                ))
+            );
         </script>
-
-    </div>
     
+    </div>
     <br>
-    <div nanoscript class="qr">
+    
+    <div presimple class="qr">
         
-        if you are happy with the defaults, that is:
-        
-        <ul style="list-style-type:circle">
-        <li>you do not want a patterned background</li>
-        
-        <li>you are alright using <i>data-nose</i> as the parameter
-        name</li>
-        
-        <li>you're ok with <i>&#8209;&#8209;nose&#8209;</i> as the
-        css variable prefix</li>
-        
-        <li>and you can use css <i>calc()</i> instead of
-        an event handler</li>
-        
-        </ul>
-        
-        then you can use the <i>even smaller</i>
-        <b><a href="nano.html">nosepicker.nano.js</a></b>
-        
-        <br><br>
-        the nano~fied version is more than simply a compressed
-        version of <b>nosepicker.micro.js</b>; it has
-        been explicitly designed to be incredibly small - you can
-        <b><a href="nano.html">learn more about it here</a></b>
-        <br><br>
+        the simplest possible implementation, starting
+        from the default red color, and placing the
+        script at the end of the file,
+        would look like this:<br><br>
         
         <pre>
-&lt;div data-nose
- style="background-color:var(--nose-hsla)"
-&gt;&lt;/div&gt;
+&lt;div data-nose style="
+    background-color:var(--nose-hsla);
+"&gt;&lt;/div&gt;
 
 &lt;script src="nosepicker.nano.js"&gt;&lt;/script&gt;
         </pre>
-    
         <br>
-        if you are NOT happy with that, there is a more complex,
-        customizable, full-scale nosepicker whose features are
-        <b><a href="demos.html">discussed here</a></b>
+    </div>
+
+    <hr>
+    <div scripicker id="scripicker" class="qr">
+        
+        <div discussion >
+        a display of the color value
+        could be done with a script that
+        listened for the <i>wheel</i> and
+        <i>touch</i> events, then pulled
+        the value from the css variable
+        and set colors <i>onclick</i>;
+        
+        the individual hue, saturation, &c.
+        values can be turned into an array
+        by mapping anything in the css variable string
+        that looks like a number into an <i>actual</i>
+        number
+        <br><br>
+        
+        <dd style="font-size:0.8em;font-family:monospace;">
+        picker.style.getPropertyValue('--nose-hsla')<br>
+        .match(/-?[\d\.]+/g)<br>
+        .map(p=>Number(p))<br>
+        </dd>
+        </div>
+        <br><br>
+        
+        <style>
+            #scripicker {
+                transition: color 800ms;
+            }
+            
+            #pickarea {
+                --nose-hsla: '0,100,30,1';
+                --outline: hsl(
+                    var(--nose-h),
+                    var(--nose-s),
+                    calc(100% - var(--nose-l))
+                );
+                --trans: 500ms;
+            }
+            
+            #heartHolder {
+                position: relative;
+                height: 150px;
+            }
+            
+            #heart{
+                height: 100%;
+                width: 30px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                background-color:var(--nose-hsla);
+                border:1px solid var(--outline);
+                transition: width var(--trans), background-color var(--trans);
+            }
+            
+            #heartHolder:hover #heart {
+                width: 100%;
+                transition: width var(--trans), background-color 0ms;
+            }
+            
+            #oldCol {
+                position: absolute;
+                top: calc(50% - 20px);
+                left: 5px;
+                height: 40px;
+                width: 40px;
+                background-color: hsla(0,100%,30%,1);
+                border: 1px solid var(--outline);
+                transform: rotate(45deg);
+                transition: transform var(--trans), background-color var(--trans);
+            }
+            
+            #heartHolder:hover #oldCol {
+                transform: rotate(405deg);
+            }
+            
+            #output {
+                font-family: luckiest guy;
+                font-size: 1.5em;
+                color: var(--nose-hsla);
+                -webkit-text-stroke:1px var(--outline);
+            }
+            
+        </style>
+        
+        <div id="pickarea" class="qa">
+            
+            <div id="heartHolder">
+            <div id="heart" data-nose="pickarea"></div>
+            <div id="oldCol"></div>
+            </div>
+            
+            <div id="output"> hsla(...) </div>
+            
+            <script>
+            
+                sp = document.getElementById('scripicker');
+                pa = document.getElementById('pickarea');
+                oc = document.getElementById('oldCol');
+                op = document.getElementById('output');
+                hp = document.getElementById('heart');
+                
+                oc.old = 'hsla(0,100%,30%,1)';
+                
+                backG = V => V[3]<1?`repeating-linear-gradient(-45deg,rgba(0,0,0,${0.5-V[3]/2}),rgba(0,0,0,${0.5-V[3]/2}) 10px,transparent 10px,transparent 20px)`:'';
+                
+                numUP = V => V.match(/-?[\d\.]+/g).map(v=>Number(v));
+                
+                ['wheel','touchmove'].forEach(e =>
+                hp.addEventListener(e, ()=>{
+                    op.innerHTML = pa.style.getPropertyValue('--nose-hsla');
+                    
+                    V = op.innerHTML.match(/[\d\.-]+/g).map(v=>Number(v));
+                    
+                    hp.style.backgroundImage = backG(V);
+
+                }));
+                
+                ['mouseover','mouseout'].forEach(v =>
+                    hp.addEventListener(v, e => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                    },{ passive: false })
+                );
+                    
+                hp.addEventListener('click', e => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    oc.old = pa.style.getPropertyValue('--nose-hsla');
+                    sp.style.color = oc.old;
+                    V = numUP(oc.old);
+                    oc.style.backgroundColor = 'hsla('+V[0]+','+V[1]+'%,'+V[2]+'%,1)';
+                });
+                
+                hp.addEventListener('mouseleave', e => {
+                    
+                    op.innerHTML = oc.old;
+                    
+                    hp.dispatchEvent(new CustomEvent(
+                        'set-nose',{ detail: numUP(oc.old) }
+                    ));
+                    
+                    V = numUP(op.innerHTML);
+                    
+                    hp.style.backgroundImage = backG(V);
+                    
+                });
+                
+            </script>
+            
+        </div>
         
     </div>
     
+    <hr>
+    <div codescussion class="qr">
+        the code itself is incredibly small; let's take a look...
+        <br><br>
+        <pre>
+document.querySelectorAll('[data-nose]').forEach(
+(N,V,J,T='touches',H='hsla',M=[0,0],G=(...v)=>v
+.sort((a,b)=>a-b)[1],S=()=>[...V,H+'('+V.map((p,i)
+=>p+' %% '[i])+')'].forEach((p,i)=>J.style
+.setProperty('--nose-'+(H[i]||H),p+' %%  '[i])),
+C=(e,X,Y,K,z=e.stopPropagation()+e.preventDefault()
+)=>S(K?(V[1]=G(V[1]+Y/50,100,0),
+V[3]=G(V[3]-X/5000,1,0)):(V[0]-=Y/50,V[2]=G(V[2]
++X/100,100,0))),Z={'wheel':e=>C(e,e.wheelDeltaX,
+e.wheelDeltaY,e.ctrlKey),'touchstart':e=>M=[e[T]
+[0].pageX,e[T][0].pageY],'touchmove':e=>C(e,M[0]
+-e[T][0].pageX,M[1]-e[T][0].pageY,e[T][1]),
+'set-nose':e=>S(V=e.detail)})=>{S(J=document
+.getElementById(N.dataset.nose)||N,V=(window
+.getComputedStyle(J).getPropertyValue(
+'--nose-'+H)||'0,100,50,1').match(/-?[\d\.]+/g)
+.map(p=>Number(p)));for(let z in Z)
+N.addEventListener(z,Z[z])});
+        </pre>
+        
+        <br>
+        <i>yikes!</i> what does all that mean?
+        <br><br>
+        
+        <pre>
+// looping through nanopickers is its own closure
+document.querySelectorAll('[data-nose]').forEach((
     
-    <br><br><hr>
+    N, // the _N_anopicker element
+    V, // _V_alue [overwrites index]
+    J, // root ob_J_ect [overwrites nodelist]
     
-    <div class="qr signature"
-    data-nose style="--nose-hsla:'40,0,40,1';color:var(--nose-hsla)"
-    >~queviva</div>
+    // string for _H_sla vars
+    H='hsla'
+    
+    // string for _T_ouchscreens
+    T='touches',
+    
+    // coords for touch_M_oves
+    M=[0,0],
+    
+    // method to _G_ate a value
+    G=(...v)=>v.sort((a,b)=>a-b)[1],
+    
+    // method to _S_et the value
+    S=()=>
+    
+        // creates a new array
+        [
+        
+            // by spreading the value
+            ...V
+        
+            // then adding ...
+            ,
+            
+            // a css hsla string
+            H+'('
+            
+            // and the values mapped to
+            +V.map((p,i)=>
+            
+                // themselves
+                p
+                
+                // plus the correct unit
+                +' %% '[i])
+                
+            // closing the hsla string
+            +')'
+        
+        // looping through the, now, five elements
+        ].forEach((p,i)=>
+        
+            // set values of the target of ...
+            J.style.setProperty(
+            
+                // the var prefix
+                '--nose-'
+                
+                // and H, S, L, A ...
+                +H[i]
+                
+                // or hsla
+                ||H)
+                
+                // to the value ...
+                ,p
+                
+                // plus the correct unit
+                +' %%  '[i]
+            
+            ))
+    ,
 
+    // method to adjust the _C_olor values
+    C=(
+    
+        e, // the event
+        X, // change-in-x
+        Y, // change-in-y
+        K, // was ctrl pressed?
+        
+        // swallow any default behaviors
+        z=stopPropagation()+e.preventDefault()
+        
+        
+    // call the color setter
+    )=>S(
+        
+        // false parameter saves characters
+        
+        // if ctrl was pressed ...
+        K?(
+            // gate the saturation by y-delta
+            V[1]=G(v[1]+Y/50,100,0),
+            
+            // gate the opacity by x-delta
+            V[3]=G(v[3]-X/5000,1,0)
+            
+        ):( // otherwise, no control
+        
+            // adjust hue by y-delta
+            V[0]-=Y/50,
+            
+            // gate luminosity by x-delta
+            V[2]=G(v[2]+X/100,100,0)
+        )
+
+    ),
+    
+    // list of all the event li_ZZ_ners
+    Z = {
+    
+        // the scroll event ...
+        'wheel':e=>
+        
+            // calls the color adjustor
+            C(
+                e, // with wheel values
+                e.wheelDeltaX,
+                e.wheelDeltaY,
+                e.ctrlKey
+            ),
+            
+        
+        // moving the touch ...
+        'touchmove':
+        
+            // also calls the adjustor
+            e=>C(
+                e, // with touch values
+                M[0]-e[T][0].pageX,
+                M[1]-e[T][0].pageY,
+                
+                // second touch as 'ctrl'
+                e[T][1]
+            ),
+            
+            
+        // beginning a touch ...
+        'touchstart':
+        
+            // resets the move-coords
+            e=>M=[e[T][0].pageX,e[T][0].pageY],
+            
+            
+        // dispatching a set-nose event
+        'set-nose':
+        
+            // sets the value to detail
+            e=>S(V=e.detail)
+            
+    }
+    
+// finally loop through each picker
+)=>{
+
+        
+    // call the setter [which takes no params]
+    S(
+        
+        // setting vars in call saves characters
+        
+        // overwrite target to specified id ...
+        J=document.getElementById(N.dataset.nose)
+        
+        // or just use the element itself
+        ||N,
+        
+        // overwrite the index by
+        V=(
+        
+            // grabbing the target's style
+            window.getComputedStyle(J)
+            
+            // and looking at the css variable
+            .getPropertyValue('--nose-hsla')
+            
+            // or defaulting to red
+            || '0,100,50,1'
+        
+        )
+        
+        // look for anything number-like
+        .match(/-?[\d\.]+/g)
+        
+        // and make it an actual number
+        .map(p=>Number(p))
+        
+    );
+    
+    // add all the lizzners
+    for(let z in Z)N.addEventListener(z,Z[z])
+    
+});
+        </pre>
+        
+        <br>
+        <i>how could this be made any smaller?</i>
+        <br><br>
+        
+        well, it would be nice if there were a way,
+        using only css, to make it unecessary to have
+        a <i>target</i> option - for now, I can't think
+        of a way around using that, but it would
+        significantly reduce the code's size to get
+        rid of the line that creates the <i>target</i>
+        <br><br>
+        
+        this code is based on an attempt, originally,
+        to demonstrate that a color-picker could be
+        written in <i>one line</i> of javascript,
+        which is possible
+        
+    </div>
+
+    <br><hr>
+
+    <div class="qr signature" data-nose
+        style="--nose-hsla:'40,0,40,1';color:var(--nose-hsla)"
+    >~queviva</div>
+    
 </div>
 </body>
+
 
 </html>
