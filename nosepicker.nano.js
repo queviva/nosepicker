@@ -4,13 +4,13 @@ document.querySelectorAll('[data-nose]').forEach((N,V,J,
     
     H='hsla',
     
-    M=[0,0],
+    M=[0,0],Q='--nose-',
     
     G=(...v)=>v.sort((a,b)=>a-b)[1],
     
     S=()=>
         [...V,H+'('+V.map((p,i)=>p+' %% '[i])+')'].forEach((p,i)=>
-        J.style.setProperty('--nose-'+(H[i]||H),p+' %%  '[i])),
+        J.style.setProperty(Q+(H[i]||H),p+' %%  '[i])),
 
     C=(e,X,Y,K,z=e.stopPropagation()+e.preventDefault())=>S(K?
         (V[1]=G(V[1]+Y/50,100,0),V[3]=G(V[3]-X/5000,1,0)):
@@ -29,7 +29,7 @@ document.querySelectorAll('[data-nose]').forEach((N,V,J,
         
         J=document.getElementById(N.dataset.nose)||N,
         
-        V=(window.getComputedStyle(J).getPropertyValue('--nose-'+H)||
+        V=(window.getComputedStyle(J).getPropertyValue(Q+H)||
         '0,100,50,1').match(/[\d\.-]+/g).map(p=>Number(p))
         
     );
