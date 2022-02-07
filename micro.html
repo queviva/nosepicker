@@ -257,9 +257,11 @@ picker.addEventListner('nose-change', e => {
 picker.dispatchEvent(new CustomEvent(
     'set-nose',
     { detail: [0,100,50,1] }
-    
 );
 
+picker.dispatchEvent(new CustomEvent(
+    'tog-nose'
+);
         
 &lt;/script&gt;
 
@@ -347,6 +349,12 @@ picker.dispatchEvent(new CustomEvent(
             four-element array of the hsla float values;
             this event name is altered by the <i>selector</i>
             </li>
+            <br>
+            
+            <li><b>dispatch tog&#8209;nose</b></li>:
+            sending a <i>tog-nose</i> event to the
+            picker will toggle its disability; no
+            detail needs to be passed in
             
         </ul>
     </div>
@@ -357,8 +365,11 @@ picker.dispatchEvent(new CustomEvent(
         nosepicker.js will attempt to convert any element
         into a color picker; here is an example of an
         <i>svg path</i>
-        being used to generate an hsla output string:
+        being used to generate an hsla output string;
+        double-clicking will toggle the pickers
+        disability insurance
     </div>
+    <br>
     
     <div heart class="qb">
         
@@ -395,6 +406,12 @@ picker.dispatchEvent(new CustomEvent(
                     'hsl('+H[0]+','+H[1]+'%,'+ (100 - H[2]) +'%)'
                 );
                 
+            });
+            
+            heart.addEventListener('dblclick', () => {
+                heart.dispatchEvent(new CustomEvent(
+                    'tog-nose'
+                ));
             });
         </script>
         
