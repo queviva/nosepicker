@@ -175,11 +175,11 @@ svg {
     <div demo class="qr">
         
         <div
-         data-nose='{"pattern":true}'
+         data-nose='{"selector":"rat","pattern":true}'
          style="
-            --nose-hsla:hsla(40,100%,50%,1);
+            --rat-hsla:hsla(40,100%,50%,1);
             height:200px;width:100%;
-            background-color:var(--nose-hsla);
+            background-color:var(--rat-hsla);
          "
         ></div>
         <br>
@@ -280,7 +280,9 @@ picker.dispatchEvent(new CustomEvent(
             <i>--nose-hsla</i> variables; for example, if you set
             the selector to "picker", then the input event
             name will be <i>picker-input</i> and the css variables
-            will be <i>&#8209;&#8209;picker-hsla</i>
+            will be <i>&#8209;&#8209;picker-hsla</i>; this
+            value can be overwritten by the <i>data-param</i>
+            of any individual nose.picker
             </li>
             <br>
             
@@ -315,7 +317,8 @@ picker.dispatchEvent(new CustomEvent(
             default name of the <i>input event</i> that
             gets generated oninput - again, the prefix
             will be the value of the <i>selector</i>
-            option string
+            option string, and can be overwritten by
+            the <i>data-param</i> of individual pickers
             </li>
             <br>
             
@@ -361,7 +364,8 @@ picker.dispatchEvent(new CustomEvent(
     
     <hr>
     
-    <div svgexample class="qr">
+    <div id="svgexample" class="qr"
+     style="transition:all linear 800ms;">
         nosepicker.js will attempt to convert any element
         into a color picker; here is an example of an
         <i>svg path</i>
@@ -391,28 +395,35 @@ picker.dispatchEvent(new CustomEvent(
         </div>
         
         <script id="heartScript">
-            heart.addEventListener('nose-input', e => {
-                
-                heartoutput.style.color = e.detail;
-                
-                heartoutput.innerHTML = (e.detail)
-                .replace(/\s*,\s*/g, ', ')
-                .replace(/(\.\d\d)\d+/g,'$1')
-                .replace(/\s*\)/g,')');
-                
-                let H = e.detail.match(/[\d\.]+/g).map(p=>Number(p));
-                
-                heartoutput.style.setProperty('--outline',
-                    'hsl('+H[0]+','+H[1]+'%,'+ (100 - H[2]) +'%)'
-                );
-                
-            });
+         heart.addEventListener('nose-input', e => {
+         
+             heartoutput.style.color = e.detail;
+         
+             heartoutput.innerHTML = (e.detail)
+                 .replace(/\s*,\s*/g, ', ')
+                 .replace(/(\.\d\d)\d+/g, '$1')
+                 .replace(/\s*\)/g, ')');
+         
+             let H = e.detail.match(/-?[\d\.]+/g).map(p => Number(p));
+         
+             heartoutput.style.setProperty('--outline',
+                 'hsl(' + H[0] + ',' + H[1] + '%,' + (100 - H[2]) + '%)'
+             );
+         
+         });
             
-            heart.addEventListener('dblclick', () => {
-                heart.dispatchEvent(new CustomEvent(
-                    'tog-nose'
-                ));
-            });
+         heart.addEventListener('nose-change', e => {
+         
+             console.log(e.detail)
+             svgexample.style.color = e.detail;
+         
+         });
+            
+         heart.addEventListener('dblclick', () => {
+             heart.dispatchEvent(new CustomEvent(
+                 'tog-nose'
+             ));
+         });
         </script>
         
     </div>
