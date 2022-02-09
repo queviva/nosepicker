@@ -42,10 +42,10 @@
     A=0,
     
     Z={
-        'wheel':e=>C(e,e.wheelDeltaX,e.wheelDeltaY,e.ctrlKey),
-        'touchstart':e=>M=[e[T][0].pageX,e[T][0].pageY],
-        'touchmove':e=>C(e,M[0]-e[T][0].pageX,M[1]-e[T][0].pageY,e[T][1]),
-        'click':e=>D(X+'-change',{detail:H()}),
+        wheel:e=>C(e,e.wheelDeltaX,e.wheelDeltaY,e.ctrlKey),
+        touchstart:e=>M=[e[T][0].pageX,e[T][0].pageY],
+        touchmove:e=>C(e,M[0]-e[T][0].pageX,M[1]-e[T][0].pageY,e[T][1]),
+        click:e=>D(X+'-change',{detail:H()}),
         ['set-'+X]:e=>S(V=e.detail),
         ['tog-'+X]:(e,b=(A=!A))=>{for(let z in Z){
             (!e||!z.match(/-/))?
@@ -57,8 +57,7 @@
         
     J=document.getElementById(F.root)||N,
         
-    V=(window.getComputedStyle(J).getPropertyValue('--'+X+'-hsla')||
-        '0,100,50,1').match(/[\d\.]+/g).map(p=>Number(p)),
+    V=(window.getComputedStyle(J).getPropertyValue(`--${X}-hsla`)||'0,100,50,1').match(/-?[\d\.]+/g).map(p=>Number(p)),
         
     D(X+'load',Z['tog-'+X]())
         
