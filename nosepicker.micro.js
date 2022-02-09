@@ -57,7 +57,7 @@
         
     J=document.getElementById(F.root)||N,
         
-    V=(window.getComputedStyle(J).getPropertyValue(`--${X}-hsla`)||'0,100,50,1').match(/-?[\d\.]+/g).map(p=>Number(p)),
+    V=(window.getComputedStyle(J).getPropertyValue(`--${X}-hsla`)||'0,100,50,1').match(/[\d\.-]+/g).map(p=>Number(p)),
         
     D(X+'load',Z['tog-'+X]())
         
