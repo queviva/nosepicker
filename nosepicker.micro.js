@@ -34,9 +34,9 @@
         
     }),
 
-    C=(e,X,Y,K,z=e.stopPropagation()+e.preventDefault())=>S(K?
-       (V[1]=G(V[1]+Y/50,100,0),V[3]=G(V[3]-X/5000,1,0)):
-       (V[0]-=Y/50,V[2]=G(V[2]+X/100,100,0))
+    C=(e,x,y,k,z=e.stopPropagation()+e.preventDefault())=>S(k?
+       (V[1]=G(V[1]+y/50,100,0),V[3]=G(V[3]-x/5000,1,0)):
+       (V[0]-=y/50,V[2]=G(V[2]+x/100,100,0))
     ),
     
     A=0,
