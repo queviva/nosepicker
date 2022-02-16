@@ -2,8 +2,13 @@
 
 <head><title>nanopicker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link id="luckiestFont" href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
 <style id="demoStyles">
+
+@font-face {
+    font-family : luckiest;
+    src : url(luckiest.ttf);
+}
+
 :root {
     --main-color: #666;
     --greyed-out: #888;
@@ -142,7 +147,7 @@ hr {
 
 .signature {
     text-align: right;
-    font-family: 'luckiest guy';
+    font-family: 'luckiest';
     font-style: italic;
     height: 200px;
     user-select:none;
@@ -800,7 +805,7 @@ document.querySelectorAll('[data-nose]').forEach((
             J.style.setProperty(
             
                 // the var prefix
-                '--nose-'
+                X
                 
                 // and H, S, L, A ...
                 +H[i]
