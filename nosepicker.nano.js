@@ -28,9 +28,10 @@ document.querySelectorAll('[data-nose]').forEach((N,V,J,
 )=>{
     
     S(
+        
         [J,X]=[N.id,X].map((v,i)=>N.dataset[X].split(' ')[i]||v),
         
-        J=document.querySelector(J)||N,
+        J=document.getElementById(J)||N,
         
         Z['set-'+X]=e=>S(V=e.detail),
         
