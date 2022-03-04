@@ -55,7 +55,7 @@
     
 )=>S(
         
-    J=document.getElementById(F.root)||N,
+    J=document.querySelector(F.root)||N,
         
     V=(window.getComputedStyle(J).getPropertyValue(`--${X}-hsla`)||'0,100,50,1').match(/[\d\.-]+/g).map(p=>Number(p)),
         
