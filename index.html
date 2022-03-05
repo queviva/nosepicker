@@ -341,9 +341,10 @@ hr {
             <br>
             
             <li><b>target</b>: this is an optional <i>string</i>
-            indicating the <i>id</i> of the element whose
-            <i>&#8209;&#8209;nose&#8209;hsla</i> css varibles
-            you actually want
+            indicating a <i>queryselector</i>
+            for the element whose
+            <i>&#8209;&#8209;nose&#8209;hsla</i>
+            css varibles you actually want
             to change - by default, nanopicker will change
             the css vars of the element itself, but there
             could be instances when you'd like it to change
@@ -522,7 +523,7 @@ hr {
         <div id="circDiv">
             <div id="circ1" class="circ"></div>
             <div id="circ2" class="circ"
-                data-nose="circdemo circ"
+                data-nose="#circdemo circ"
             ></div>
             <div id="circ3" class="circ"></div>
         </div>
@@ -653,7 +654,7 @@ hr {
         <div id="pickarea" class="qa">
             
             <div id="heartHolder">
-            <div id="heart" data-nose="pickarea"></div>
+            <div id="heart" data-nose="#pickarea"></div>
             <div id="oldCol"></div>
             </div>
             
@@ -736,9 +737,9 @@ k,z=e.stopPropagation()+e.preventDefault())=>S(k?
 touchstart:e=>M=[e[T][0].pageX,e[T][0].pageY],
 touchmove:e=>C(e,M[0]-e[T][0].pageX,M[1]-e[T][0]
 .pageY,e[T][1]),'set-nose':e=>S(V=e.detail)})=>{
-S([J,X]=[N.id,'--nose-'].map((v,i)=>N.dataset
-.nose.split(' ')[i]||v),J=document
-.getElementById(J)||N,V=(window.getComputedStyle(
+S([J,X]=['',X].map((v,i)=>N.dataset
+.nose.split(' ')[i]||v),J=J?document
+.querySelector(J):N,V=(window.getComputedStyle(
 J).getPropertyValue(X+H)||'0,100,50,1').match(
 /[\d\.-]+/g).map(p=>Number(p)));for(let z in Z)
 N.addEventListener(z,Z[z]);});
@@ -914,8 +915,8 @@ document.querySelectorAll('[data-nose]').forEach((
         ] = // to ...
         
         [
-            // the element's id, and ...
-            N.id,
+            // an empty string, and ...
+            '',
             
             // the default variable prefix
             X
@@ -936,10 +937,10 @@ document.querySelectorAll('[data-nose]').forEach((
         ),
         
         // overwrite target with obj of its id ...
-        J=document.getElementById(J)
+        J=J?document.getElementById(J)
         
         // or just use the element itself
-        ||N
+        :N
         
         //then
         ,
