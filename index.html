@@ -936,8 +936,8 @@ document.querySelectorAll('[data-nose]').forEach((
         // then ...
         ),
         
-        // overwrite target with obj of its id ...
-        J=J?document.getElementById(J)
+        // overwrite obj with target ...
+        J=J?document.querySelector(J)
         
         // or just use the element itself
         :N
